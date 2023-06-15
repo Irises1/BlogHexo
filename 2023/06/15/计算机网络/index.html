@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="通用基础网络模型TCP&#x2F;IP四层网络模型 应用层：应用层为用户提供应用功能，包括HTTP，FTP，Telnet，DNS，SMTP协议 传输层：为应用层提供网络支持，包括TCP和UDP协议，提供端口到端口的通信 网络层：负责将数据从一个设备传输到另一个设备，ip来标识设备。ip协议（1.路由转发，2.IP寻址） 网络接口层：通过MAC地址（物理地址）标识网络设备为网络层提供链路级的传输服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="通用基础网络模型TCP&#x2F;IP四层网络模型 应用层：应用层为用户提供应用功能，包括HTTP，FTP，Telnet，DNS，SMTP协议 传输层：为应用层提供网络支持，包括TCP和UDP协议，提供端口到端口的通信 网络层：负责将数据从一个设备传输到另一个设备，ip来标识设备。ip协议（1.路由转发，2.IP寻址） 网络接口层：通过MAC地址（物理地址）标识网络设备为网络层提供链路级的传输服务">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost3@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B5%AE%E7%82%B9/OSI%E4%B8%8ETCP.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/6-%E4%BA%94%E5%A4%A7%E7%B1%BBHTTP%E7%8A%B6%E6%80%81%E7%A0%81.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/19-HTTPS%E4%B8%8EHTTP.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/20-%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E7%BD%91%E7%BB%9C/https/%E8%AF%81%E4%B9%A6%E7%9A%84%E6%A0%A1%E9%AA%8C.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E7%BD%91%E7%BB%9C/https/baidu%E8%AF%81%E4%B9%A6.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/27-HTTP3.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/http/http2%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.jpeg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/quic/http2%E9%98%BB%E5%A1%9E.jpeg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/28-HTTP3%E4%BA%A4%E4%BA%92%E6%AC%A1%E6%95%B0.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230534096.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230530102444029.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230622886.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230614791.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/52f35dcbe24a4ca7abb23f292837c707.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230545997.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/10.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/15.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/16.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/20.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/23.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/27.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/16.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/19.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/33.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/39.jpg">
+<meta property="article:published_time" content="2023-06-15T12:12:02.315Z">
+<meta property="article:modified_time" content="2023-06-02T08:12:13.368Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost3@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B5%AE%E7%82%B9/OSI%E4%B8%8ETCP.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计算机网络" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.315Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="通用基础"><a href="#通用基础" class="headerlink" title="通用基础"></a>通用基础</h1><h2 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h2><h3 id="TCP-x2F-IP四层网络模型"><a href="#TCP-x2F-IP四层网络模型" class="headerlink" title="TCP&#x2F;IP四层网络模型"></a>TCP&#x2F;IP四层网络模型</h3><ul>
+<li>应用层：应用层为用户提供应用功能，包括HTTP，FTP，Telnet，DNS，SMTP协议</li>
+<li>传输层：为应用层提供网络支持，包括TCP和UDP协议，提供端口到端口的通信</li>
+<li>网络层：负责将数据从一个设备传输到另一个设备，ip来标识设备。ip协议（1.路由转发，2.IP寻址）</li>
+<li>网络接口层：通过MAC地址（物理地址）标识网络设备为网络层提供链路级的传输服务，负责在以太网，WIFI这样的底层网络发送原始数据包</li>
+</ul>
+<h3 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h3><ul>
+<li>应用层</li>
+<li>表示层</li>
+<li>会话层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost3@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B5%AE%E7%82%B9/OSI%E4%B8%8ETCP.png" alt="img"></p>
+<h2 id="常见问题：输入网址到网页显示发生了什么"><a href="#常见问题：输入网址到网页显示发生了什么" class="headerlink" title="常见问题：输入网址到网页显示发生了什么"></a>常见问题：输入网址到网页显示发生了什么</h2><ol>
+<li><p>解析URL：</p>
+<p>HTTP协议根据URL中对应的请求资源，确定了Web服务器和文件名产生HTTP请求</p>
+</li>
+<li><p>查询真实地址</p>
+<p>DNS协议查询服务器域名对应的IP地址</p>
+<ul>
+<li>客户端先查询本地域名服务器，如果找到对应IP就返回，没有本地域名服务器去访问其对应的根域名服务器</li>
+<li>根域名服务器收到本地域名服务器的请求，根据目标URL后缀告诉本地域名服务器要去哪查询</li>
+<li>经过不同的根域名服务器的指路，本地域名服务器找到对应的IP地址</li>
+<li>本地域名服务器将结果返回客户端并将对应的IP加入缓存</li>
+</ul>
+</li>
+<li><p>运输层协议</p>
+<p>产生TCP报文（如果使用TCP协议</p>
+</li>
+<li><p>IP协议</p>
+<p>IP协议将报文封装成网络包，根据IP地址发送转发</p>
+</li>
+<li><p>MAC</p>
+<p>ARP协议根据IP地址获取MAC地址：</p>
+<ul>
+<li>查询ARP缓存有没有对应MAC地址</li>
+<li>在局域网发送ARP广播轮询</li>
+</ul>
+<p>在IP的头部加上MAC头部，加上MAC地址</p>
+</li>
+<li><p>网卡</p>
+<p>将数字信号转换为电信号在网线上传播</p>
+</li>
+<li><p>交换机</p>
+<p>交换机将网络包原样转发到目的地</p>
+</li>
+<li><p>路由器</p>
+<p>查表判断转发的目标</p>
+</li>
+</ol>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>超文本传输协议，Hyper Text Transfer Protocol</p>
+<p>是传输图片文字音频视频等超文本数据的约定和规范</p>
+<p>常见状态码：</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/6-%E4%BA%94%E5%A4%A7%E7%B1%BBHTTP%E7%8A%B6%E6%80%81%E7%A0%81.png" alt=" 五大类 HTTP 状态码 "></p>
+<p>在发送请求的时候需要指定服务器域名，服务器返回数据要表示这次的回应的数据长度，使用Content-Length字段</p>
+<h2 id="Get与Post"><a href="#Get与Post" class="headerlink" title="Get与Post"></a>Get与Post</h2><p>Get：从服务器获取指定资源</p>
+<p>Post：根据请求负荷对指定资源做出处理（我要去改一些东西，比如发布留言等</p>
+<h3 id="二者都是安全幂等的吗"><a href="#二者都是安全幂等的吗" class="headerlink" title="二者都是安全幂等的吗"></a>二者都是安全幂等的吗</h3><p>安全：请求方法不会破坏服务器上的资源</p>
+<p>幂等：多次执行相同操作，结果都相同</p>
+<ul>
+<li><p>Get：安全且幂等，因为是只读操作，因此可以对Get请求的数据做缓存，这个缓存可以在流浪其上或者代理（nginx）上</p>
+</li>
+<li><p>Post：会修改服务器资源，所以不安全，多次提交就会创建多个资源，不是幂等的</p>
+</li>
+</ul>
+<h2 id="HTTP缓存技术"><a href="#HTTP缓存技术" class="headerlink" title="HTTP缓存技术"></a>HTTP缓存技术</h2><h3 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h3><p>只要浏览器判断缓存没过期就直接用浏览器本地缓存，决定要不要用缓存取决于浏览器</p>
+<p>实现强制缓存：Response Header字段中设置Cache-Control（相对时间）或者Expires（绝对时间），推荐Cache-Control</p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>通过服务端告知客户端是否可以使用缓存的方式，也就是和服务端协商来决定要不要用本地缓存（比如本地缓存过期了，和服务器协商发现结果资源是一致的就可以继续用）</p>
+<p>一般和强制缓存配合使用</p>
+<h2 id="HTTP与HTTPS"><a href="#HTTP与HTTPS" class="headerlink" title="HTTP与HTTPS"></a>HTTP与HTTPS</h2><p>二者的区别</p>
+<ul>
+<li>HTTP信息是明文传输，存在安全风险的问题。HTTPS解决HTTP不安全的缺陷，在TCP和HTTP网络层之间加入了SSL&#x2F;TLS安全协议，使报文能够加密传输</li>
+<li>HTTP连接相对简单，TCP三次握手之后便可以进行HTTP报文传输，而HTTPS在TCP三次握手之后还需要进行SSL&#x2F;TLS的握手过程才可以进入加密报文传输</li>
+<li>默认端口不同，HTTP默认80，HTTPS默认443</li>
+<li>HTTPS需要向CA（证书权威机构）申请数字证书来保证服务器的身份可信</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/19-HTTPS%E4%B8%8EHTTP.png" alt="HTTP 与 HTTPS 网络层"></p>
+<p>HTTP的明文传输安全存在三个风险：窃听，篡改，冒充</p>
+<p>HTTPS根据这些问题加入了SSL&#x2F;TLS来解决，进行信息加密，校验机制，身份证书</p>
+<ul>
+<li>混合加密的方式实现信息的机密性，解决窃听风险</li>
+<li>摘要算法的方式实现完整性，能够为数据生成独一无二的指纹，用于校验数据的完整性，解决被篡改风险</li>
+<li>将服务器公钥放入数字证书中，解决了冒充的风险</li>
+</ul>
+<h3 id="混合加密"><a href="#混合加密" class="headerlink" title="混合加密"></a>混合加密</h3><ul>
+<li>在通信建立前采用非对称加密的方式交换<strong>会话密钥</strong>，后续不再使用非对称加密</li>
+<li>通信过程中全部使用对称加密的<strong>会话密钥</strong>的方式加密明文数据</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/20-%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86.png" alt="混合加密"></p>
+<h3 id="摘要算法-数字签名"><a href="#摘要算法-数字签名" class="headerlink" title="摘要算法+数字签名"></a>摘要算法+数字签名</h3><p>使用摘要算法（哈希函数）计算内容的哈希值，这个哈希值唯一且无法通过哈希值推导内容，一起发送给对方</p>
+<p>收到内容后根据内容也计算一个指纹，如果这两个指纹一致那内容就没有被篡改</p>
+<p><strong>问题</strong>：保证内容不被篡改，但是不能保证内容+哈希值不被中间人替换</p>
+<p>使用非对称加密算法来解决这个问题</p>
+<ul>
+<li>公钥公开给所有人</li>
+<li>私钥不可泄露</li>
+</ul>
+<p>可以双向加解密，也就是一个拿来加密，一个拿来解密</p>
+<ul>
+<li>公钥加密，私钥解密：保证内容传输安全，只有有私钥的人才可以解密出实际内容</li>
+<li>私钥加密，公钥解密：保证信息不被冒充，公钥解密出的内容可以确保来自私钥身份的发送者</li>
+</ul>
+<p>数字签名：私钥加密，公钥解密的方式。私钥加密的不是内容本身而使内容的哈希值（指纹）</p>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><p>通过哈希算法的指纹可以保证信息完整，数字签名可以保证消息来自于持有私钥的一方</p>
+<p><strong>问题</strong>：如果公钥被伪造呢？伪造者伪造了公钥，使得接收者可以通过伪造的公钥解密来确认了文件的完整性</p>
+<p>数字证书验证身份：</p>
+<p>要先将发送者的公钥注册到CA（数字证书认证机构），将发送者的信息+公钥+数字签名打包成数字证书。</p>
+<p>接收者收到信息先去CA验证数字证书是否合法，CA确认合法就证明公钥来自发送者，就可以安心使用</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E7%BD%91%E7%BB%9C/https/%E8%AF%81%E4%B9%A6%E7%9A%84%E6%A0%A1%E9%AA%8C.png" alt="img"></p>
+<p>CA签发整数过程：</p>
+<ul>
+<li>CA把持有者的公钥，用途，颁发者，有效时间等信息打成一个包，然后对这些信息进行Hash计算得到hash值</li>
+<li>CA使用自己的私钥将这个Hash加密，生成CA对证书的签名</li>
+<li>将签名添加在文件证书上形成数字证书</li>
+</ul>
+<p>客户端校验服务端的数字证书过程</p>
+<ul>
+<li>客户端使用同样的Hash算法获取证书Hash值</li>
+<li>浏览器和操作系统中有CA的公钥信息，收到证书后使用CA的公钥解密，得到另一个Hash值</li>
+<li>比较两个Hash值是否相同，相同则可以信任</li>
+</ul>
+<h4 id="证书信任链"><a href="#证书信任链" class="headerlink" title="证书信任链"></a>证书信任链</h4><p>跟CA申请的证书一般不是根证书签发，而是中间证书签发，比如百度的证书</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E7%BD%91%E7%BB%9C/https/baidu%E8%AF%81%E4%B9%A6.png" alt="img"></p>
+<p>验证过程：</p>
+<ul>
+<li>客户端收到baidu的证书后发现不是根证书，无法根据本地根证书的密钥验证是否可信。于是根据baidu证书的签发者，找到该证书的颁发机构，然后向CA请求该中间证书</li>
+<li>请求到中间证书发现他的上级是根证书，就可以利用根证书的公钥验证，如果通过就认为该中间证书可信</li>
+<li>通过中间证书验证baidu，如果通过就可以信任baidu的证书</li>
+</ul>
+<p>信任链是为了保证根证书的绝对安全性，</p>
+<h3 id="HTTPS建立连接"><a href="#HTTPS建立连接" class="headerlink" title="HTTPS建立连接"></a>HTTPS建立连接</h3><p>SSL&#x2F;TLS协议基本流程根据上面可以总结为：</p>
+<ul>
+<li>客户端向服务器索要并验证服务器公钥</li>
+<li>双方协商产生会话密钥</li>
+<li>双方采用会话密钥进行加密通信</li>
+</ul>
+<p>前两步是SSL&#x2F;TLS建立过程，也是TLS握手阶段</p>
+<p>常用的密钥交换算法有两种：RSA和ECDHE（因为RSA有前向安全问题，现在大部分网站使用ECDHE）</p>
+<p>TLS协议建立的详细流程：</p>
+<ol>
+<li><p>ClientHello</p>
+<p>客户端向服务器发起加密通信请求，主要发送以下信息</p>
+<ul>
+<li>客户端支持的TLS协议版本</li>
+<li>客户端生成的随机数，用于生成会话密钥的条件之一</li>
+<li>客户端支持的密码套件列表，比如RSA</li>
+</ul>
+</li>
+<li><p>ServerHello</p>
+<p>服务器收到客户端请求后向客户端发出相应，内容主要如下</p>
+<ul>
+<li>确认TLS协议版本，如果浏览器不支持就关闭加密通信</li>
+<li>服务器产生的随机数，也用于产生会话密钥</li>
+<li>确认密码套件列表</li>
+<li>服务器的数字证书</li>
+</ul>
+</li>
+<li><p>客户端回应</p>
+<p>客户端收到服务器回应后首先通过浏览器或者操作系统的CA公钥来确认服务器数字证书的真实性</p>
+<p>如果证书没问题，客户端会从数字证书中取出服务器公钥然后使用它加密报文，向服务器发送信息：</p>
+<ul>
+<li>一个新的随机数，会被服务器公钥加密</li>
+<li>加密通信算法改变通知，表示随后的信息将用会话密钥加密通信</li>
+<li>客户端握手结束通知，表示客户端握手阶段结束，同时将之前的所有内容产生的数据做个摘要来提供服务端校验</li>
+</ul>
+</li>
+<li><p>服务器的最后回应</p>
+<p>服务器和客户端有了三个随机数，可以用双方协商的加密算法各自产生本次通信的会话密钥</p>
+<p>然后向客户端发送最后信息</p>
+<ul>
+<li>加密通信算法改变通知，表示随后信息都用会话密钥加密</li>
+<li>服务器握手结束通知，表示服务器的握手阶段已经结束，并且发送之前内容的摘要给客户端校验</li>
+</ul>
+</li>
+</ol>
+<h3 id="HTTPS应用数据如何保证完整性"><a href="#HTTPS应用数据如何保证完整性" class="headerlink" title="HTTPS应用数据如何保证完整性"></a>HTTPS应用数据如何保证完整性</h3><p>TLS实现分为握手协议和记录协议</p>
+<ul>
+<li>握手协议：上面的连接过程</li>
+<li>记录协议：保护应用程序数据并验证完整性和来源</li>
+</ul>
+<p>记录协议主要负责消息（HTTP数据）的压缩，加密和数据认证</p>
+<ul>
+<li>消息被分割成多个较短的片段然后分别对每个片段进行压缩</li>
+<li>经过压缩的片段会被加上消息认证码（MAC值，通过哈希算法生成），为了保证完整性，并进行数据认证。可以通过MAC值识别篡改，为了防止重放攻击，计算消息认证码同时还加上了片段的编码</li>
+<li>经过压缩的片段加上消息认证码会一起通过对称密码进行加密</li>
+<li>上述经过加密的数据再加上由数据类型，版本号，压缩后的长度组成的报头就是最终的报文数据</li>
+</ul>
+<p>之后就可以传导到传输层协议及逆行传输</p>
+<h2 id="HTTP1-1，2，3的演变"><a href="#HTTP1-1，2，3的演变" class="headerlink" title="HTTP1.1，2，3的演变"></a>HTTP1.1，2，3的演变</h2><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/27-HTTP3.png" alt="HTTP/1 ~ HTTP/3"></p>
+<h3 id="HTTP1-1对HTTP1-0的改进"><a href="#HTTP1-1对HTTP1-0的改进" class="headerlink" title="HTTP1.1对HTTP1.0的改进"></a>HTTP1.1对HTTP1.0的改进</h3><ul>
+<li>使用<strong>长连接</strong>的方式改善HTTP1.0短链接造成的性能开销</li>
+<li>支持<strong>管道</strong>网络传输，只要第一个请求发出去不必等待返回，就可以发出第二个请求，减少整体的响应时间</li>
+</ul>
+<h4 id="HTTP1-1的性能瓶颈"><a href="#HTTP1-1的性能瓶颈" class="headerlink" title="HTTP1.1的性能瓶颈"></a>HTTP1.1的性能瓶颈</h4><ul>
+<li>只能压缩Body部分，不压缩Header头部</li>
+<li>发送冗长的头部，互相发送相同的头部造成浪费</li>
+<li>服务器按请求顺序响应，如果服务器响应慢，会导致客户端一直请求不到数据，即<strong>队头阻塞</strong></li>
+<li>没有<strong>请求优先级控制</strong></li>
+<li>请求只能从客户端开始，<strong>服务器被动响应</strong></li>
+</ul>
+<h3 id="HTTP2的优化"><a href="#HTTP2的优化" class="headerlink" title="HTTP2的优化"></a>HTTP2的优化</h3><p>基于HTTPS，保障安全性</p>
+<p>相比于1.1的改进：</p>
+<ul>
+<li>头部压缩</li>
+<li>二进制格式</li>
+<li>并发传输</li>
+<li>服务器主动推送资源</li>
+</ul>
+<h4 id="头部压缩"><a href="#头部压缩" class="headerlink" title="头部压缩"></a>头部压缩</h4><p>如果发送多个请求，头部相同或者相似，协议会帮助消除重复部分。即HPACK算法，客户端服务器同时维护一张头信息表，每个字段生成一个索引号，发送请求只要发送索引号</p>
+<h4 id="二进制格式"><a href="#二进制格式" class="headerlink" title="二进制格式"></a>二进制格式</h4><p>将报文的信息，包括头部和body，都是用二进制数据，统称为帧：头信息帧和数据帧</p>
+<h4 id="并发传输"><a href="#并发传输" class="headerlink" title="并发传输"></a>并发传输</h4><p>引出Stream概念，多个Stream复用在一条TCP连接</p>
+<p>一个TCP包含多个Stream，一个Stream可以包含一个或者多个Message，Mesaage对应请求或者响应，由头和body组成，一个Message包含一个或者多个Frame（帧）</p>
+<p>对于不同Stream用Stream ID 标记，接收端通过Stream ID有序组成HTTP消息，帧可以乱序，因此HTTP2可以并行交错发送请求和响应</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/http/http2%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.jpeg" alt="img"></p>
+<h4 id="服务器主动推送"><a href="#服务器主动推送" class="headerlink" title="服务器主动推送"></a>服务器主动推送</h4><p>双方都可以建立Stream，Stream ID有区别</p>
+<p>比如客户端获取了HTML文件，可能还需要依赖CSS来渲染页面，需要再次发起获取的请求。但是在HTTP2，服务器在客户端访问HTML时主动推送CSS文件</p>
+<h4 id="HTTP2的缺陷"><a href="#HTTP2的缺陷" class="headerlink" title="HTTP2的缺陷"></a>HTTP2的缺陷</h4><p>依然还有队头阻塞问题，不过是在TCP层</p>
+<p>TCP是字节流协议，必须保证收到的字节数据完整且连续，这样内核才会将缓冲区的数据返回给HTTP应用，当前一个字节数据没有到达，后收到的字节数据只能存放到内核缓冲区，等待字节到达才能从内核拿到数据</p>
+<p>一旦中间的一个数据丢失，后续数据全部无法读取，需要等待丢失数据的重传</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/quic/http2%E9%98%BB%E5%A1%9E.jpeg" alt="img"></p>
+<h3 id="HTTP3的优化"><a href="#HTTP3的优化" class="headerlink" title="HTTP3的优化"></a>HTTP3的优化</h3><p>将HTTP下层的TCP协议改成UDP，对于UDP的不可靠传输，使用基于UDP的QUIC协议来实现类似TCP的可靠传输</p>
+<p>QUIC特点：</p>
+<ul>
+<li>无队头阻塞</li>
+<li>更快连接建立</li>
+<li>连接迁移</li>
+</ul>
+<h4 id="无对头阻塞"><a href="#无对头阻塞" class="headerlink" title="无对头阻塞"></a>无对头阻塞</h4><p>也有类似HTTP2的Stream和多路复用概念，但是QUIC中某个流丢包时只会阻塞这个流，其他流不受影响，因此可以解决队头阻塞</p>
+<h4 id="更快连接建立"><a href="#更快连接建立" class="headerlink" title="更快连接建立"></a>更快连接建立</h4><p>HTTP1和2中TCP和TLS分层，很难合并，需要分别进行握手。QUIC内部包含了TLS，在自己的帧会携带TLS的记录</p>
+<p>HTTP3虽然传输数据前需要QUIC协议握手，但是握手只需要1RTT，来确认双方连接ID</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/28-HTTP3%E4%BA%A4%E4%BA%92%E6%AC%A1%E6%95%B0.png" alt="TCP HTTPS（TLS/1.3） 和 QUIC HTTPS "></p>
+<p>第二次连接时候应用数据包就可以和QUIC握手信息一起发送，达到0RTT的效果</p>
+<h4 id="链接迁移"><a href="#链接迁移" class="headerlink" title="链接迁移"></a>链接迁移</h4><p>基于TCP的HTTP协议通过四元组确定TCP连接：源地址，源端口，目标地址，目标端口</p>
+<p>HTTP1和2中当设备从4G切换到WIFI时IP地址变化就必须断开连接重新连接，因为需要TCP握手和TLS握手成本很高</p>
+<p>QUIC协议通过连接ID来标记通信两个端点，客户端和服务器可以选择一组ID来标记自己，即使网络变化导致IP地址变化，只要仍保留上下文（ID，TLS密钥）就可以无缝复用连接</p>
+<p>HTTP3的普及还很缓慢</p>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><h2 id="基本认识"><a href="#基本认识" class="headerlink" title="基本认识"></a>基本认识</h2><p>因为IP层不可靠，不能保证网络包都能接收，按序交付，数据完整，传输层的TCP来负责。TCP是工作在传输层的可靠数据传输服务，能够确保网络包无损坏，无间隔，非冗余和按序</p>
+<p>TCP：面向连接的，可靠的，基于字节流的传输层通信协议</p>
+<ul>
+<li>面向连接：一定是一对一才能连接，无法向UDP一样一个主机同时可以向多个主机发送信息</li>
+<li>可靠：无论网络链路出现了什么变化，TCP可以保证一个报文一定能够到达接收端</li>
+<li>字节流：消息被操作系统分组成多个TCP报文，接收方需要知道消息边界组合出信息。TCP是有序的，前一个TCP报文没有收到，即使收到了后面的报文，也不能给应用层处理，重复的报文会丢弃</li>
+</ul>
+<p>UDP不提供复杂的控制机制，利用IP面向无连接的通信服务</p>
+<h4 id="UDP与TCP的区别"><a href="#UDP与TCP的区别" class="headerlink" title="UDP与TCP的区别"></a>UDP与TCP的区别</h4><ol>
+<li>连接：<ul>
+<li>TCP面向连接的传输层协议，传输数据前要先建立连接</li>
+<li>UDP不需要连接，即刻传输数据</li>
+</ul>
+</li>
+<li>服务对象：<ul>
+<li>TCP支持一对一的两点服务，一条连接只有两个端点</li>
+<li>UDP支持一对一，一对多，多对多的交互通信</li>
+</ul>
+</li>
+<li>可靠性：<ul>
+<li>TCP可靠交付数据，数据可以无差错，不丢失，不重复，按序到达</li>
+<li>UDP尽最大努力交付，不保证可靠交付，但是基于UDP可以实现可靠传输协议，比如QUIC协议</li>
+</ul>
+</li>
+<li>拥塞控制，流量控制：<ul>
+<li>TCP拥有拥塞控制和流量控制机制，保证数据传输的安全性</li>
+<li>UDP没有，网络拥堵也不会影响发送速率</li>
+</ul>
+</li>
+<li>首部开销<ul>
+<li>TCP首部比较长，开销比较大</li>
+<li>UDP首部只有8字节且固定不变，开销比较小</li>
+</ul>
+</li>
+<li>传输方式：<ul>
+<li>TCP流式传输没有边界，但是保证顺序和可靠</li>
+<li>UDP一个包一个包发送，有边界，但是可能丢包或者乱序</li>
+</ul>
+</li>
+<li>分片：<ul>
+<li>TCP数据如果大于MSS会在传输层分片，接收端收到会在传输层组装TCP数据包，中途丢失分片只需要重传丢失分片</li>
+<li>UDP如果大于MTU会在IP层分片，接收端收到在IP层组装然后给传输层</li>
+</ul>
+</li>
+</ol>
+<p>TCP与UDP的应用场景</p>
+<ul>
+<li>TCP：FTP文件传输，HTTP，HTTPS</li>
+<li>包总量比较少的通信：DNS，SNMP等；视频，音频等多媒体；广播通信</li>
+</ul>
+<h4 id="TCP头部"><a href="#TCP头部" class="headerlink" title="TCP头部"></a>TCP头部</h4><p><img src="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230534096.png" alt="TCP 头格式"></p>
+<p><strong>序列号</strong>：建立连接时生成的随机数作为初始值，通过SYN包传给接收主机，没法送一次就累加数据字节数，用来解决网络包乱序</p>
+<p><strong>确认应答号</strong>：下一次期望收到的序列号，发送端收到这个确认应答号就认为在这个序号以前的数据都已经被正常接收，用来解决丢包</p>
+<p><strong>控制位</strong>：</p>
+<ul>
+<li>ACK：为1时，确认应答字段有效，除了最初建立连接的SYN包以外这个位都必须为1</li>
+<li>RST：为1时，表示TCP连接中出现异常，必须强制断开连接</li>
+<li>SYN：为1时，希望建立连接，并在其序列号字段进行序列号初始值设定</li>
+<li>FIN：为1时，表示今后不再有数据发送，希望断开连接。结束通信时双方主机互相交换FIN为1的TCP段</li>
+</ul>
+<h2 id="连接建立"><a href="#连接建立" class="headerlink" title="连接建立"></a>连接建立</h2><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230530102444029.png" alt="image-20230530102444029"></p>
+<p>建立连接：三次握手</p>
+<ol>
+<li>服务端主动监听某个端口，处于LISTEN状态。</li>
+<li>客户端随机初始化序列号(client_isn)，把这个序号放在TCP首部序号字段中，同时把SYN标志位设置1，表示SYN报文。然后把第一个SYN报文发送给服务器，表示向服务器发起连接，报文不包含应用层数据，之后客户端处于SYN-SENT状态</li>
+<li>服务端收到客户端SYN报文，首先服务端随机初始化自己序号(server_isn)，将这个序号填入TCP首部序号字段，把TCP首部的确认应答号字段填入<code>client_isn+1</code>，接着把SYN和ACK标志都设置为1。接着把报文发送给客户端，也不包含应用层数据，服务端之后处于SYN-RCVD状态</li>
+<li>客户端收到服务端报文，向服务端回应最后一个应答报文，应答报文TCP首部ACK标志位置为1，确认应答号填入server_isn+1，最后把报文发送给服务端，并且可以携带客户到服务端的数据，之后客户端就处于ESTABLISHED状态</li>
+<li>服务端收到客户端应答报文后也进入ESTABLISHED状态</li>
+</ol>
+<h4 id="为什么建立连接初始化序列号都要求不同"><a href="#为什么建立连接初始化序列号都要求不同" class="headerlink" title="为什么建立连接初始化序列号都要求不同"></a>为什么建立连接初始化序列号都要求不同</h4><ul>
+<li><p>防止历史报文被下一个相同四元组的连接接收</p>
+<p>如果网络出现问题重新建立连接，发送的报文可能会被错误的当成之前的报文接收（因为之前的报文还在接收窗口中</p>
+</li>
+<li><p>为了安全性，防止黑客伪造相同的序列号TCP报文被对方接收</p>
+</li>
+</ul>
+<h4 id="随机序列号ISN的随机产生"><a href="#随机序列号ISN的随机产生" class="headerlink" title="随机序列号ISN的随机产生"></a>随机序列号ISN的随机产生</h4><p>起始ISN基于时钟，根据初始化序列号ISN随机生成算法产生</p>
+<h4 id="IP层会分片，为什么TCP还要根据MSS分片"><a href="#IP层会分片，为什么TCP还要根据MSS分片" class="headerlink" title="IP层会分片，为什么TCP还要根据MSS分片"></a>IP层会分片，为什么TCP还要根据MSS分片</h4><p>因为如果没有MSS分片，一个IP分片丢失，整个IP报文所有分片都要重传。IP层没有超时重传机制，要由TCP来负责超时重传，这时候就要重传一整个IP分片</p>
+<h4 id="第一次握手丢失"><a href="#第一次握手丢失" class="headerlink" title="第一次握手丢失"></a>第一次握手丢失</h4><p>客户端发送请求连接的SYN报文，迟迟收不到服务端的SYN-ACK，就触发超时重传机制，重传SYN报文序列号相同</p>
+<p>Linux客户端的SYN报文最大重传次数由内核参数控制，一般默认5，第一次重传在1s后，第二次2s，第三次4s，第四次8s，第五次16s。在第五次重传后会继续等待32s，依然没有回应ACK就不在发送SYN包，然后断开TCP连接。共1+2+4+8+16+32&#x3D;63s</p>
+<h4 id="第二次握手丢失"><a href="#第二次握手丢失" class="headerlink" title="第二次握手丢失"></a>第二次握手丢失</h4><p>服务器收到了客户端建立连接请求（第一次握手），就会发送SYN-ACK，即第二次握手，进入SYN_RCVD状态</p>
+<p>目的是</p>
+<ul>
+<li>ACK是对第一次握手确认</li>
+<li>SYN是服务器发起建立连接</li>
+</ul>
+<p>如果这次丢失了产生的后果：</p>
+<ul>
+<li>客户端觉得自己第一次握手丢失，会触发超时重传</li>
+<li>服务器收不到第三次握手，也会触发超时重传</li>
+</ul>
+<h4 id="第三次握手丢失"><a href="#第三次握手丢失" class="headerlink" title="第三次握手丢失"></a>第三次握手丢失</h4><p>客户端收到服务器的SYN-ACK报文，会返回一个ACK，也就是第三次握手，进入ESTABLISH</p>
+<p>第三次握手报文作用：</p>
+<ul>
+<li>对第二次握手确认，所以服务器收不到确认以为第二次握手丢失，触发超时重传，长时间没能收到第三次握手，服务器就会断开连接</li>
+<li>服务器一直处于SYN_RCVD状态，无法接收客户端的数据</li>
+</ul>
+<h4 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h4><p>攻击者短时间内伪造不同IP的SYN报文，服务端每收到一个SYN报文就进入SYN_RCVD，但是发出去的ACK+SYN无法收到未知主机的ACK应答。久而久之会占满服务端半连接队列，使服务器无法正常服务。</p>
+<p>TCP三次握手时Linux维护的两个队列</p>
+<ul>
+<li>半连接队列：SYN队列</li>
+<li>全连接队列：accept队列</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230622886.png" alt="正常流程"></p>
+<ol>
+<li>当服务端收到SYN报文，会创建一个半连接对象，然后将其加入内核的SYN队列</li>
+<li>发送SYN+ACK给客户端，等待客户端回应ACK报文</li>
+<li>服务端收到ACK，从SYN队列取出一个半连接对象，然后创建一个新连接对象放入Accept队列</li>
+<li>通过调用accept() scoket接口，从Accept队列取出连接对象</li>
+</ol>
+<p>SYN攻击直接表现就是把TCP半连接队列打满，之后收到TCP的SYN报文就会被丢弃，客户端无法和服务端建立连接</p>
+<p><strong>避免方法</strong>：</p>
+<ul>
+<li><p>调大netdev_max_backlog</p>
+<p>当网卡接收数据包速度大于内核处理速度，会保存这些数据包，控制队列最大值，默认1000，可以调大这个参数比如10000</p>
+</li>
+<li><p>增大TCP半连接队列</p>
+<p>需要同时增大net.ipv4.tcp_max_syn_backlog，listen()中的backlog，net.core.somaxconn，这三个参数决定了TCP半连接队列大小</p>
+</li>
+<li><p>开启tcp_syncookies</p>
+<p>新的建立连接方式,可以不使用SYN半连接队列,可以通过参数选择关闭,半连接放不下了使用,无条件使用</p>
+<p>当SYN队列满之后,服务端受到SYN包不会丢弃,根据算法计算一个cookie值,放到第二次握手序列号回给客户端.服务端收到客户端应答报文会检查ACK包合法性,合法就会放入Accept队列</p>
+</li>
+<li><p>减少SYN+ACK重传次数</p>
+<p>内核默认重传5次,可以设置到2次</p>
+</li>
+</ul>
+<h2 id="连接断开"><a href="#连接断开" class="headerlink" title="连接断开"></a>连接断开</h2><p>四次挥手</p>
+<p><img src="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230614791.png" alt="客户端主动关闭连接 —— TCP 四次挥手"></p>
+<ul>
+<li>客户端想关闭连接,发送一个TCP首部FIN为1的报文,即FIN报文,客户端进入FIN_WAIT_1状态(表示我这边没东西发了,可以关闭连接</li>
+<li>服务端收到FIN报文,发送ACK应答报文,进入CLOSE_WAIT状态(服务端可能还有数据没发完</li>
+<li>客户端收到服务端的ACK,进入FIN_WAIT_2状态</li>
+<li>服务端处理完数据,发送FIN报文,进入LAST_ACK状态(我这里东西也发完了</li>
+<li>客户端收到服务端的FIN,回一个ACK,进入TIME_WAIT状态</li>
+<li>服务端收到ACK报文,进入CLOSE状态,服务端完成连接关闭</li>
+<li>客户端经过2MSL,自动进入CLOSE状态</li>
+</ul>
+<p>为什么要有TIME_WAIT等待2MSL(最大生存时间):防止历史数据(报文中间网络延迟没能到达)被后面的相同四元组接收,保证被动关闭方正确关闭</p>
+<h3 id="关闭连接函数"><a href="#关闭连接函数" class="headerlink" title="关闭连接函数"></a>关闭连接函数</h3><ul>
+<li>close,同时关闭发送方和读取方,如果socket有多个线程进程共享,一个close只会让引用计数-1,直到为0发出FIN报文</li>
+<li>shutdown,指定socket只关闭发送方不关闭读取方,多个进程使用socket,shutdown不管引用计数直接使socket不可用,发出FIN报文</li>
+</ul>
+<p>客户端用close来关闭连接会比较粗暴,因为客户端没有发送接收能力,内核会发出RST报文,释放连接,不会经过TCP四次握手,如果服务端再发起读或者写,就会报错和异常</p>
+<p>shutdown会经历四次握手</p>
+<h3 id="四次挥手可以变为三次吗"><a href="#四次挥手可以变为三次吗" class="headerlink" title="四次挥手可以变为三次吗"></a>四次挥手可以变为三次吗</h3><p><img src="https://cdn.xiaolincoding.com//mysql/other/52f35dcbe24a4ca7abb23f292837c707.png" alt="在这里插入图片描述"></p>
+<p>服务端在收到FIN后不马上回复ACK,而是等待自己CLOSE_WAIT状态结束数据发送完,一起发送FIN和ACK</p>
+<p>什么情况出现三次挥手:</p>
+<p><strong>在TCP挥手中,没有数据要发送并且开启了TCP延迟确认机制(默认开启)</strong></p>
+<p>TCP延迟确认机制:</p>
+<p>发送没有携带数据的ACK效率很低,所以最好把ACK和响应的数据一起发</p>
+<ul>
+<li>当有数据要发送时,ACK会随着响应数据一起发送给对方</li>
+<li>当没有响应数据要发送,ACK会延迟一段时间,来等待有响应数据一起发送</li>
+<li>如果等待的时候第二个数据报文又到达了,会立刻发送ACK</li>
+</ul>
+<h3 id="挥手丢失"><a href="#挥手丢失" class="headerlink" title="挥手丢失"></a>挥手丢失</h3><h4 id="第一次丢失"><a href="#第一次丢失" class="headerlink" title="第一次丢失"></a>第一次丢失</h4><p>因为不会收到ACK,会触发超时重传,一定次数后还没收到会直接进入close状态</p>
+<h4 id="第二次丢失"><a href="#第二次丢失" class="headerlink" title="第二次丢失"></a>第二次丢失</h4><p>ACK不会重传,但是客户端一直收不到第一次挥手的ACK,会不断发送FIN报文,客户端会直接close</p>
+<h4 id="第三次丢失"><a href="#第三次丢失" class="headerlink" title="第三次丢失"></a>第三次丢失</h4><p>服务端收不到FIN的ACK,会出发超时重传,长时间没有ACK也会直接close</p>
+<p>客户端在等待一段时间还没收到FIN也会close</p>
+<h4 id="第四次丢失"><a href="#第四次丢失" class="headerlink" title="第四次丢失"></a>第四次丢失</h4><p>第四次丢失,服务端收不到ACK也会超时重传</p>
+<h3 id="服务器出现大量TIME-WAIT原因"><a href="#服务器出现大量TIME-WAIT原因" class="headerlink" title="服务器出现大量TIME_WAIT原因"></a>服务器出现大量TIME_WAIT原因</h3><p>TIME_WAIT是主动关闭连接方的状态,说明服务器主动断开了很多TCP连接</p>
+<p>场景:</p>
+<ul>
+<li><p>HTTP没有使用长连接</p>
+<p>排查客户端和服务器是不是都开启了HTTP Keep-Alive,有一方没有开启都会让服务器主动关闭连接</p>
+</li>
+<li><p>HTTP长连接超时</p>
+<p>为了防止长连接一直占用,会提供长连接超时时间,大量客户端建立TCP后很长时间没发送数据导致超时,服务端主动关闭连接</p>
+</li>
+<li><p>HTTP长连接请求数量上限</p>
+</li>
+</ul>
+<h3 id="服务器出现大量CLOSE-WAIT原因"><a href="#服务器出现大量CLOSE-WAIT原因" class="headerlink" title="服务器出现大量CLOSE_WAIT原因"></a>服务器出现大量CLOSE_WAIT原因</h3><p>说明服务端是被动关闭方,并且程序没有调用close函数关闭连接,无法发出FIN报文</p>
+<p>一般是代码问题</p>
+<h3 id="建立连接后客户端或者服务端崩溃故障"><a href="#建立连接后客户端或者服务端崩溃故障" class="headerlink" title="建立连接后客户端或者服务端崩溃故障"></a>建立连接后客户端或者服务端崩溃故障</h3><p>客户端故障</p>
+<p>根据TCP保活机制,一段时间内没有任何连接相关活动,每隔一段时间发送一个探测报文,没有得到响应就认为TCP连接死亡,服务端主动断开连接</p>
+<p>服务端崩溃</p>
+<p>TCP连接是内核维护的,进程崩溃后,内核会顺利进行四次挥手断开连接</p>
+<h2 id="Socket编程"><a href="#Socket编程" class="headerlink" title="Socket编程"></a>Socket编程</h2><p><img src="https://cdn.xiaolincoding.com//mysql/other/format,png-20230309230545997.png" alt="基于 TCP 协议的客户端和服务端工作"></p>
+<h2 id="重传机制"><a href="#重传机制" class="headerlink" title="重传机制"></a>重传机制</h2><p>发送的数据被接收会发出一个确认应答表示已经收到消息,如果丢失了就需要用到重传机制</p>
+<h3 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h3><p>发送数据时计时,一定时间内没有收到ACK就重新发送数据</p>
+<p>重传的情况</p>
+<ul>
+<li>数据包丢失</li>
+<li>确认应答丢失</li>
+</ul>
+<p>超时时间的设置:</p>
+<p>根据平滑(平均)RTT和最新RTT</p>
+<p>遇到一次超时重传会把下一次的时间间隔设为两倍,再次超时说明环境差,不适合频繁发送</p>
+<h3 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h3><p>超时重传的周期比较长</p>
+<p>快速重传以数据驱动</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/10.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" alt="快速重传机制"></p>
+<p>连续收到三个相同的ACK(表示要的下一个数据),就会马上重传丢失的数据</p>
+<p>问题是:</p>
+<p>重传一个数据,还是重传之后的所有数据,都会有问题</p>
+<h3 id="SACK"><a href="#SACK" class="headerlink" title="SACK"></a>SACK</h3><p>为了解决快重传不知道重传什么数据</p>
+<p>SACK:选择性确认</p>
+<p>在TCP首部选项字段中添加SACK,可以把已经收到的数据发送给发送方,发送方就可以直到哪些数据收到,哪些没收到,就可以只重传丢失的数据</p>
+<h3 id="D-SACK"><a href="#D-SACK" class="headerlink" title="D-SACK"></a>D-SACK</h3><p>使用SACK告诉发送方哪些数据被重复接收</p>
+<p>发送方可以通过D-SACK知道</p>
+<ul>
+<li>是发出去的包丢失还是回应的包丢失</li>
+<li>是不是发送方的数据包被网络延迟了</li>
+<li>可以知道是不是把发送的数据包复制了</li>
+</ul>
+<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><p>每次收到数据包然后确认再发送下一个数据包的方式效率很低，往返时间越长效率越低，所以TCP引入了窗口概念。</p>
+<p>发送方主机在等待确认应答返回前必须在缓冲区保留已发送数据，按期收到应答就清除这个数据。</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/15.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" alt="用滑动窗口方式并行处理"></p>
+<p>当发送方收到报文，其中ACK就表示这个序列号之前的数据都收到了，叫做累计确认。</p>
+<h3 id="窗口大小的确定"><a href="#窗口大小的确定" class="headerlink" title="窗口大小的确定"></a>窗口大小的确定</h3><p>接收端告诉发送端有多少缓冲区接收数据，发送端可以根据这个接收端处理能力发送数据</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/16.jpg" alt="img"></p>
+<p>当可用窗口用完，则全被发送窗口占据，即使没有收到ACK也不继续发送数据。当收到ACK，窗口右移，新进入的数据占据可用窗口等待发送</p>
+<p>接收窗口</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/20.jpg" alt="接收窗口"></p>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>如果发送方发送速度过快，接收方处理不过来，会触发重传机制，导致网络流量无意义浪费</p>
+<p>所以TCP要提供一种机制，可以<strong>让发送方根据接收方的实际接受能力控制发送数据量</strong>，这就是流量控制</p>
+<p>因为缓存的窗口属于操作系统的缓冲区，如果接收端过于繁忙，操作系统缓冲区会减小，此时应用又无法即使读取缓存数据，造成数据丢包</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/23.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" alt="img"></p>
+<p>为了防止这种情况，TCP规定不允许同时减少缓存又收缩窗口，而先收缩窗口，然后减少缓存，避免丢包出现</p>
+<h3 id="窗口关闭"><a href="#窗口关闭" class="headerlink" title="窗口关闭"></a>窗口关闭</h3><p>因为接收方会指明希望发送方发送的数据大小（窗口大小）来进行流量控制，如果窗口大小为0，就阻止发送方发送数据，直到窗口变为非0，这就是窗口关闭。</p>
+<h4 id="窗口关闭的潜在危险-死锁"><a href="#窗口关闭的潜在危险-死锁" class="headerlink" title="窗口关闭的潜在危险-死锁"></a>窗口关闭的潜在危险-死锁</h4><p>对于窗口大小改变的通知，是通过ACK报文通告</p>
+<p>如果窗口关闭后再想要通知窗口非0，重新接收数据。这个报文如果在网络中丢失，发送方一直等待窗口非0的通知来重新发送数据，接收方因为已经通知了窗口非0，也等待接收数据，两边进入互相等待的死锁状态</p>
+<p>解决方法</p>
+<p>TCP为每个连接设置了一个持续定时器，只要TCP连接一方收到对方0窗口的通知就启动持续计时器，如果计时器超时，就会发送窗口探测报文，接收方返回当前窗口大小</p>
+<ul>
+<li>如果窗口仍然是0，收到报文的一方重新启动持续计时器</li>
+<li>如果不是0，就可以打开死锁的局面</li>
+</ul>
+<p>总共探测三次，如果3次之后还是0，TCP可能会发出RST报文中断连接</p>
+<h3 id="糊涂窗口综合症"><a href="#糊涂窗口综合症" class="headerlink" title="糊涂窗口综合症"></a>糊涂窗口综合症</h3><p>糊涂窗口综合征：接收方太忙了来不及取走窗口数据，导致发送方发送窗口越来越小。最后接收方只有很少的几个字节告诉发送方，发送方就会把这几个字节发送了。</p>
+<p>但是TCP+IP首部开销40字节，如果只发了很少的数据，开销不值得</p>
+<p>发生糊涂窗口综合症的原因：</p>
+<ul>
+<li>接收方会通知小窗口</li>
+<li>发送方会发送小数据</li>
+</ul>
+<p>因此要解决就解决以上问题就可以</p>
+<ul>
+<li><p>让接收方不通知小窗口</p>
+<p>当窗口小于min（MSS（最大报文长度），缓存空间&#x2F;2），小于MSS和1&#x2F;2缓存大小的最小值就会通知窗口为0，防止发送方发送数据。当&gt;&#x3D;MSS或者缓存空间&#x2F;2时，就可以打开窗口让发送方发送数据</p>
+</li>
+<li><p>让发送方避免发送小数据</p>
+<p>Nagle算法：延迟处理，满足以下条件之一才可以发送数据</p>
+<ul>
+<li>等到窗口大小&gt;&#x3D;MSS且数据大小&gt;&#x3D;MSS</li>
+<li>收到之前发送数据的ack回包</li>
+</ul>
+</li>
+</ul>
+<p>如果发送方开启了Nagle，接收方不满足不通知小数据也会出现糊涂窗口综合症，因为可能ACK回复比较快。要避免糊涂窗口综合症要满足：不通告小窗口给发送方+发送方开启Nagle算法</p>
+<p>Nagle默认开启</p>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>拥塞控制和流量控制的区别：</p>
+<p>流量控制是为了避免发送方数据太快填满接收方的缓存，对于网络中的情况没有区别</p>
+<p>为了解决网络中出现拥堵的情况，造成丢包或者时延导致TCP重传加重负担，因此拥塞控制很有必要</p>
+<p>拥塞控制中，为了在发送方调节要发送数据的量，定义了一个拥塞窗口cwnd的概念，根据网络的拥塞程度动态变化</p>
+<h3 id="cwnd，swnd，rwnd？"><a href="#cwnd，swnd，rwnd？" class="headerlink" title="cwnd，swnd，rwnd？"></a>cwnd，swnd，rwnd？</h3><p>swnd，rwnd是流量控制中的概念，表示发送窗口和接收窗口，约等于关系</p>
+<p>cwnd是拥塞窗口，发送窗口swnd在加入cwnd后，swnd&#x3D;min（cwnd，rwnd）拥塞窗口和接收窗口的最小值</p>
+<h3 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h3><p>TCP刚刚建立时，不知道网络环境，因此慢慢提高发送数据包的数值。</p>
+<p>发送包每收到一个ACK，cwnd大小就+1</p>
+<p>第一次发送1个报文，收到1个ACK后发送2个报文，就会收到2个ACK，发送的报文数量就变为4。因此cwnd在慢启动下是指数级增加</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP-%E5%8F%AF%E9%9D%A0%E7%89%B9%E6%80%A7/27.jpg?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" alt="慢启动算法"></p>
+<p>上限：慢启动门限（ssthresh）</p>
+<p>当cwnd&gt;&#x3D;ssthresh时开启拥塞避免算法</p>
+<h3 id="拥塞避免"><a href="#拥塞避免" class="headerlink" title="拥塞避免"></a>拥塞避免</h3><p>当拥塞窗口大小大于等于慢启动门限时就会进入拥塞避免算法</p>
+<p>通常ssthresh是65535字节</p>
+<p>拥塞避免中，每收到1个ACK，cwnd增加1&#x2F;cwnd。也就是当上次发送的数据包都收到ACK才会将cwnd+1</p>
+<p>cwnd的增长变为线性了</p>
+<p>当网络发生拥塞，出现丢包触发重传机制，进入拥塞发生算法</p>
+<h3 id="拥塞发生"><a href="#拥塞发生" class="headerlink" title="拥塞发生"></a>拥塞发生</h3><p>出现拥塞，即数据包重传的情况，重传的机制主要有超时重传和快速重传</p>
+<h4 id="超时重传-1"><a href="#超时重传-1" class="headerlink" title="超时重传"></a>超时重传</h4><p>超时重传会导致使用拥塞发生算法：</p>
+<ul>
+<li>ssthresh设为cwnd&#x2F;2</li>
+<li>cwnd重置为初始值（假设为1</li>
+</ul>
+<p>Linux的cwnd初始化值一般为10</p>
+<p>在cwnd重置为初始化值后重新开始慢启动。</p>
+<p>缺点：</p>
+<p>这种方式突然将cwnd剧烈减小会导致减少数据流出现网络卡顿。一旦出现超时重传就初始化cwnd太激进了</p>
+<h4 id="快重传"><a href="#快重传" class="headerlink" title="快重传"></a>快重传</h4><p>当接收方发现丢失一个中间包（收到了后面的数据包），发送三次之前一个包的ACK，发送端就会快速重传，不必等待超时</p>
+<p><strong>ssthresh和cwnd的变化</strong></p>
+<ul>
+<li>cwnd &#x3D; cwnd&#x2F;2，变为原来一半</li>
+<li>ssthresh &#x3D; cwnd，变成减半后的cwnd</li>
+<li>进入快恢复算法</li>
+</ul>
+<h3 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h3><p>一般和快重传一起使用，快恢复觉得能收到三个重复ACK，网络没有这么糟糕</p>
+<p>快恢复导致cwnd和ssthresh的更新：</p>
+<p>快恢复算法：</p>
+<ul>
+<li>拥塞窗口cwnd &#x3D; ssthresh + 3（因为快重传有三个ACK收到</li>
+<li>重传丢失数据包</li>
+<li>如果再收到重复ACK，cwnd+1</li>
+<li>如果<strong>收到新的ACK</strong>，把cwnd设置第一步中的ssthresh，因为ACK确认新的数据说明恢复的过程结束可以恢复之前状态，再次进入拥塞避免</li>
+</ul>
+<h2 id="TCP协议缺陷"><a href="#TCP协议缺陷" class="headerlink" title="TCP协议缺陷"></a>TCP协议缺陷</h2><h3 id="升级TCP很困难"><a href="#升级TCP很困难" class="headerlink" title="升级TCP很困难"></a>升级TCP很困难</h3><p>TCP协议在内核中实现，应用程序不能修改，只能升级内核</p>
+<p>即使升级内核，TCP协议需要客户端服务端同时支持</p>
+<h3 id="TCP建立连接的延迟"><a href="#TCP建立连接的延迟" class="headerlink" title="TCP建立连接的延迟"></a>TCP建立连接的延迟</h3><p>建立连接需要三次握手，大多数网站使用HTTPS，还需要四次TLS握手，增加了数据传输延迟</p>
+<p>三此握手可以通过TCP Fast Open解决，在第二次建立连接时减少TCP连接建立的时延</p>
+<p>第一次建立连接，服务端在第二次握手产生一个Cookie（已加密），通过SYN，ACK包一起发送给客户端。</p>
+<p>第二次连接时候，客户端在SYN包带上Cookie发给服务端，可以提前跳过三次握手过程，Cookie维护了一些信息</p>
+<h3 id="TCP存在队头阻塞问题"><a href="#TCP存在队头阻塞问题" class="headerlink" title="TCP存在队头阻塞问题"></a>TCP存在队头阻塞问题</h3><p>TCP要保证数据的有序，如果序号在前的报文丢失，会导致后面大量数据在缓存中无法被内核读取，需要等待丢失报文重传</p>
+<p>比如HTTP&#x2F;2中</p>
+<h3 id="网络迁移需要重新建立TCP连接"><a href="#网络迁移需要重新建立TCP连接" class="headerlink" title="网络迁移需要重新建立TCP连接"></a>网络迁移需要重新建立TCP连接</h3><p>TCP连接通过四元组确定</p>
+<ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目标地址</li>
+<li>目标端口</li>
+</ul>
+<p>如果从移动网络切换到WIFI，IP变化就必须重新建立连接</p>
+<h2 id="如何基于UDP实现可靠传输（QUIC）"><a href="#如何基于UDP实现可靠传输（QUIC）" class="headerlink" title="如何基于UDP实现可靠传输（QUIC）"></a>如何基于UDP实现可靠传输（QUIC）</h2><p>QUIC是目前可基于UDP的可靠传输协议成熟方案</p>
+<h3 id="首部信息"><a href="#首部信息" class="headerlink" title="首部信息"></a>首部信息</h3><p>在UDP首部和HTTP消息之间共三层Packet Header，QUIC Frame Header，HTTP3 Frame Header</p>
+<h4 id="Packet-Header"><a href="#Packet-Header" class="headerlink" title="Packet Header"></a>Packet Header</h4><p>共有两种，分别用于首次建立连接和日常传输数据</p>
+<ul>
+<li><p>Long Packet Header</p>
+<p>首次建立连接使用，主要内容包括</p>
+<ul>
+<li>Source Connection ID（源连接ID）</li>
+<li>Destination Connection ID（目标链接ID）</li>
+</ul>
+</li>
+<li><p>Short Packet Header</p>
+<p>日常传输数据</p>
+<ul>
+<li>Destination Connection ID（目标链接ID）</li>
+<li>Packet Number（编号）</li>
+<li>负载数据</li>
+</ul>
+</li>
+</ul>
+<p>QUIC建立连接也需要三此握手，目的是协商连接ID，之后双方只需要固定连接ID就可以实现连接迁移。所以在Short Packet Header中不需要使用到源连接ID</p>
+<p>Packet Number是报文独一无二的编号，严格递增，即使重传也不是原来相同的编号</p>
+<p>带来的好处：</p>
+<ul>
+<li>可以更加精准计算RTT，避免TCP重传歧义问题</li>
+<li>支持乱序确认，TCP必须顺序确认，丢包时导致窗口不滑动</li>
+</ul>
+<p>对应TCP的问题：重传歧义</p>
+<p>重传报文客户端收到重传的报文，无法判断是重传前还是重传后的，从而导致RTT计算的不精准</p>
+<p>Packet Number的单调递增设计，还可以让数据包不必像TCP一样必须有序确认，QUIC支持乱序确认，当数据包Packet N丢失，只要有新的数据包确认，滑动窗口可以继续右移</p>
+<h4 id="QUIC-Frame-Header"><a href="#QUIC-Frame-Header" class="headerlink" title="QUIC Frame Header"></a>QUIC Frame Header</h4><p>一个Packet报文可以存放多个QUIC Frame</p>
+<p>不同的Frame针对不同类型，功能，有不同格式</p>
+<p>对于Stream类型的Frame格式包含：</p>
+<ul>
+<li>Stream ID：多个并发传输的HTTP消息，通过Stream ID区别</li>
+<li>Offset：类似TCP的Seq序号，保证数据顺序和可靠</li>
+<li>Length：指明Frame数据长度</li>
+</ul>
+<h3 id="队头阻塞问题"><a href="#队头阻塞问题" class="headerlink" title="队头阻塞问题"></a>队头阻塞问题</h3><p>发生在接收窗口，接收窗口明确的窗口大小，明确接下来收到的数据的序号</p>
+<p>当收到有序数据，接收窗口往前滑动，被确认的有序数据被应用层读取。如果某一个数据没有收到，那么即使之后的数据都被收到也无法被应用层读取</p>
+<p>QUIC给每个Stream一个独立滑动窗口，某个Stream丢失了一个数据，不会影响其他Stream</p>
+<h3 id="流量控制-1"><a href="#流量控制-1" class="headerlink" title="流量控制"></a>流量控制</h3><p>QUIC的流量控制实现方式：</p>
+<ul>
+<li>通过window_update帧告诉对方自己可以接收的字节数</li>
+<li>通过BlockFrame告诉对方由于流量控制被阻塞，无法发送数据</li>
+</ul>
+<p>可以有Stream级和Connection级</p>
+<ul>
+<li>Stream级：Stream分别独立，给每个Stream流量控制，防止单个Stream消耗连接全部缓冲</li>
+<li>Connection级：限制连接中所有Stream相加的总字节数，防止发送方超过连接的缓冲容量</li>
+</ul>
+<h3 id="拥塞控制-1"><a href="#拥塞控制-1" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><p>默认使用TCP的Cubic拥塞控制算法（慢开始，拥塞避免，快重传，快恢复），还支持其他很多的拥塞控制算法</p>
+<p>QUIC属于应用层，这里的实现不需要操作系统和内核，可以很快的迭代速度更新拥塞控制算法</p>
+<h2 id="使用TCP一定不会丢失数据吗"><a href="#使用TCP一定不会丢失数据吗" class="headerlink" title="使用TCP一定不会丢失数据吗"></a>使用TCP一定不会丢失数据吗</h2><p>各种丢包都有可能导致数据丢失</p>
+<h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><h2 id="基本认识-1"><a href="#基本认识-1" class="headerlink" title="基本认识"></a>基本认识</h2><p>网络层的作用：实现主机与主机之间的通信（点对点通信）</p>
+<h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><p>IP v4使用32位正整数表示IP地址，根据网卡给每个设备分配IP地址，如果设备有多个网卡就有多个地址</p>
+<h3 id="地址分类"><a href="#地址分类" class="headerlink" title="地址分类"></a>地址分类</h3><p>分为五类：</p>
+<p>主机数记得减去全0表示本主机和全1表示所有主机的两个</p>
+<ul>
+<li><p>A类地址：0开头，第2-8位表示网络号，后24位表示主机号</p>
+<ul>
+<li>网络号范围：0.0.0.0-127.255.255.255</li>
+<li>最大主机数：16777214</li>
+</ul>
+</li>
+<li><p>B类地址：10开头，3-16位表示网络号，后16位表示主机号</p>
+<ul>
+<li>网络号范围：128.0.0.0–191.255.255.255</li>
+<li>最大主机数：65535</li>
+</ul>
+</li>
+<li><p>C类地址：110开头，4-24位表示网络号，后8位表示主机号</p>
+<ul>
+<li>网络号范围：192.0.0.0-223.255.255.255</li>
+<li>最大主机数：254</li>
+</ul>
+</li>
+<li><p>D类地址：1110开头，后28位为组播地址</p>
+<p>无主机号，常用作IP多播，将包发送给特定组内所有主机</p>
+</li>
+<li><p>E类地址：</p>
+<p>预留分类，暂未使用</p>
+</li>
+</ul>
+<h3 id="分类缺点"><a href="#分类缺点" class="headerlink" title="分类缺点"></a>分类缺点</h3><ul>
+<li>同一网络下没有地址层次，比如某公司分配到了B类地址，做不到对下面的环境划分地址层次，缺少地址灵活性</li>
+<li>不能很好实现网络匹配。C类地址主机数太少而B类地址又可能太多了</li>
+</ul>
+<p>因此为了解决，提出了无分类地址方案</p>
+<h3 id="CIDR"><a href="#CIDR" class="headerlink" title="CIDR"></a>CIDR</h3><p>无分类地址方案，不再有分类地址概念，32位IP地址被自由划分成网络号和主机号</p>
+<p>表示形式：<code>a.b.c.d/x</code>，后面的&#x2F;x表示前面有几位是网络号</p>
+<h4 id="子网掩码也是一种划分网络号和主机的形式"><a href="#子网掩码也是一种划分网络号和主机的形式" class="headerlink" title="子网掩码也是一种划分网络号和主机的形式"></a>子网掩码也是一种划分网络号和主机的形式</h4><p>用子网掩码遮掉主机号，剩下网络号。将子网掩码和IP地址按位与计算</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/16.jpg" alt="img"></p>
+<h4 id="为什么分离主机号和网络号"><a href="#为什么分离主机号和网络号" class="headerlink" title="为什么分离主机号和网络号"></a>为什么分离主机号和网络号</h4><p>主机间通讯要先判断是否在一个广播域，也就是网络地址是否相同，如果网络地址相同就直接转发</p>
+<h4 id="子网掩码的另一个作用：划分子网"><a href="#子网掩码的另一个作用：划分子网" class="headerlink" title="子网掩码的另一个作用：划分子网"></a>子网掩码的另一个作用：划分子网</h4><p>经过子网划分，可以将IP地址变成：网络号+子网号+主机号。来满足想要对主机的不同分类的需求</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/19.jpg" alt="img"></p>
+<h3 id="IP地址和路由控制"><a href="#IP地址和路由控制" class="headerlink" title="IP地址和路由控制"></a>IP地址和路由控制</h3><p>网络地址部分用于路由控制，路由器的路由寻址就是寻找与该地址有相同网络地址的记录（没有就转发给默认路由</p>
+<h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>IPv4在2011年就已经分配完了。</p>
+<p>IPv6共有128位，可分配数量更多，其他优点还有：</p>
+<ul>
+<li>IPv6可以自动配置，没有DHCP服务器也可以自动分配IP地址，即插即用</li>
+<li>包头首部长度固定40字节，去掉了包头校验和，简化首部结构，减轻路由器负荷，提高传输性能</li>
+<li>有应对伪造IP地址的网络安全功能和防止线路窃听的功能，提升了安全性</li>
+<li>等等</li>
+</ul>
+<p>IPv6的128位，每16位一组用<code>:</code>分开，如果连续的0可以省略用<code>::</code>隔开</p>
+<h2 id="IP协议相关"><a href="#IP协议相关" class="headerlink" title="IP协议相关"></a>IP协议相关</h2><h3 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h3><p>将域名转换为具体的IP地址，域名解析流程：</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/33.jpg" alt="域名解析的工作流程"></p>
+<h3 id="ARP和RARP"><a href="#ARP和RARP" class="headerlink" title="ARP和RARP"></a>ARP和RARP</h3><p>ARP协议：将IP地址解析成MAC地址</p>
+<p>ARP解析流程：</p>
+<ol>
+<li>主机通过广播发送ARP请求，包含想知道的MAC地址的主机IP地址</li>
+<li>同一链路所有设备收到ARP请求，会查看IP地址是否与自己一致，如果一致就将自己的MAC地址塞入ARP响应包返回给主机</li>
+</ol>
+<p>操作系统会将通过ARP获取的MAC地址缓存一定时间，方便下次直接读取</p>
+<p>RARP：将MAC转为IP地址</p>
+<p>比如将打印机服务器等小型嵌入式设备接入网络需要用到</p>
+<p>过程：</p>
+<ol>
+<li>该设备发送一条包含自己MAC地址的报文请求自己的IP地址</li>
+<li>RARP服务器收到后返回给它对应的IP地址</li>
+<li>该设备根据这个应答信息设置自己IP地址</li>
+</ol>
+<h3 id="DHCP动态获取IP地址"><a href="#DHCP动态获取IP地址" class="headerlink" title="DHCP动态获取IP地址"></a>DHCP动态获取IP地址</h3><p>DHCP客户端进程监听68端口，服务端监听67端口</p>
+<p>流程：</p>
+<ol>
+<li>客户端发起DHCP发现报文，由于客户端没有IP地址，也不知道DHCP服务器地址，所以使用UDP广播通信，链路层将帧广播到网络中所有设备</li>
+<li>DHCP服务器收到DHCP发现报文，使用DHCP提供报文向客户端响应，携带提供可租约的IP地址，子网掩码，默认网关，DNS服务器和IP地址租用期</li>
+<li>客户端收到一个或者多个服务器的DHCP提供报文后，从中选择一个服务器，并向选中的服务器发送DHCP请求报文进行响应，回显配置参数</li>
+<li>服务端用DHCP报文对DHCP请求报文进行响应，应答要求的参数</li>
+</ol>
+<p>当租约的DHCP的IP地址快到期时，客户端会向服务器发送DHCP请求报文</p>
+<ul>
+<li>如果服务器同意继续租用，用DHCP ACK报文应答，客户端就会延长租期</li>
+<li>如果服务器不同意，用DHCP NACK报文，客户端停止使用租约的IP</li>
+</ul>
+<p>DHCP全程使用UDP广播通信</p>
+<p>因为不一定每个局域网都有DHCP服务器，所以出现了DHCP中继代理，对不同网段的IP地址分配也使用一个DHCP服务器统一管理</p>
+<h3 id="NAT网络地址转换"><a href="#NAT网络地址转换" class="headerlink" title="NAT网络地址转换"></a>NAT网络地址转换</h3><p>网络地址转换NAT，可以进一步缓解IPv4地址耗尽的问题</p>
+<p>可以通过NAT将内部的私有IP转换成公有IP</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/39.jpg" alt="NAPT"></p>
+<p>不同内网私有主机IP的转成公网Ip的不同端口号</p>
+<h3 id="ICMP互联网控制报文协议"><a href="#ICMP互联网控制报文协议" class="headerlink" title="ICMP互联网控制报文协议"></a>ICMP互联网控制报文协议</h3><p>主要功能：</p>
+<ul>
+<li>确认IP包是否成功送达目的地址</li>
+<li>报告发送过程中IP包被废弃原因</li>
+<li>改善网络设置</li>
+</ul>
+<h3 id="IGMP因特网组管理协议"><a href="#IGMP因特网组管理协议" class="headerlink" title="IGMP因特网组管理协议"></a>IGMP因特网组管理协议</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" data-id="clix3qjvw000pqwue7w0gb93k" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

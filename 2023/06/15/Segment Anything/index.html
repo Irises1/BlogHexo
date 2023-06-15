@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Segment AnythingIntroduction大型语言模型正通过强大的零样本和少样本泛化改变NLP，模型可以泛化到超出训练期间的任务和数据分布。这些工作通过提示工程来实现，使用手动输入文本来提示语言模型给目前任务生成有效文本响应。（说明ChatGPT之类的模型的影响） 基础模型在视觉上的探索：CLIP和ALIGN使用对比学习来训练对齐两种模式的文本和图像编码器，还可以组合其他模块支持下游">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/Segment%20Anything/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Segment AnythingIntroduction大型语言模型正通过强大的零样本和少样本泛化改变NLP，模型可以泛化到超出训练期间的任务和数据分布。这些工作通过提示工程来实现，使用手动输入文本来提示语言模型给目前任务生成有效文本响应。（说明ChatGPT之类的模型的影响） 基础模型在视觉上的探索：CLIP和ALIGN使用对比学习来训练对齐两种模式的文本和图像编码器，还可以组合其他模块支持下游">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145909443.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145922457.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145930219.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230510154603923.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511145716266.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511162953470.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230510153836932.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511142312098.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410165045721.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412161610900.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412151630468.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230413164740158.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.528Z">
+<meta property="article:modified_time" content="2023-05-23T09:20:46.382Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Segment Anything" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/Segment%20Anything/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.528Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Segment-Anything"><a href="#Segment-Anything" class="headerlink" title="Segment Anything"></a>Segment Anything</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>大型语言模型正通过强大的零样本和少样本泛化改变NLP，模型可以泛化到超出训练期间的任务和数据分布。这些工作通过提示工程来实现，使用手动输入文本来提示语言模型给目前任务生成有效文本响应。（说明ChatGPT之类的模型的影响）</p>
+<p>基础模型在视觉上的探索：CLIP和ALIGN使用对比学习来训练对齐两种模式的文本和图像编码器，还可以组合其他模块支持下游任务。但是视觉超出这些范围的广泛问题，和大多数问题没有丰富的训练数据。</p>
+<p>本工作：</p>
+<p>目标建立一个图像分割基础模型，寻求一个可提示的模型并能实现强大的泛化任务。在大型数据集上进行预训练，使用及时工程解决数据分布上的一系列上下游分割问题。</p>
+<p>关键在三个部分：</p>
+<ul>
+<li><p>任务</p>
+<p>What task will enable zero-shot generalization?</p>
+<p>定义了一个<strong>可提示的分割任务</strong>，任务足够通用，可以提供强大的训练目标并实现广泛的下游应用</p>
+</li>
+<li><p>模型</p>
+<p>What is the corresponding model architecture?</p>
+<p>一个<strong>支持灵活提示的模型</strong>，可以在提示时实时输出mask，以便进行交互</p>
+</li>
+<li><p>数据</p>
+<p>What data can power this task and model?</p>
+<p>需要一个多样化的大规模的数据源，但是没有这种用于分割的网络规模的数据源。因此构建了一个“<strong>数据引擎</strong>”：使用高效的模型来协助数据收集和使用新收集的数据来改进模型之间进行迭代。</p>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png" alt="image-20230410155322999"></p>
+<h3 id="可提示的分割任务"><a href="#可提示的分割任务" class="headerlink" title="可提示的分割任务"></a>可提示的分割任务</h3><p>目标是给定任何分割提示的情况下返回有效的分割掩码。提示只指定在图像中分割什么，有效分割掩码意味着即使提示不准确或者有多个对象也应该输出一个合理掩码。使用可提示分割任务作为与训练目标并通过提示工程解决一般下游分割任务。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145909443.png" alt="image-20230410145909443"></p>
+<h3 id="模型体系结构"><a href="#模型体系结构" class="headerlink" title="模型体系结构"></a>模型体系结构</h3><p>模型必须支持灵活提示，需要实时计算掩码以允许交互式使用且必须具有模糊性。</p>
+<p>一个简单的设计满足了三个约束：</p>
+<ul>
+<li>一个强大的图像编码器计算图像嵌入</li>
+<li>一个提示编码器嵌入提示</li>
+<li>将两个信息源组合在一个预测分割掩码的轻量级掩码解码器</li>
+</ul>
+<p>因此提出SAM模型，通过将SAM分离为图像编码器和快速提示编码器&#x2F;掩码解码器，可以在不同提示下重用相同图像嵌入。</p>
+<p>提示上专注点，框和掩码提示，通过自由形式的文本提示显示初始结果。为了让SAM意识歧义，将其设计为预测单个提示的多个掩码来自然处理歧义。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145922457.png" alt="image-20230410145922457"></p>
+<h3 id="数据引擎"><a href="#数据引擎" class="headerlink" title="数据引擎"></a>数据引擎</h3><p>为了数据强泛化，需要在一组庞大而多样的掩码上训练SAM，在线获取数据的mask不自然丰富，因此使用一种数据引擎方案。</p>
+<p>数据引擎：<br>模型在环数据集注释共同开发模型，共有三个阶段</p>
+<ol>
+<li>SAM帮助注释器注释掩码，类似于经典的交互式分段设计</li>
+<li>SAM通过提示可能的对象位置来自动生成对象子集的掩码，注释器专注于注释剩余对象</li>
+<li>用前景点的规则网格提示SAM，平均每张图像产生约100个高质量masks</li>
+</ol>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410145930219.png" alt="image-20230410145930219"></p>
+<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>最终数据集SA-1B包括来自11M图像，超过1B的掩码。是数据引擎最后阶段完全自动收集的，掩码数量比现有的数据集都多400倍。</p>
+<h2 id="Segment-Anything-Task"><a href="#Segment-Anything-Task" class="headerlink" title="Segment Anything Task"></a>Segment Anything Task</h2><p>NLP中下一个token预测任务用于基础模型的预训练，通过即时工程解决不同下游任务，分割基础模型也需要定义一个具有类似功能的任务。</p>
+<h4 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h4><p>首先将提示的概念从NLP转换到分割，提示可以是一组前景&#x2F;背景点，粗略框或者掩码，自由格式的文本，或者指示分割什么的任何信息。</p>
+<p>可提示分割任务：在给定任何提示的情况下返回有效的分割掩码，有效的分割掩码在Intro有说明。因为它会产生一个自然的预训练算法和一个通过提示将零样本转移到下游分割任务的通用方法。</p>
+<h4 id="预训练"><a href="#预训练" class="headerlink" title="预训练"></a>预训练</h4><p>一个自然的预训练算法，模拟每个训练样本的提示序列（例如：点，框，掩码），并将模型的掩码预测与基本事实进行比较。</p>
+<p>交互式分割：在足够的用户输入后最终预测有效的掩码</p>
+<p>本文的目的：始终预测任何提示的有效掩码，即使提示不准确，包括数据引擎需要的自动注释。需要专门建模和训练损失的选择。</p>
+<h4 id="零样本迁移"><a href="#零样本迁移" class="headerlink" title="零样本迁移"></a>零样本迁移</h4><h4 id="相关任务"><a href="#相关任务" class="headerlink" title="相关任务"></a>相关任务</h4><p>分割的范围包括：交互式分割，边缘检测，超级像素化，对象建议生成，前景分割，语义分割，实例分割，全景分割等。</p>
+<p>目标是使模型适应许多现有的和新的分割任务，这种能力是任务泛化的一种形式。与之前的多任务分割系统的工作不同，可提示分割训练的模型可以在推理时通过更大系统的组件来执行新的不同任务。</p>
+<h2 id="Segment-Anything-Model"><a href="#Segment-Anything-Model" class="headerlink" title="Segment Anything Model"></a>Segment Anything Model</h2><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png" alt="image-20230410155322999"></p>
+<p>模型如图有三个组件：图像编码器，灵活提示编码器和快速掩码解码器</p>
+<h3 id="图像编码器"><a href="#图像编码器" class="headerlink" title="图像编码器"></a>图像编码器</h3><p>使用MAE的预训练ViT</p>
+<h3 id="提示编码器"><a href="#提示编码器" class="headerlink" title="提示编码器"></a>提示编码器</h3><p>考虑两组提示：稀疏（点，框，文本）和密集（掩码）。使用位置编码来表示点和框，位置编码和每个提示类型的学习嵌入相加，然后使用CLIP现成文本编码器来表示自由格式文本。密集提示用卷积嵌入，并与图像嵌入逐元素求和。</p>
+<h3 id="掩码解码器"><a href="#掩码解码器" class="headerlink" title="掩码解码器"></a>掩码解码器</h3><p>对解码器块修改，动态掩码预测头。在两个方向上使用提示自注意和交叉注意来更新所有嵌入。之后对图像嵌入上采样，MLP将输出token映射到动态线性分类器计算每个图像位置的掩码前景概率。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230510154603923.png" alt="image-20230510154603923"></p>
+<p>​    	两层解码器通过交叉关注来更新图像嵌入和prompt token。然后，图像嵌入被放大，从中更新的输出token被用来动态预测掩码。（为图清晰起见，未进行说明：在每个关注层，位置编码被添加到图像嵌入中，整个原始prompt token（包括位置编码）被重新添加到token的 query和key中</p>
+<ul>
+<li><p>在prompt embedding进入decoder之前，先在它上面concat了一组可学习的output tokens，output tokens由两个部分构成：</p>
+</li>
+<li><ul>
+<li>一个是iou token，它会在后面被分离出来用于预测iou的可靠性（对应结构图右侧的IoU output token），它受到模型计算出的iou与模型计算出的mask与GT实际的iou之间的MSE loss监督；</li>
+<li>另一个是mask token，它也会在后面被分离出来参与预测最终的mask（对应结构图右侧的output token per mask），mask受到focal loss和dice loss 20:1的加权组合监督。</li>
+<li>这两个token的意义我感觉比较抽象，因为理论来说进入decoder的变量应该是由模型的输入，也就是prompt和image的映射构成，但这两个token的定义与prompt和image完全没有关系，而是凭空出现的。从结果反推原因，只能把它们理解成对模型的额外约束，因为它们两个参与构成了模型的两个输出并且有loss对他们进行监督。</li>
+<li>最终prompt embedding（这一步改名叫prompt token）和刚才提到这两个token concat到一起统称为tokens进入decoder。</li>
+</ul>
+</li>
+<li><p>image embedding在进入decoder之前也要进行一步操作：dense prompt由于包含密集的空间信息，与image embedding所在的特征空间一致性更高，所以直接与image embedding相加融合。因为后面要与prompt做cross attention融合，这里还要先算一下image embedding的位置编码。</p>
+</li>
+<li><p>接下来{image embedding，image embedding的位置编码，tokens}进入一个两层transformer结构的decoder做融合。值得注意的是，在transformer结构中，为了保持位置信息始终不丢失，每做一次attention运算，不管是self-attention还是cross-attention，tokens都叠加一次初始的tokens，image embedding都叠加一次它自己的位置编码，并且每个attention后边都接一个layer_norm。</p>
+</li>
+<li><ul>
+<li>tokens先过一个self-attention。</li>
+<li>tokens作为q，对image embedding做cross attention，更新tokens。</li>
+<li>tokens再过两层的mlp做特征变换。</li>
+<li>image embedding作为q，对tokens做cross attention，更新image embedding。</li>
+</ul>
+</li>
+<li><p>更新后的tokens作为q，再对更新后的image embedding做cross attention，产生最终的tokens。</p>
+</li>
+<li><p>更新后的image embedding过两层kernel_size&#x3D;2, stride&#x3D;2的转置卷积，升采样到4x大小（依然是4x降采样原图的大小），产生最终的image embedding。</p>
+</li>
+<li><p>接下来兵分两路：</p>
+</li>
+<li><ul>
+<li>mask token被从tokens中分离出来（因为他一开始就是concat上去的，可以直接按维度摘出来），过一个三层的mlp调整channel数与最终的image embedding一致，并且他们两个做矩阵乘法生成mask的预测。</li>
+<li>iou token被从tokens中分离出来，也过一个三层的mlp生成最终的iou预测。</li>
+</ul>
+</li>
+<li><p>最后，如前文所述，分别对mask的预测和iou预测进行监督，反向传播，更新参数。</p>
+</li>
+</ul>
+<p>阅读参考文章</p>
+<h4 id="参考1：End-to-end-object-detection-with-Transformers"><a href="#参考1：End-to-end-object-detection-with-Transformers" class="headerlink" title="参考1：End-to-end object detection with Transformers."></a><strong>参考1：End-to-end object detection with Transformers.</strong></h4><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511145716266.png" alt="image-20230511145716266"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511162953470.png" alt="image-20230511162953470"></p>
+<h4 id="参考2：Per-Pixel-Classification-is-Not-All-You-Need-for-Semantic-Segmentation（NeurIPS2021）"><a href="#参考2：Per-Pixel-Classification-is-Not-All-You-Need-for-Semantic-Segmentation（NeurIPS2021）" class="headerlink" title="参考2：Per-Pixel Classification is Not All You Need for Semantic Segmentation（NeurIPS2021）"></a>参考2：Per-Pixel Classification is Not All You Need for Semantic Segmentation（NeurIPS2021）</h4><p>语义分割中根据像素分类来产生语义分割，掩码分类的替换范式：将图像分割和分割的分类分开</p>
+<p>提出了一种简单的MaskFormer方法，该方法可以将任何现有的每像素分类模型无缝转换为掩码分类。使用DETR中提出的集合预测机制，MaskFormer使用Transformer解码器来计算一组对，每个对由类预测和掩码嵌入向量组成。掩码嵌入向量用于通过点积获得二进制掩码预测，其中每像素嵌入从底层全卷积网络获得。新模型以统一的方式解决了语义级和实例级的分割任务：不需要更改模型、损失和训练过程。具体来说，对于语义和全景分割任务，MaskFormer是在相同的每像素二进制掩码损失和每掩码单个分类损失的情况下进行监督的。最后，我们设计了一个简单的推理策略，将MaskFormer的输出混合到任务相关的预测格式中。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230510153836932.png" alt="image-20230510153836932"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230511142312098.png" alt="image-20230511142312098"></p>
+<p>​		transformer decoder的N个嵌入（不需要对应k个类别），计算对k类的每个概率，如果都不属于就归为背景，也可以多个嵌入对应一个类别。</p>
+<h3 id="模糊解"><a href="#模糊解" class="headerlink" title="模糊解"></a>模糊解</h3><p>修改模型预测单个提示的多个输出掩码，三个掩码输出足够解决大多数情况，为了对掩码排序，模型预测每个掩码的置信度得分（IoU）</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410165045721.png" alt="image-20230410165045721"></p>
+<h3 id="Loss和训练"><a href="#Loss和训练" class="headerlink" title="Loss和训练"></a>Loss和训练</h3><p>loss使用focal loss和dice loss的结合，使用几何提示的混合来训练可提示的分割任务，通过在每个掩码的11轮种随机采样提示来模拟交互式设置，使SAM无缝集成到数据引擎中。</p>
+<h2 id="Segment-Anything-Data-Engine"><a href="#Segment-Anything-Data-Engine" class="headerlink" title="Segment Anything Data Engine"></a>Segment Anything Data Engine</h2><p>数据引擎三个阶段</p>
+<ol>
+<li><p>模型辅助的手动标注阶段</p>
+<p>与经典交互式分割相同，基于浏览器实时分割模型运行，不对标记对象施加语义约束，注释器也可以自由标记事物和东西（标记可以命名或者描述的对象，但是不收集这些描述）</p>
+<p><strong>问题：类似ChatGPT与本文之类的模型怎么做实时交互的</strong></p>
+<p>这里数据集是公共数据集，然后用新生成的掩码对SAM再训练，mask会越来越多，编码器也会变深，总共进行6次再训练，从12万张图像收集到了430万个mask</p>
+</li>
+<li><p>混合了自动预测掩码和模型辅助注释的半自动阶段</p>
+<p>这个阶段目的是增加mask的多样性，来提高模型分割任何东西的能力。为了让注释器集中在不突出对象，先检测到置信度高的对象的mask，然后要求注释其他未注释的对象。为了检测置信度高的mask，使用通用的对象类别在第一阶段手工标注时训练了一个边界框检测器。定期对新收集的数据进行再训练。</p>
+</li>
+<li><p>全自动阶段，在没有注释器输入的情况下生成掩码</p>
+<p>已经开发模糊感知模型，能够预测有效的mask，即使在模糊情况下。使用32*32的网格提示模型，每一个点都预测一组可能对应于有效对象的掩码。如果这个点在某个部分或者子部分上，模型会返回子部分，部分和整个对象。使用IoU预测模块选择置信掩码。只识别选择稳定的mask。然后应用非极大值抑制过滤重复。为了提高小mask的质量，处理了多个重叠放大图像的裁剪。最后生成了11亿的高质量mask。</p>
+</li>
+</ol>
+<h2 id="Segment-Anything-Dataset"><a href="#Segment-Anything-Dataset" class="headerlink" title="Segment Anything Dataset"></a>Segment Anything Dataset</h2><p>说明和公开了分割数据集</p>
+<h2 id="Zero-Shot-Transfer-Experiments"><a href="#Zero-Shot-Transfer-Experiments" class="headerlink" title="Zero-Shot Transfer Experiments"></a>Zero-Shot Transfer Experiments</h2><h3 id="Zero-Shot-Text-to-Mask"><a href="#Zero-Shot-Text-to-Mask" class="headerlink" title="Zero-Shot Text-to-Mask"></a>Zero-Shot Text-to-Mask</h3><p>从自由形式的文本中分割对象，将SAM的训练过程变为有文本意识，但是不需要新的文本注释。对于Mask，提取CLIP图像嵌入，作为SAM的第一次交互来提示SAM。CLIP图像嵌入被训练成和文本嵌入对齐，使用图像嵌入训练但是使用文本嵌入推理</p>
+<h1 id="Learning-Transferable-Visual-Models-From-Natural-Language-Supervision"><a href="#Learning-Transferable-Visual-Models-From-Natural-Language-Supervision" class="headerlink" title="Learning Transferable Visual Models From Natural Language Supervision"></a>Learning Transferable Visual Models From Natural Language Supervision</h1><p>关于文本与图像嵌入的关联，segment anything频繁提到CLIP来自于本文，来自2021年的OpenAI</p>
+<h2 id="Introduction-1"><a href="#Introduction-1" class="headerlink" title="Introduction"></a>Introduction</h2><p>本文的出发点是直接从网络文本中学习的可扩展预训练方法在计算机视觉上应用</p>
+<p>创建了一个由4亿对（图像、文本）组成的新数据集，并证明了从头开始训练的ConVIRT的简化版本，称之为CLIP，用于对比语言图像预训练，是一种从自然语言监督中学习的有效方法。</p>
+<p>发现，CLIP与GPT家族类似，在预训练期间学习执行一系列任务，包括OCR、地理定位、动作识别和许多其他任务。</p>
+<p>参考下面的第三篇文章的ConVIRT工作</p>
+<p>方法图</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412161610900.png" alt="方法图"></p>
+<h1 id="contrastive-learning-of-medical-visual-representations-from-paired-images-and-text"><a href="#contrastive-learning-of-medical-visual-representations-from-paired-images-and-text" class="headerlink" title="contrastive learning of medical visual representations from paired images and text"></a>contrastive learning of medical visual representations from paired images and text</h1><p>领域是对比学习结合多模态</p>
+<ul>
+<li>学习医学图像的视觉表示是医学图像的核心了解，但它的进展一直受到手工标签的小尺寸数据集的阻碍；</li>
+<li>现有工作通常依赖于从 ImageNet 预训练的模型，由于图像特征完全不同，表现并不好；</li>
+<li>或从与医疗配对的文本报告数据中提取基于规则的标签图像，标签不准确且难以概括；</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412151630468.png" alt="image-20230412151630468"></p>
+<ul>
+<li>一张图片先做随机裁剪，再接一个数据增强，然后进入Image Encoder(ResNet50),最后接一个MLP得到512维的特征表示；</li>
+<li>与这张图片配对的一段话，随机采样其中一部分(几句话，或者不完整的几句)，然后进入text Encoder(Bert),最后接一个MLP得到512维的特征表示；</li>
+<li>因为一个batch中有N个图片文本对，所以可以理解为有N-1个负例，只有一个正例，然后分别对图片和文本计算infoNCE loss；</li>
+</ul>
+<p>这里文本一般是文本报告</p>
+<h2 id="Zero-shot工作"><a href="#Zero-shot工作" class="headerlink" title="Zero-shot工作"></a>Zero-shot工作</h2><p>Image-Image</p>
+<p>使用查询图像搜索特定类别的图像，对查询图像和所有候选图像编码，按照相似度对候选进行排序，候选图像都包含分类标签</p>
+<p>Text-Image</p>
+<p>对于候选图像，8个异常类别，每一个类别写5个不同的，有代表性的文本描述，给每个查询使用文本编码器进行编码然后再候选图像中检索。这种评估图像同时评估文本表示和图像表示之间的对齐</p>
+<h1 id="Code-SAM"><a href="#Code-SAM" class="headerlink" title="Code(SAM)"></a>Code(SAM)</h1><h2 id="model"><a href="#model" class="headerlink" title="model"></a>model</h2><p>一些参数</p>
+<p>构建SAM模型需要定义：</p>
+<ul>
+<li>image encoder</li>
+<li>prompt encoder</li>
+<li>mask decoder</li>
+<li>pixel mean</li>
+<li>pixel std</li>
+</ul>
+<p>这里使用均值和标准差的归一化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">prompt_embed_dim = 256</span><br><span class="line">image_size = 1024</span><br><span class="line">vit_patch_size = 16</span><br><span class="line">image_embedding_size = image_size // vit_patch_size</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入模型接收的参数"><a href="#输入模型接收的参数" class="headerlink" title="输入模型接收的参数"></a>输入模型接收的参数</h3><ul>
+<li><p>batched_input：List[Dict[str, Any]]</p>
+<p>输入图像的列表，字典包括以下内容，prompt key不存在可以忽略</p>
+<ul>
+<li>image：已经被模型转成tensor的3xHxW的格式</li>
+<li>original_size：tuple(int, int)格式，存了模型转换前的H和W</li>
+<li>point_coords：tensor，图片点的提示，形状为BxNx2</li>
+<li>point_labels：tensor，点提示的label，形状为BxN（暂时不清楚）</li>
+<li>boxes：tensor，提示框输入，Bx4</li>
+<li>mask_input：掩码输入，Bx1xHxW</li>
+</ul>
+</li>
+<li><p>multimask_output</p>
+<p>bool，模型是否需要预测混合多个消除掩码歧义，还是返回单个掩码</p>
+</li>
+</ul>
+<h3 id="Return"><a href="#Return" class="headerlink" title="Return"></a>Return</h3><p>类似输入的batched_input</p>
+<p>字典包含以下内容：</p>
+<ul>
+<li>mask：返回的二维掩码，形状是BxCxHxW，C是混合输出的个数（原始图像尺寸大小的mask）</li>
+<li>iou_predictions：模型预测的mask质量指标，形状BxC</li>
+<li>low_res_logits：低分辨率的logits，形状BxCxHxW，H&#x3D;W&#x3D;256，可以作为掩码输入传递到后续的预测迭代（经过resize后的输入图像）</li>
+</ul>
+<p>对于每一个输入计算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">input_images = torch.stack([self.preprocess(x[<span class="string">&quot;image&quot;</span>]) <span class="keyword">for</span> x <span class="keyword">in</span> batched_input], dim=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 将图像输入encoder得到图像嵌入</span></span><br><span class="line">image_embeddings = self.image_encoder(input_images)</span><br><span class="line">outputs = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> image_record, curr_embedding <span class="keyword">in</span> <span class="built_in">zip</span>(batched_input, image_embeddings):</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;point_coords&quot;</span> <span class="keyword">in</span> image_record:</span><br><span class="line">        points = (image_record[<span class="string">&quot;point_coords&quot;</span>], image_record[<span class="string">&quot;point_labels&quot;</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        points = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 提示词encoder，得到两个embeding，分别是稀疏和密集型</span></span><br><span class="line">    sparse_embeddings, dense_embeddings = self.prompt_encoder(</span><br><span class="line">        points=points,</span><br><span class="line">        boxes=image_record.get(<span class="string">&quot;boxes&quot;</span>, <span class="literal">None</span>),</span><br><span class="line">        masks=image_record.get(<span class="string">&quot;mask_inputs&quot;</span>, <span class="literal">None</span>),</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># 用图像decoder计算low res mask和iou</span></span><br><span class="line">    low_res_masks, iou_predictions = self.mask_decoder(</span><br><span class="line">        image_embeddings=curr_embedding.unsqueeze(<span class="number">0</span>),</span><br><span class="line">        image_pe=self.prompt_encoder.get_dense_pe(),</span><br><span class="line">        sparse_prompt_embeddings=sparse_embeddings,</span><br><span class="line">        dense_prompt_embeddings=dense_embeddings,</span><br><span class="line">        multimask_output=multimask_output,</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 在原图中移除大规模和填充的mask，返回原图尺寸中的mask</span></span><br><span class="line">    masks = self.postprocess_masks(</span><br><span class="line">        low_res_masks,</span><br><span class="line">        input_size=image_record[<span class="string">&quot;image&quot;</span>].shape[-<span class="number">2</span>:],</span><br><span class="line">        original_size=image_record[<span class="string">&quot;original_size&quot;</span>],</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># mask_threshold = 0</span></span><br><span class="line">    masks = masks &gt; self.mask_threshold</span><br><span class="line">    outputs.append(</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;masks&quot;</span>: masks,</span><br><span class="line">            <span class="string">&quot;iou_predictions&quot;</span>: iou_predictions,</span><br><span class="line">            <span class="string">&quot;low_res_logits&quot;</span>: low_res_masks,</span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">return</span> outputs</span><br></pre></td></tr></table></figure>
+
+<h3 id="image-encoder"><a href="#image-encoder" class="headerlink" title="image encoder"></a>image encoder</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .image_encoder <span class="keyword">import</span> ImageEncoderViT</span><br><span class="line"><span class="comment"># 在集成到SAM之后的引用</span></span><br><span class="line">image_embeddings = self.image_encoder(input_images)</span><br></pre></td></tr></table></figure>
+
+<h3 id="prompt-encoder"><a href="#prompt-encoder" class="headerlink" title="prompt encoder"></a>prompt encoder</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .prompt_encoder <span class="keyword">import</span> PromptEncoder</span><br><span class="line"><span class="comment"># 在集成到SAM之后的引用</span></span><br><span class="line"><span class="comment"># 提示词encoder，得到两个embeding，分别是稀疏和密集型</span></span><br><span class="line">sparse_embeddings, dense_embeddings = self.prompt_encoder(</span><br><span class="line">    points=points,</span><br><span class="line">    boxes=image_record.get(<span class="string">&quot;boxes&quot;</span>, <span class="literal">None</span>),</span><br><span class="line">    masks=image_record.get(<span class="string">&quot;mask_inputs&quot;</span>, <span class="literal">None</span>),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>对于点提示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_embed_points</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self,</span></span><br><span class="line"><span class="params">    points: torch.Tensor,</span></span><br><span class="line"><span class="params">    labels: torch.Tensor,</span></span><br><span class="line"><span class="params">    pad: <span class="built_in">bool</span>,</span></span><br><span class="line"><span class="params"></span>) -&gt; torch.Tensor:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Embeds point prompts.&quot;&quot;&quot;</span></span><br><span class="line">    points = points + <span class="number">0.5</span>  <span class="comment"># Shift to center of pixel</span></span><br><span class="line">    <span class="keyword">if</span> pad:</span><br><span class="line">        padding_point = torch.zeros((points.shape[<span class="number">0</span>], <span class="number">1</span>, <span class="number">2</span>), device=points.device)</span><br><span class="line">        padding_label = -torch.ones((labels.shape[<span class="number">0</span>], <span class="number">1</span>), device=labels.device)</span><br><span class="line">        points = torch.cat([points, padding_point], dim=<span class="number">1</span>)</span><br><span class="line">        labels = torch.cat([labels, padding_label], dim=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># forward_with_coords是根据点进行位置编码，这里点没有进行归一化，需要按照图像的HW归一化</span></span><br><span class="line">    point_embedding = self.pe_layer.forward_with_coords(points, self.input_image_size)</span><br><span class="line">    point_embedding[labels == -<span class="number">1</span>] = <span class="number">0.0</span></span><br><span class="line">    point_embedding[labels == -<span class="number">1</span>] += self.not_a_point_embed.weight</span><br><span class="line">    point_embedding[labels == <span class="number">0</span>] += self.point_embeddings[<span class="number">0</span>].weight</span><br><span class="line">    point_embedding[labels == <span class="number">1</span>] += self.point_embeddings[<span class="number">1</span>].weight</span><br><span class="line">    <span class="keyword">return</span> point_embedding</span><br></pre></td></tr></table></figure>
+
+<p>对于框提示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_embed_boxes</span>(<span class="params">self, boxes: torch.Tensor</span>) -&gt; torch.Tensor:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Embeds box prompts.&quot;&quot;&quot;</span></span><br><span class="line">    boxes = boxes + <span class="number">0.5</span>  <span class="comment"># Shift to center of pixel</span></span><br><span class="line">    coords = boxes.reshape(-<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="comment"># forward_with_coords是根据点进行位置编码，这里点没有进行归一化，需要按照图像的HW归一化</span></span><br><span class="line">    corner_embedding = self.pe_layer.forward_with_coords(coords, self.input_image_size)</span><br><span class="line">    corner_embedding[:, <span class="number">0</span>, :] += self.point_embeddings[<span class="number">2</span>].weight</span><br><span class="line">    corner_embedding[:, <span class="number">1</span>, :] += self.point_embeddings[<span class="number">3</span>].weight</span><br><span class="line">    <span class="keyword">return</span> corner_embedding</span><br></pre></td></tr></table></figure>
+
+<p>对于mask提示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_embed_masks</span>(<span class="params">self, masks: torch.Tensor</span>) -&gt; torch.Tensor:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Embeds mask inputs.&quot;&quot;&quot;</span></span><br><span class="line">    mask_embedding = self.mask_downscaling(masks)</span><br><span class="line">    <span class="keyword">return</span> mask_embedding</span><br><span class="line">self.mask_downscaling = nn.Sequential(</span><br><span class="line">    nn.Conv2d(<span class="number">1</span>, mask_in_chans // <span class="number">4</span>, kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>),</span><br><span class="line">    LayerNorm2d(mask_in_chans // <span class="number">4</span>),</span><br><span class="line">    activation(),</span><br><span class="line">    nn.Conv2d(mask_in_chans // <span class="number">4</span>, mask_in_chans, kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>),</span><br><span class="line">    LayerNorm2d(mask_in_chans),</span><br><span class="line">    activation(),</span><br><span class="line">    nn.Conv2d(mask_in_chans, embed_dim, kernel_size=<span class="number">1</span>),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="mask-decoder"><a href="#mask-decoder" class="headerlink" title="mask decoder"></a>mask decoder</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .mask_decoder <span class="keyword">import</span> MaskDecoder</span><br><span class="line"><span class="comment"># 在集成到SAM之后的引用</span></span><br><span class="line"><span class="comment"># 输入包含图像和提示的embedding，给出是否需要输出多个mask</span></span><br><span class="line">low_res_masks, iou_predictions = self.mask_decoder(</span><br><span class="line">        image_embeddings=curr_embedding.unsqueeze(<span class="number">0</span>),</span><br><span class="line">    	<span class="comment"># get_dense_pe返回prompt encoder中的适用于</span></span><br><span class="line">    	<span class="comment"># point prompts的指定大小网格的位置编码，形状1x(embed_dim)x(embedding_h)x(embedding_w)</span></span><br><span class="line">        image_pe=self.prompt_encoder.get_dense_pe(),</span><br><span class="line">        sparse_prompt_embeddings=sparse_embeddings,</span><br><span class="line">        dense_prompt_embeddings=dense_embeddings,</span><br><span class="line">        multimask_output=multimask_output,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="自动生成mask"><a href="#自动生成mask" class="headerlink" title="自动生成mask"></a>自动生成mask</h2><p>调用automatic_mask_generator.py中的SamAutomaticMaskGenerator生成实例</p>
+<p>传入图像</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">image = cv2.imread(<span class="string">&#x27;images/dog.jpg&#x27;</span>)</span><br><span class="line">image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)</span><br><span class="line"></span><br><span class="line">mask_generator = SamAutomaticMaskGenerator(sam)</span><br><span class="line">masks = mask_generator.generate(image)</span><br></pre></td></tr></table></figure>
+
+<p>masks返回一个mask的列表，每一个mask都包含一个字典，成员包括</p>
+<ul>
+<li><code>segmentation</code> : the mask</li>
+<li><code>area</code> : the area of the mask in pixels</li>
+<li><code>bbox</code> : the boundary box of the mask in XYWH format</li>
+<li><code>predicted_iou</code> : the model’s own prediction for the quality of the mask</li>
+<li><code>point_coords</code> : the sampled input point that generated this mask</li>
+<li><code>stability_score</code> : an additional measure of mask quality</li>
+<li><code>crop_box</code> : the crop of the image used to generate this mask in XYWH format</li>
+</ul>
+<p>可以对自动掩码生成器进一步设置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mask_generator_2 = SamAutomaticMaskGenerator(</span><br><span class="line">    model=sam,</span><br><span class="line">    points_per_side=<span class="number">32</span>,</span><br><span class="line">    pred_iou_thresh=<span class="number">0.86</span>,</span><br><span class="line">    stability_score_thresh=<span class="number">0.92</span>,</span><br><span class="line">    crop_n_layers=<span class="number">1</span>,</span><br><span class="line">    crop_n_points_downscale_factor=<span class="number">2</span>,</span><br><span class="line">    min_mask_region_area=<span class="number">100</span>,  <span class="comment"># Requires open-cv to run post-processing</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>回到automatic_mask_generator.py中查看一下源码</p>
+<p>初始化参数：</p>
+<ul>
+<li><p><strong>model</strong>：（SAM）用于掩码预测的模型</p>
+</li>
+<li><p><strong>point_per_side</strong>：沿着图像的一侧被采样的点的个数，总点数是point_per_side**2。如果没有，point_grids必须提供明确采样点</p>
+<p>（论文中给每一张图固定有多少个采样点）</p>
+</li>
+<li><p><strong>point_per_batch</strong>：设置同时运行的点数，更高会更快但是需要的gpu内存更高</p>
+</li>
+<li><p><strong>pred_iou_thresh</strong>：使用模型预测mask的过滤阈值，用于过滤生成的没有到阈值的mask，默认值0.88</p>
+</li>
+<li><p><strong>stability_score_thresh</strong> ：[0,1]之间的过滤阈值，用于mask变化下的稳定性，默认值0.95</p>
+</li>
+<li><p>stability_score_offset：计算指标时偏移的截止量</p>
+</li>
+<li><p>box_nms_thresh ：用于非极大值抑制的cutoff</p>
+</li>
+<li><p>crop_n_layers：如果&gt;0就会对图像的裁剪再次运行mask预测（对分割结果再进一步分割），设置要运行的层数，每一层有2**i_layer的裁剪数</p>
+</li>
+<li><p>crop_nms_thresh：非最大抑制使用的框 IoU 截止值，用于过滤重复的mask</p>
+</li>
+<li><p>crop_overlap_ratio：设置裁剪的重叠程度</p>
+</li>
+<li><p>crop_n_points_downscale_factor：在第 n 层中每边采样的点数按 crop_n_points_downscale_factor**n 缩小。</p>
+</li>
+<li><p>point_grids：用于采样点的显示网格列表，归一化到[0,1]，第n个网格用于第n个裁剪层</p>
+</li>
+<li><p>min_mask_region_area：如果 &gt;0，将应用后处理以移除面积小于 min_mask_region_area 的mask中的断开区域和孔洞</p>
+</li>
+<li><p>output_mode ：返回的形式掩码。可以是“binary_mask”、“uncompressed_rle”或“coco_rle”。 ‘coco_rle’ 需要 pycocotools。 对于大分辨率，“binary_mask”可能会消耗大量内存。</p>
+</li>
+</ul>
+<p>关于不同参数会对分割结果产生的影响，这里下载了预训练模型在提供的demo上进行了测试</p>
+<p>默认参数</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230413164740158.png" alt="image-20230413164740158"></p>
+<p>pred_iou_thresh取小值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mask_generator_3 = SamAutomaticMaskGenerator(</span><br><span class="line">    model=sam,</span><br><span class="line">    pred_iou_thresh=<span class="number">0.7</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>调用generate方法具体执行过程：</p>
+<h2 id="根据提示生成mask"><a href="#根据提示生成mask" class="headerlink" title="根据提示生成mask"></a>根据提示生成mask</h2><p>SamPredictor类：</p>
+<p>主要方法：</p>
+<ul>
+<li><p>初始化：输入sam模型</p>
+</li>
+<li><p>set_image</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">set_image</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self,</span></span><br><span class="line"><span class="params">    image: np.ndarray,</span></span><br><span class="line"><span class="params">    image_format: <span class="built_in">str</span> = <span class="string">&quot;RGB&quot;</span>,</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="literal">None</span>:</span><br></pre></td></tr></table></figure>
+
+<p>计算所提供图像的图像嵌入，允许使用“predict”方法预测蒙版，这里把图像格式调整到模型输入要求，传给并调用set_torch_image方法</p>
+<p>参数：</p>
+<ul>
+<li>image：要计算mask的图像的ndarray数组，希望是HWC和uint8格式，像素值[0,255]</li>
+<li>image_format：色彩通道格式，RGB或者BGR</li>
+</ul>
+</li>
+<li><p>set_torch_image</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">set_torch_image</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self,</span></span><br><span class="line"><span class="params">    transformed_image: torch.Tensor,</span></span><br><span class="line"><span class="params">    original_image_size: <span class="type">Tuple</span>[<span class="built_in">int</span>, ...],</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="literal">None</span>:</span><br></pre></td></tr></table></figure>
+
+<p>对已经转化到输入tensor格式的图像，计算图像嵌入，允许使用“predict”方法预测蒙版</p>
+<p>参数</p>
+<ul>
+<li>transformed_image：转化好格式的图像</li>
+<li>图像在转化之前的尺寸大小，(H,W)形式</li>
+</ul>
+<p>这个方法把image的tensor输入image encoder中得到特征</p>
+</li>
+<li><p>predict</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self,</span></span><br><span class="line"><span class="params">    point_coords: <span class="type">Optional</span>[np.ndarray] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">    point_labels: <span class="type">Optional</span>[np.ndarray] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">    box: <span class="type">Optional</span>[np.ndarray] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">    mask_input: <span class="type">Optional</span>[np.ndarray] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">    multimask_output: <span class="built_in">bool</span> = <span class="literal">True</span>,</span></span><br><span class="line"><span class="params">    return_logits: <span class="built_in">bool</span> = <span class="literal">False</span>,</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="type">Tuple</span>[torch.Tensor, torch.Tensor, torch.Tensor]:</span><br></pre></td></tr></table></figure>
+
+<p>使用给的输入prompt预测masks，实际上调用了predict_torch方法</p>
+<p>参数：</p>
+<ul>
+<li>point_coords:np数组或者none，一个N*2的数组，每个数组是图中像素(x,y)坐标</li>
+<li>point_labels:长度为N的数组，每个点prompt的label，1表示前景，0表示背景</li>
+<li>box:长度为4的数组，给框prompt，XYXY格式</li>
+<li>mask_input:给模型的低resolution的mask输入，通常来自前面的预测迭代，1xHxW的格式，在sam中，H&#x3D;W&#x3D;256</li>
+<li>multimask_output:如果是true，模型返回三个mask。对于不明确的输入prompt，通常会产生比单个预测更好的mask。如果只需要一个mask，可以使用模型的打分来选择最佳mask，对于没有歧义的prompt，取false可以给出更好的结果</li>
+<li>return_logits:如果true，返回非阈值mask logits而不是二进制mask（不太理解）</li>
+</ul>
+<p>return：</p>
+<ul>
+<li>CxHxW格式的输出mask，C是mask数量，HW是原始图像大小</li>
+<li>一个长度为C的数组，包含模型对每个mask质量的打分</li>
+<li>形状是CxHxW的数组，C是mask数量，WH是256，这些可以作为mask输入传递给后续迭代</li>
+</ul>
+</li>
+<li><p>predict_torch</p>
+<p>根据输入的prompt预测mask，输入的prompt都是torch.tensor，已经使用ResizeLongestSide转换过</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict_torch</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self,</span></span><br><span class="line"><span class="params">        point_coords: <span class="type">Optional</span>[torch.Tensor],</span></span><br><span class="line"><span class="params">        point_labels: <span class="type">Optional</span>[torch.Tensor],</span></span><br><span class="line"><span class="params">        boxes: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        mask_input: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        multimask_output: <span class="built_in">bool</span> = <span class="literal">True</span>,</span></span><br><span class="line"><span class="params">        return_logits: <span class="built_in">bool</span> = <span class="literal">False</span>,</span></span><br><span class="line"><span class="params">    </span>) -&gt; <span class="type">Tuple</span>[torch.Tensor, torch.Tensor, torch.Tensor]:</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>任何应用都可以按照：任务，模型，数据三个维度来考虑</p>
+<p>数据引擎的做法在论文和项目中很少涉及到，只是提供了最后的数据集</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/Segment%20Anything/" data-id="clix3qjvn000aqwueax2m41xq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E4%BA%A4%E6%8E%A5%E7%9B%B8%E5%85%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/SCALE%20EFFICIENTLY%20INSIGHTS%20FROM%20PRE-TRAINING%20AND%20FINE-TUNING%20TRANSFORMERS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

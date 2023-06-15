@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="SAM介绍 simpleClick  SAM使用SAM怎么结合语义分割的架构微调SAM在医学领域的性能​		SAM基于单一提示的性能差异很大，即从脊柱MRI数据集的0.1135到髋关节x射线数据集的0.8650，由IoU评估。对于包括具有明确提示的边界清晰的对象在内的任务，性能似乎较高，而在许多其他场景（如肿瘤分割）中，性能较差。当提供多个提示时，总体性能仅略有提高，但对于对象不连续的数据集，性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/sam%E7%BB%84%E4%BC%9A%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SAM介绍 simpleClick  SAM使用SAM怎么结合语义分割的架构微调SAM在医学领域的性能​		SAM基于单一提示的性能差异很大，即从脊柱MRI数据集的0.1135到髋关节x射线数据集的0.8650，由IoU评估。对于包括具有明确提示的边界清晰的对象在内的任务，性能似乎较高，而在许多其他场景（如肿瘤分割）中，性能较差。当提供多个提示时，总体性能仅略有提高，但对于对象不连续的数据集，性能">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508135906842.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144451624.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144507488.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144535151.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144613354.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509143557429.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509150235520.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509151954661.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509152211718.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509152634667.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145145426.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145140488.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145549363.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.518Z">
+<meta property="article:modified_time" content="2023-05-18T07:00:39.335Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-sam组会报告" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/sam%E7%BB%84%E4%BC%9A%E6%8A%A5%E5%91%8A/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.518Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SAM介绍"><a href="#SAM介绍" class="headerlink" title="SAM介绍"></a>SAM介绍</h1><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410155322999.png" alt="image-20230410155322999"></p>
+<p>simpleClick</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508135906842.png" alt="image-20230508135906842"></p>
+<h1 id="SAM使用"><a href="#SAM使用" class="headerlink" title="SAM使用"></a>SAM使用</h1><h2 id="SAM怎么结合语义分割的架构微调"><a href="#SAM怎么结合语义分割的架构微调" class="headerlink" title="SAM怎么结合语义分割的架构微调"></a>SAM怎么结合语义分割的架构微调</h2><h1 id="SAM在医学领域的性能"><a href="#SAM在医学领域的性能" class="headerlink" title="SAM在医学领域的性能"></a>SAM在医学领域的性能</h1><p>​		SAM基于单一提示的性能差异很大，即从脊柱MRI数据集的0.1135到髋关节x射线数据集的0.8650，由IoU评估。对于包括具有明确提示的边界清晰的对象在内的任务，性能似乎较高，而在许多其他场景（如肿瘤分割）中，性能较差。当提供多个提示时，总体性能仅略有提高，但对于对象不连续的数据集，性能更为提高。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144451624.png" alt="image-20230508144451624"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144507488.png" alt="image-20230508144507488"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144535151.png" alt="image-20230508144535151"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230508144613354.png" alt="image-20230508144613354"></p>
+<h1 id="SAM在医学领域的尝试"><a href="#SAM在医学领域的尝试" class="headerlink" title="SAM在医学领域的尝试"></a>SAM在医学领域的尝试</h1><ol>
+<li><p>结合到各种软件中方便使用</p>
+</li>
+<li><p><strong>Input Augmentation with SAM: Boosting Medical Image Segmentation with Segmentation Foundation Model</strong></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509143557429.png" alt="image-20230509143557429"></p>
+<p>使用sam来生成特定任务的扩充数据</p>
+<p>分割增强：创建一个3通道图像，其中第一通道由灰度级原始图像组成，第二通道由其分割先验图组成，第三通道由其边界先验图组成。</p>
+</li>
+<li><p>适配器</p>
+<p>适配器的概念是在NLP中提出的，给可拓展大型模型为下游任务微调</p>
+<ul>
+<li><p>Medical SAM Adapter: Adapting Segment Anything Model for Medical Image Segmentation</p>
+<p>通过使用Adapter按照参数有效的微调范式对预训练的SAM模型进行微调。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509150235520.png" alt="image-20230509150235520"></p>
+</li>
+<li><p>SAM Fails to Segment Anything? – SAM-Adapter: Adapting SAM in Underperformed Scenes: Camouflage, Shadow, Medical Image Segmentation, and More</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509151954661.png" alt="image-20230509151954661"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509152211718.png" alt="image-20230509152211718"></p>
+</li>
+</ul>
+</li>
+<li><p>Segment Anything in Medical Images</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230509152634667.png" alt="image-20230509152634667"></p>
+</li>
+<li><p>Customized Segment Anything Model for Medical Image Segmentation</p>
+</li>
+</ol>
+<p>SAMed将基于低秩（LoRA）的微调策略应用于SAM图像编码器（冻结图像编码器，并采用基于低秩的微调策略（LoRA）来近似图像编码器中参数的低秩更新），并在标记的医学图像分割数据集上与提示编码器和掩码解码器一起对其进行微调。微调SAM的轻量级提示编码器和掩码解码器</p>
+<p>预热和AdamW优化器可以极大地稳定微调过程，从而提高分割精度</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145145426.png" alt="image-20230516145145426"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145140488.png" alt="image-20230516145140488"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230516145549363.png" alt="image-20230516145549363"></p>
+<h1 id="SAM-amp-amp-Medical"><a href="#SAM-amp-amp-Medical" class="headerlink" title="SAM &amp;&amp; Medical"></a>SAM &amp;&amp; Medical</h1><ul>
+<li>综述，能力评估</li>
+<li>数据扩充</li>
+<li>微调</li>
+</ul>
+<p>问题：</p>
+<ol>
+<li>在特定任务上，SAM与专用的分割模型的性能？</li>
+<li>预训练权重</li>
+</ol>
+<p>异位萌出分类：</p>
+<p>1类？2类？全牙类？</p>
+<p>分割每一颗牙齿</p>
+<p>分割异常牙齿</p>
+<p>方向1：利用SAM和nnUNet等工具</p>
+<p>方向2：研究大模型的微调（利用NLP，AIGC等领域的研究）</p>
+<p>我们需要什么：</p>
+<ul>
+<li>sam在大量数据训练下的权重</li>
+<li></li>
+</ul>
+<p>如果sam要到我们的任务上微调，微调什么？</p>
+<h2 id="专业的人做专业的事——使用SAM通用大模型辅助专用模型训练"><a href="#专业的人做专业的事——使用SAM通用大模型辅助专用模型训练" class="headerlink" title="专业的人做专业的事——使用SAM通用大模型辅助专用模型训练"></a>专业的人做专业的事——使用SAM通用大模型辅助专用模型训练</h2><p>出发：在特定领域，即使微调SAM，也很难超过专门模型的精度。对于未知数据，先利用大型模型SAM来对数据初步分割，后使用专家模型进一步精准分割</p>
+<ol>
+<li>标记特定任务少量数据label（10个左右）</li>
+<li>使用nnUNet训练特定任务的第一阶段模型（专家模型）</li>
+<li><strong>使用第一阶段模型预测所有数据的label（最好区域小于gt在gt内部）</strong></li>
+<li><strong>将预测得到的label作为mask的prompt与原图输入SAM</strong></li>
+<li>根据SAM的分割结果再次训练特定任务模型</li>
+</ol>
+<p>问题：</p>
+<ul>
+<li>mask预测的不可控</li>
+<li>sam的mask输入，效果不佳，github上很多人反馈，做了很多处理都达不到其他prompt的效果，目前没有很好的解决方案#169，#242，#360</li>
+<li>将mask采样成点？框？目标检测？做一个mask适配器，将输入mask转换成高效的prompt</li>
+</ul>
+<h2 id="prompt新范式"><a href="#prompt新范式" class="headerlink" title="prompt新范式"></a>prompt新范式</h2><p>问题：SAM在没有修改之前，可以使用足够的promot来精确分割牙齿吗</p>
+<h2 id="研究大模型的微调（利用NLP，AIGC等领域的研究）"><a href="#研究大模型的微调（利用NLP，AIGC等领域的研究）" class="headerlink" title="研究大模型的微调（利用NLP，AIGC等领域的研究）"></a>研究大模型的微调（利用NLP，AIGC等领域的研究）</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/sam%E7%BB%84%E4%BC%9A%E6%8A%A5%E5%91%8A/" data-id="clix3qjvr000hqwueg3y3b8y7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/SCALE%20EFFICIENTLY%20INSIGHTS%20FROM%20PRE-TRAINING%20AND%20FINE-TUNING%20TRANSFORMERS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/SAM%E7%BB%93%E5%90%88%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

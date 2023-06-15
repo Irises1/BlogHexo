@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="sam related noteGrounded-SAM背景工作  Segment Anything是一个强大的细分模型。但它需要提示（如框&#x2F;点）来生成掩码。 Grounding DINO是一种强大的zero-shot检测器，能够生成带有自由格式文本的高质量框和标签。 OSX是一种强大而高效的单阶段运动捕捉方法，可从单眼图像生成高质量的 3D 人体网格。我们还发布了一个大规模的上半身数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/sam%20related%20note/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="sam related noteGrounded-SAM背景工作  Segment Anything是一个强大的细分模型。但它需要提示（如框&#x2F;点）来生成掩码。 Grounding DINO是一种强大的zero-shot检测器，能够生成带有自由格式文本的高质量框和标签。 OSX是一种强大而高效的单阶段运动捕捉方法，可从单眼图像生成高质量的 3D 人体网格。我们还发布了一个大规模的上半身数据">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/acoustics/gsam_whisper_inpainting_demo.png">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/grounded_sam2.png">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/grounded_sam_inpainting_demo.png">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/automatic_label_output_demo3.jpg">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/osx/grouned_sam_osx_demo.gif">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/interactive-fashion-edit.png">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/interactive-mark.gif">
+<meta property="og:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/231-hair-edit.png">
+<meta property="og:image" content="https://github.com/fudan-zvg/Semantic-Segment-Anything/raw/main/figures/sa_230745_class_name.png">
+<meta property="og:image" content="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_everything.png">
+<meta property="og:image" content="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_semantic.png">
+<meta property="og:image" content="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_instance.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417143510711.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JJGO/UniverSeg/gh-pages/assets/images/network-architecture.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418150557701.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418152645413.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417153952916.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095604575.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095622838.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095657723.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419102417296.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.593Z">
+<meta property="article:modified_time" content="2023-04-19T03:08:58.577Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/acoustics/gsam_whisper_inpainting_demo.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-sam related note" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/sam%20related%20note/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.593Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sam-related-note"><a href="#sam-related-note" class="headerlink" title="sam related note"></a>sam related note</h1><h2 id="Grounded-SAM"><a href="#Grounded-SAM" class="headerlink" title="Grounded-SAM"></a><a target="_blank" rel="noopener" href="https://github.com/IDEA-Research/Grounded-Segment-Anything">Grounded-SAM</a></h2><p>背景工作</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebookresearch/segment-anything">Segment Anything</a>是一个强大的细分模型。但它需要提示（如框&#x2F;点）来生成掩码。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/IDEA-Research/GroundingDINO">Grounding DINO</a>是一种强大的zero-shot检测器，能够生成带有自由格式文本的高质量框和标签。</li>
+<li><a target="_blank" rel="noopener" href="https://osx-ubody.github.io/">OSX</a>是一种强大而高效的单阶段运动捕捉方法，可从单眼图像生成高质量的 3D 人体网格。我们还发布了一个大规模的上半身数据集 UBody，以便在上半身场景中进行更准确的重建。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CompVis/stable-diffusion">Stable-Diffusion</a>是一个惊人的强大的文本到图像扩散模型。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/salesforce/lavis">BLIP</a>是用于图像理解的出色语言视觉模型。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/visual-chatgpt">Visual ChatGPT</a>是一个很棒的工具，它连接 ChatGPT 和一系列 Visual Foundation Models 以实现在聊天过程中发送和接收图像。</li>
+</ul>
+<p>功能：</p>
+<ul>
+<li><p>根据声音编辑图像</p>
+<p>设计技术：<strong>Whisper + ChatGPT + Grounded-SAM + SD</strong></p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/acoustics/gsam_whisper_inpainting_demo.png" alt="img"></p>
+</li>
+<li><p>半自动的标注系统</p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/grounded_sam2.png" alt="img"></p>
+<p>文本提示-&gt;目标检测-&gt;根据检测目标进行分割</p>
+</li>
+<li><p>数据工厂，新数据生成</p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/grounded_sam_inpainting_demo.png" alt="img"></p>
+</li>
+<li><p>自动标注系统</p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/automatic_label_output_demo3.jpg" alt="img"></p>
+<p>使用 BLIP 生成caption，使用 ChatGPT 提取tags，使用 Grounded-SAM 生成框和掩码</p>
+</li>
+<li><p>即时3D人体网络恢复</p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/main/assets/osx/grouned_sam_osx_demo.gif" alt="img"></p>
+<p>grounded-SAM生成框和mask，使用OSX估计SMPLX参数并重建3D全身</p>
+</li>
+<li><p>交互式编辑</p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/interactive-fashion-edit.png" alt="img"></p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/interactive-mark.gif" alt="img"></p>
+<p><img src="https://github.com/IDEA-Research/Grounded-Segment-Anything/raw/humanFace/assets/231-hair-edit.png" alt="img"></p>
+</li>
+</ul>
+<h2 id="Semantic-Segment-Anything"><a href="#Semantic-Segment-Anything" class="headerlink" title="Semantic Segment Anything"></a><a target="_blank" rel="noopener" href="https://github.com/fudan-zvg/Semantic-Segment-Anything">Semantic Segment Anything</a></h2><p>出发：SAM 缺乏为每个掩码预测语义类别的能力，SSA给每一个mask提供类别预测或者注释</p>
+<p><img src="https://github.com/fudan-zvg/Semantic-Segment-Anything/raw/main/figures/sa_230745_class_name.png" alt="img"></p>
+<h2 id="Segment-Anything-Model-SAM-in-Napari"><a href="#Segment-Anything-Model-SAM-in-Napari" class="headerlink" title="Segment Anything Model (SAM) in Napari"></a><a target="_blank" rel="noopener" href="https://github.com/MIC-DKFZ/napari-sam">Segment Anything Model (SAM) in Napari</a></h2><p>在Napari（一种多维图像查看器）上继承SAM来分割</p>
+<p>集成还支持2D和<strong>3D</strong>图像</p>
+<table>
+<thead>
+<tr>
+<th>一切模式</th>
+<th>基于点击的语义分割模式</th>
+<th>基于点击的实例分割模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/MIC-DKFZ/napari-sam/blob/main/cats_everything.png"><img src="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_everything.png" alt="img"></a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/MIC-DKFZ/napari-sam/blob/main/cats_semantic.png"><img src="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_semantic.png" alt="img"></a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/MIC-DKFZ/napari-sam/blob/main/cats_instance.png"><img src="https://github.com/MIC-DKFZ/napari-sam/raw/main/cats_instance.png" alt="img"></a></td>
+</tr>
+</tbody></table>
+<h2 id="Open-Vocabulary-Semantic-Segmentation-with-Mask-adapted-CLIP"><a href="#Open-Vocabulary-Semantic-Segmentation-with-Mask-adapted-CLIP" class="headerlink" title="Open-Vocabulary Semantic Segmentation with Mask-adapted CLIP"></a><a target="_blank" rel="noopener" href="https://jeff-liangf.github.io/projects/ovseg/">Open-Vocabulary Semantic Segmentation with Mask-adapted CLIP</a></h2><p>CLIP结合分割模型</p>
+<p>任务：开放词汇语义分割</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417143510711.png" alt="image-20230417143510711"></p>
+<h2 id="UniverSeg-Universal-Medical-Image-Segmentation"><a href="#UniverSeg-Universal-Medical-Image-Segmentation" class="headerlink" title="UniverSeg: Universal Medical Image Segmentation"></a><a target="_blank" rel="noopener" href="https://github.com/JJGO/UniverSeg">UniverSeg: Universal Medical Image Segmentation</a></h2><p>一种无需额外训练即可解决未见过的医学分割任务的方法。</p>
+<p><img src="https://raw.githubusercontent.com/JJGO/UniverSeg/gh-pages/assets/images/network-architecture.png" alt="network"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418150557701.png" alt="image-20230418150557701"></p>
+<ul>
+<li><p>使用新的<strong>CrossBlock机制</strong>来生成准确的分割图，而不需要额外的训练。</p>
+</li>
+<li><p>收集并标准化了53个开放访问的医学分割数据集，这些数据集具有超过22000次扫描，我们称之为MegaMedical。</p>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418152645413.png" alt="image-20230418152645413"></p>
+<h2 id="Segment-Anything-Is-Not-Always-Perfect-An-Investigation-of-SAM-on-Different-Real-world-Applications"><a href="#Segment-Anything-Is-Not-Always-Perfect-An-Investigation-of-SAM-on-Different-Real-world-Applications" class="headerlink" title="Segment Anything Is Not Always Perfect: An Investigation of SAM on Different Real-world Applications"></a>Segment Anything Is Not Always Perfect: An Investigation of SAM on Different Real-world Applications</h2><p>讨论SAM的局限性</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417153952916.png" alt="image-20230417153952916"></p>
+<h2 id="SAM-MD-Zero-shot-medical-image-segmentation-capabilities-of-the-Segment-Anything-Model"><a href="#SAM-MD-Zero-shot-medical-image-segmentation-capabilities-of-the-Segment-Anything-Model" class="headerlink" title="SAM.MD: Zero-shot medical image segmentation capabilities of the Segment Anything Model"></a>SAM.MD: Zero-shot medical image segmentation capabilities of the Segment Anything Model</h2><p>通过框和点的提示，将SAM推广到CT数据中</p>
+<h2 id="DINOv2"><a href="#DINOv2" class="headerlink" title="DINOv2"></a><a target="_blank" rel="noopener" href="https://dinov2.metademolab.com/">DINOv2</a></h2><p>metaAI开源</p>
+<p>在无监督的情况下学习视觉特征</p>
+<p>网站demo三个功能</p>
+<ul>
+<li><p>深度估计</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095604575.png" alt="image-20230419095604575"></p>
+</li>
+<li><p>语义分割</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095622838.png" alt="image-20230419095622838"></p>
+</li>
+<li><p>实例检索</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419095657723.png" alt="image-20230419095657723"></p>
+</li>
+<li><p>数据：提出了一种自动管道，来建立一个专门的，多样化的，精选的数据集</p>
+</li>
+<li><p>模型：使用1B参数训练了一个ViT后提取为一系列较小的模型</p>
+</li>
+</ul>
+<p>自监督学习大多在一个小的策划数据集上进行预训练取得，dinov2探索在大量精选数据上进行预训练，自监督学习是否有潜力学习到目标视觉特征。</p>
+<p>预训练数据集管道，灵感来自于NLP的《Ccnet: Extracting high quality monolingual datasets from web crawl data.》，使用数据相似性而不是外部元数据，且不需要手动注释。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419102417296.png" alt="image-20230419102417296"></p>
+<p>对于<strong>重新平衡（rebalance）概念</strong>是难点，为了避免过度拟合一些主要模式，使用一种简单的集群模式来解决</p>
+<h3 id="判别式的自监督方法"><a href="#判别式的自监督方法" class="headerlink" title="判别式的自监督方法"></a>判别式的自监督方法</h3><p>DINO and iBOT losses with the centering of SwAV （Unsupervised learning of visual features by contrasting cluster assignments.）</p>
+<ul>
+<li>图像级对象：从学生和教师网络中提取的特征之间的交叉熵损失</li>
+<li>patch级对象：随机屏蔽学生的一些patch，不屏蔽老师，在屏蔽patch的两个网络patch特征之间添加交叉熵损失</li>
+<li>Untying head weights between both objectives：两个目标相关的权重在一起会让模型patch级别上不足，在图像级上过拟合，解开这些权重会解决问题</li>
+<li>Sinkhorn-Knopp centering ：使用sinkhorn knopp批量标准化替代DINO和iBot的教师softmax居中步骤</li>
+<li>KoLeo regularizer</li>
+<li>调整分辨率：在预训练结束时的时间内将图像的分辨率提高到518*518</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/sam%20related%20note/" data-id="clix3qjvr000fqwued6do449y" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/06/15/Sam%20on%20tooth/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

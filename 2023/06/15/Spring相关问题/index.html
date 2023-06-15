@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Spring相关问题核心功能IoC控制反转，一种设计思想。将原本在程序中手动创建对象的控制权，交给Spring框架管理 当需要创建一个对象时，直接问spring要就行，不用管对象如何创建，只需要提前配置好。 IoC容器时Spring实现IoC的载体，实际上IoC容器是一个Map结构，存放各种对象。 DI依赖注入，是IoC的一种最常见合理的实现方式 优势 对象之间的耦合度或者依赖程度降低 资源更容易">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/Spring%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring相关问题核心功能IoC控制反转，一种设计思想。将原本在程序中手动创建对象的控制权，交给Spring框架管理 当需要创建一个对象时，直接问spring要就行，不用管对象如何创建，只需要提前配置好。 IoC容器时Spring实现IoC的载体，实际上IoC容器是一个Map结构，存放各种对象。 DI依赖注入，是IoC的一种最常见合理的实现方式 优势 对象之间的耦合度或者依赖程度降低 资源更容易">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.xiaozhuanlan.com/photo/2019/b5d264565657a5395c2781081a7483e1.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/i/580631/201405/181453414212066.png">
+<meta property="og:image" content="https://images0.cnblogs.com/i/580631/201405/181454040628981.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/system-design/framework/spring/230ae587a322d6e4d09510161987d346.jpeg">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/system-design/framework/spring/de6d2b213f112297298f3e223bf08f28.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.398Z">
+<meta property="article:modified_time" content="2023-06-09T01:40:37.006Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.xiaozhuanlan.com/photo/2019/b5d264565657a5395c2781081a7483e1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Spring相关问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/Spring%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.398Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring相关问题"><a href="#Spring相关问题" class="headerlink" title="Spring相关问题"></a>Spring相关问题</h1><h2 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h2><h3 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h3><p>控制反转，一种设计思想。将原本在程序中手动创建对象的控制权，交给Spring框架管理</p>
+<p>当需要创建一个对象时，直接问spring要就行，不用管对象如何创建，只需要提前配置好。</p>
+<p>IoC容器时Spring实现IoC的载体，实际上IoC容器是一个Map结构，存放各种对象。</p>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><p>依赖注入，是IoC的一种最常见合理的实现方式</p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>对象之间的耦合度或者依赖程度降低</li>
+<li>资源更容易管理</li>
+</ol>
+<h3 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h3><p>见下方章节</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="Bean"><a href="#Bean" class="headerlink" title="Bean"></a>Bean</h3><p>被IoC容器管理的对象，通过配置元数据定义</p>
+<h4 id="声明Bean的注解"><a href="#声明Bean的注解" class="headerlink" title="声明Bean的注解"></a>声明Bean的注解</h4><ul>
+<li>@Component：通用注解，可标注任意类为Spring组件，如果一个Bean不属于哪一层就使用@Component</li>
+<li>@Repository：对应持久层（Dao层），用于数据库相关操作</li>
+<li>@Service：对应服务层，设计复杂的逻辑，用到Dao层</li>
+<li>@Controller：对应Spring MVC的控制层，用于接受用户请求并调用Service层返回数据给前端页面</li>
+</ul>
+<h4 id="Component和-Bean的区别是什么"><a href="#Component和-Bean的区别是什么" class="headerlink" title="@Component和@Bean的区别是什么"></a>@Component和@Bean的区别是什么</h4><ul>
+<li>@Component注解作用于类，@Bean用于方法</li>
+<li>@Component通常通过类路径扫描自动侦测装配到Spring容器（可以用@ComponentScan定义扫描路径）。@Bean是在注释的方法中定义了这个Bean，@Bean告诉Spring这是某个类的实例，需要的时候可以还给我</li>
+<li>@Bean的自定义性更强，很多地方只能通过@Bean来注册Bean，比如第三方库的类需要装配到Spring</li>
+</ul>
+<p>上面太啰嗦：</p>
+<p>1、@Component注解表明一个类会作为组件类，并告知Spring要为这个类创建bean。</p>
+<p>2、@Bean注解告诉Spring这个方法将会返回一个对象，这个对象要注册为Spring应用上下文中的bean。通常方法体中包含了最终产生bean实例的逻辑。</p>
+<h2 id="Bean的注入注解"><a href="#Bean的注入注解" class="headerlink" title="Bean的注入注解"></a>Bean的注入注解</h2><ul>
+<li>@Autowired：（Spring内置）</li>
+<li>@Resource：（JDK自带）</li>
+<li>@Inject：（基本不用，JDK自带）</li>
+</ul>
+<h3 id="Autowired和-Resource的区别"><a href="#Autowired和-Resource的区别" class="headerlink" title="@Autowired和@Resource的区别"></a>@Autowired和@Resource的区别</h3><ul>
+<li>@Autowired：Spring提供的注解，@Resource是JDK提供的注解</li>
+<li>@Autowired默认注入方式byType，@Resource默认注入byName</li>
+<li>一个接口存在多个实现类时，@Autowired和@Resource都要通过名称才能正确匹配到对应的Bean，@Autowired可以通过@Qualifier来显式指定名称，@Resource可以通过name属性来显式指定名称</li>
+</ul>
+<p>Autowired默认byType的问题：当一个接口存在多个实现类，就不知道选哪个了，此时使用@Qualifier(value &#x3D; “实现类名”)指定名称</p>
+<p>Resource默认byName，可以使用属性名选择名称，@Resource(name &#x3D; “实现类名”)</p>
+<h2 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h2><p>一共有6种</p>
+<ul>
+<li>singleton：IoC容器中只有唯一bean，Spring中的bean默认单例</li>
+<li>prototype：每次获取都会创建一个新的bean实例，也就是连续getBean两次得到的bean是不同的</li>
+<li>request：（仅Web应用）每一次HTTP请求都会产生一个新的bean（请求bean），仅在当前HTTP request内有效</li>
+<li>session：（仅Web应用）每一次来自session的HTTP请求都会产生一个新的bean（会话bean），仅在当前HTTP session内有效</li>
+<li>application&#x2F;global-session：（仅Web应用）每个Web应用在启动时创建一个Bean（应用Bean），仅在当前应用启动时间内有效</li>
+<li>websocket：（仅Web应用）每一次WebSocket会话产生一个新的bean</li>
+</ul>
+<p>如何配置</p>
+<p>注解方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span></span><br><span class="line"><span class="keyword">public</span> Person <span class="title function_">personPrototype</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="单例Bean的线程安全问题"><a href="#单例Bean的线程安全问题" class="headerlink" title="单例Bean的线程安全问题"></a>单例Bean的线程安全问题</h3><p>多个线程在操作的时候，是同一个Bean实例，会存在线程安全问题</p>
+<p>Bean有状态：即是有实例变量的对象，其中可以保存数据，线程不安全</p>
+<p>解决方法：</p>
+<ol>
+<li>在Bean中尽量避免定义可变的成员变量</li>
+<li>在类中定义一个ThreadLocal成员变量，将需要的可变成员变量保存在ThreadLocal中（推荐）</li>
+</ol>
+<h2 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h2><p>Bean容器实现</p>
+<ol>
+<li><strong>实例化Bean</strong>：在配置文件上（注释或者配置类）找到Spring Bean的定义，然后容器利用Java Reflection API创建一个Bean的实例</li>
+<li><strong>Bean属性的赋值</strong>：涉及到的一些属性值用<strong>set方法</strong>设置</li>
+<li><strong>检查Bean是否实现类Aware相关的接口</strong>，若实现则调用这些接口的方法<ul>
+<li>若实现BeanNameAware，Spring会把Bean名字传递给Bean</li>
+<li>若实现BeanClassLoaderAware，Spring会调用setBeanClassLoader方法加载该Bean的类加载器ClassLoader传递给Bean</li>
+<li>若实现BeanFactoryAware，Spring会调用setBeanFactory方法把工厂对象BeanFactory传给Bean</li>
+</ul>
+</li>
+<li><strong>执行Bean后处理器的before方法</strong>：如果有BeanPostProcessor对象，执行前处理方法</li>
+<li><strong>检查Bean是否实现InitializingBean</strong>，若实现则调用afterPropertiesSet方法（这也是一个初始化方法，可以和Bean自己的init-method配合使用，这个方法直接执行，init-method通过反射执行，afterPropertiesSet会和Spring耦合）</li>
+<li><strong>初始化Bean</strong>，调用Bean的init-method属性，执行指定方法</li>
+<li><strong>执行Bean后处理器的after方法</strong>：如果有BeanPostProcessor对象，执行后处理方法</li>
+<li><strong>使用Bean</strong></li>
+<li><strong>检查Bean是否实现DisposbleBean</strong>，若实现则调用destory方法</li>
+<li><strong>销毁Bean</strong></li>
+</ol>
+<p><img src="https://images.xiaozhuanlan.com/photo/2019/b5d264565657a5395c2781081a7483e1.jpg" alt="Spring Bean 生命周期"></p>
+<p>Bean完整的生命周期经历各种方法调用，可以划分为：</p>
+<ol>
+<li>Bean自身的方法：包括Bean本身调用的方法和通过配置文件中<code>&lt;bean&gt;</code>的init-method和destory-method指定的方法</li>
+<li>Bean级生命周期接口方法：包括了BeanNameAware，BeanFactoryAware，InitializingBean和DiposableBean这些接口的方法</li>
+<li>容器级生命周期接口方法：包括InstantiationAwareBeanPostProcessor和BeanPostProcessor着两个接口实现，一般称它们的实现类为“后处理容器”</li>
+<li>工厂后处理器接口方法：包括了Aspect&#x2F;WeavingEnabler，ConfigurationClassPostProcessor，CustomAutowireConfigurer等非常有用的工厂后处理器接口的方法。工厂后处理器也是容器级的，在应用上下文装配配置文件后立即调用</li>
+</ol>
+<p><img src="https://images0.cnblogs.com/i/580631/201405/181453414212066.png" alt="img"></p>
+<p><img src="https://images0.cnblogs.com/i/580631/201405/181454040628981.png" alt="img"></p>
+<h2 id="AOP-1"><a href="#AOP-1" class="headerlink" title="AOP"></a>AOP</h2><p>AOP（面向切面编程）可以把和业务无关但是被业务模块共同调用的逻辑或者责任（事务处理，日志管理，权限控制）封装起来，减少系统的重复代码，降低模块间的耦合度，并且利于未来拓展。</p>
+<p>底层基于动态代理，如果要代理的对象实现了某个接口，AOP会使用JDK Proxy去创建代理对象。对于没有实现接口的对象，无法使用JDK Proxy代理，AOP就会使用Cglib生成一个被代理对象的子类来作为代理</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/system-design/framework/spring/230ae587a322d6e4d09510161987d346.jpeg" alt="SpringAOPProcess"></p>
+<p>也可以使用AspectJ，Spring  AOP集成了AspectJ</p>
+<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>请阅读理解设计模式的代理模式，在笔记中有记录各种动态代理静态代理，见<a href="C:\Users\Bubble\Desktop\note\设计模式.md">笔记</a></p>
+<p>回顾一下事务失效通过动态代理解决的问题<a href="C:\Users\Bubble\Desktop\note\Spring事务失效问题.md">笔记</a></p>
+<h4 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h4><p>JDK中提供了一个动态代理类Proxy，提供一个创建代理对象的静态方法<code>newProxyInstance()</code>来获取代理对象，在程序运行过程中生成在内存动态生成继承Proxy(因为Java的单继承，所以只能实现接口，导致JDK动态代理的对象必须实现接口)，实现抽象主题接口的代理类。</p>
+<p>执行流程：</p>
+<ol>
+<li>通过代理对象调用某个业务方法</li>
+<li>根据多态，执行的的是代理类的这个业务方法</li>
+<li>代理类的被执行方法调用InvocationHandler接口的子实现类对象的invoke方法</li>
+<li>invoke方法通过反射执行了真实对象所属类的这个业务方法</li>
+</ol>
+<h4 id="CGLib动态代理"><a href="#CGLib动态代理" class="headerlink" title="CGLib动态代理"></a>CGLib动态代理</h4><p>对于没有定义抽象主题接口的代理类，可以直接使用CGLib创建Enhancer对象来创建代理对象</p>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><p>CGLib底层采用ASM字节码生成框架，不能对声明为final的类或者方法进行代理。在JDK1.8之后，JDK动态代理的效率更高，因此如何选择取决于有没有定义接口，定义了接口优先选择JDK动态代理</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><ul>
+<li>目标：被通知的对象</li>
+<li>代理：向目标对象应用通知之后创建的代理对象</li>
+<li>连接点：目标对象的所属类中，定义的<strong>所有方法</strong>均为连接点</li>
+<li>切入点：被切面拦截&#x2F;增强的连接点（切入点一定是连接点，连接点不一定是切入点）</li>
+<li>通知：增强的逻辑（代码），即拦截到目标对象的连接点之后要做的事情</li>
+<li>切面：切入点+通知</li>
+<li>Weaving（织入）：将通知应用到目标对象，进而生成代理对象的过程动作</li>
+</ul>
+<h3 id="Spring-AOP和AspectJAOP的区别"><a href="#Spring-AOP和AspectJAOP的区别" class="headerlink" title="Spring AOP和AspectJAOP的区别"></a>Spring AOP和AspectJAOP的区别</h3><ul>
+<li><p>Sping AOP是运行时增强，AspectJ是编译时增强</p>
+</li>
+<li><p>SpringAOP基于代理，AspectJ基于字节码操作</p>
+</li>
+<li><p>SpringAOP集成了AspectJ，AspectJ是Java生态中最完整的AOP框架</p>
+</li>
+<li><p>AspectJ功能更强大，SpringAOP更简单</p>
+</li>
+</ul>
+<p>如果切面很多，比较复杂，最好选择AspectJ，相比于SpringAOP更快</p>
+<h3 id="AspectJ定义的通知类型"><a href="#AspectJ定义的通知类型" class="headerlink" title="AspectJ定义的通知类型"></a>AspectJ定义的通知类型</h3><ul>
+<li>Before</li>
+<li>After</li>
+<li>AfterReturning</li>
+<li>AfterThrowing</li>
+<li>Around</li>
+</ul>
+<h3 id="多个切面的执行顺序"><a href="#多个切面的执行顺序" class="headerlink" title="多个切面的执行顺序"></a>多个切面的执行顺序</h3><p>类似过滤器，使用@Order注解的值定义，或者实现Order接口重写getOrder方法</p>
+<h2 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a>SpringMVC</h2><p>严格来说不属于设计模式，是软件设计规范</p>
+<p>模型Model，视图View，控制器Controller的简写。核心思想是通过将业务逻辑，数据，显示，三块内容分离来组织代码</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p><img src="https://oss.javaguide.cn/github/javaguide/system-design/framework/spring/de6d2b213f112297298f3e223bf08f28.png" alt="img"></p>
+<p><strong>核心组件</strong>：</p>
+<ul>
+<li><strong>DispatcherServlet</strong>：核心中央处理器，负责接收请求，分发，并给予客户端响应</li>
+<li>HandlerMapping：处理器映射器，根据uri匹配查找能处理的Handler，并将请求涉及到的拦截器和handler一起封装</li>
+<li>HandlerAdapter：处理器适配器，根据HandlerMapping找到的Handler，适配执行对应的Handler</li>
+<li>Handler：请求处理器，处理实际请求的处理器，返回ModelAndView，就是返回的数据和视图</li>
+<li>ViewResolver：视图解析器，根据Handler返回的逻辑视图&#x2F;视图，解析并渲染真正的视图，传递给DispatcherServlet响应客户端</li>
+</ul>
+<h3 id="统一的异常处理"><a href="#统一的异常处理" class="headerlink" title="统一的异常处理"></a>统一的异常处理</h3><p>使用@ControllerAdvice+@ExceptionHandler两个注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(BaseException.class)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;?&gt; handleAppException(BaseException ex, HttpServletRequest request) &#123;</span><br><span class="line">      <span class="comment">//......</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(value = ResourceNotFoundException.class)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;ErrorReponse&gt; <span class="title function_">handleResourceNotFoundException</span><span class="params">(ResourceNotFoundException ex, HttpServletRequest request)</span> &#123;</span><br><span class="line">      <span class="comment">//......</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会给所有或者指定的Controller织入异常处理逻辑（AOP方式），当Controller抛出异常，会被@ExceptionHandler注解修饰的方法进行处理</p>
+<h2 id="Spring框架中用到的设计模式"><a href="#Spring框架中用到的设计模式" class="headerlink" title="Spring框架中用到的设计模式"></a>Spring框架中用到的设计模式</h2><ul>
+<li>工厂模式：创建Bean对象中使用了工厂模式，通过BeanFactory，ApplicationContext来创建</li>
+<li>代理模式：AOP功能的实现</li>
+<li>单例模式：默认Bean实现都是单例的</li>
+<li>模板方法：jdbcTemplate，hibernateTemplate等以Template结尾的对数据库操作的类都使用了模板模式</li>
+<li>包装类设计模式：项目需要连接多个数据库，不同的客户在每次访问中会根据需要去访问不同数据库，这个模式可以根据用户需求动态切换数据源</li>
+<li>观察者模式：Spring事件驱动模型就是观察者模式的经典应用</li>
+<li>适配器模式：AOP增强或者通知都用到了适配器模式，Spring MVC中也是用适配器模式适配Controller</li>
+</ul>
+<h2 id="Spring事务"><a href="#Spring事务" class="headerlink" title="Spring事务"></a>Spring事务</h2><p>事务特性ACID：</p>
+<ol>
+<li>A，原子性（Atomicity）：事务是最小执行单位，不允许分割。事务要么全部完成，要么全部不起作用</li>
+<li>C，一致性（Consistency）：执行事务前后数据保持一致，比如转账业务，无论事务是否成功，转账者和收款人总额不变</li>
+<li>I，隔离性（Isolation）：并发访问数据库，事务不被其他事务干扰，各并发事务的数据库独立</li>
+<li>D，持久性（Durability）：事务被提交之后，对数据库数据的改变是持久的，数据库发生故障也不应该有影响</li>
+</ol>
+<p>注意：AID是手段，C是目的，只有保证事务持久性，原子性，隔离性，一致性才能得到保障</p>
+<h3 id="事务管理方式"><a href="#事务管理方式" class="headerlink" title="事务管理方式"></a>事务管理方式</h3><ul>
+<li>编程式事务：使用硬编码（不推荐），通过TransactionTemplate或者TransactionManager手动管理事务</li>
+<li>声明式事务：在XML配置文件中配置或者基于注解，实际上通过AOP实现（@Transactional全注解方式最常使用）</li>
+</ul>
+<p>@Transactional常用配置：</p>
+<ul>
+<li>propagation：传播行为</li>
+<li>isolation：隔离级别</li>
+<li>timeout：事务超时时间，如果超出这个时间限制事务还没有完成，会自动回滚</li>
+<li>readOnly：指定事务是否为只读事务</li>
+<li>rollbackFor：指定能触发事务回滚的异常类型，可以指定多个异常类型</li>
+</ul>
+<h3 id="传播行为的事务"><a href="#传播行为的事务" class="headerlink" title="传播行为的事务"></a>传播行为的事务</h3><p>事务传播是为了解决业务层方法之间相互调用的事务问题</p>
+<p>当事务方法被另一个事务方法调用时，必须指定事务应该如何传播。（继续在现有事务中运行或者开启一个新事务）</p>
+<p>事务传播行为可能的值：</p>
+<ul>
+<li>TransactionDefintion.PROPAGATION_REQUIRED：propagation(传播) <strong>required</strong> 使用最多，@Transactional注解默认这个事务传播行为。如果当前存在事务，则加入该事务，如果当前没有事务，则创建一个新事务。</li>
+<li>TransactionDefintion。PROPAGATION_REQUIRE_NEW：<strong>required new</strong> 创建一个新事务，如果当前存在事务，则把当前事务挂起。也就是说不管外部方法是否已经开启事务，都开启一个新事务，事务之间相互独立</li>
+<li>TransactionDefintion。PROPAGATION_NESTED：<strong>nested</strong>(嵌套) 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务运行，如果没有事务，则等价于TransactionDefintion.PROPAGATION_REQUIRED</li>
+<li>TransactionDefintion.PROPAGATION_MANDATORY：<strong>mandatory</strong>(强制性）如果当前存在事务则加入事务，否则抛出异常</li>
+</ul>
+<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><ul>
+<li>TransactionDefintion.ISOLATION_DEFAULT：<strong>Default</strong>后端数据库默认隔离级别，MySQL是REPEATABLE_READ隔离级别，ORACLE默认是READ_COMMITTED隔离级别</li>
+<li>TransactionDefintion.ISOLATION_READ_UNCOMMITTED：read uncommitted， 最低的隔离级别，committed(提交)，允许读取尚未提交的数据变更，导致脏读幻读或者不可重复读</li>
+<li>TransactionDefintion.ISOLATION_READ_COMMITTED：允许读取并发事务已经提交的数据，可以阻止脏读，幻读和不可重复读仍可能发生</li>
+<li>TransactionDefintion.ISOLATION_REPEATABLE_READ：repeatable read，对同一字段多次读取结果一致，除非数据被本身事务自己修改，可以阻止脏读和不可重复读，幻读仍可能发生</li>
+<li>TransactionDefintion.ISOLATION_SERIALIZABLE：serializable(串行的，可序列化的)，最高隔离级别，完全服从ACID。所有事务一次逐个执行。但是严重影响程序性能</li>
+</ul>
+<p>并发环境下会发生的一致性问题：</p>
+<ul>
+<li>脏读：读取到了其他事务未提交的数据，意味着这些数据有可能会回滚（实际上这些数据是不存在的数据）</li>
+<li>不可重复读：在同一个事务内，最开始读到的数据和事务结束前的任意时刻读到的同一数据出现不一致</li>
+<li>幻读：事务select某条记录发现不存在，准备insert，在insert时又发现这条数据存在无法插入</li>
+</ul>
+<h3 id="Transactional-rollbackFor-x3D-Exception-class-注解"><a href="#Transactional-rollbackFor-x3D-Exception-class-注解" class="headerlink" title="@Transactional(rollbackFor &#x3D; Exception.class)注解"></a>@Transactional(rollbackFor &#x3D; Exception.class)注解</h3><p>如果不配置Exception.ckass的rollback，只会在遇到RuntimeException才会回滚，配置rollbackFor &#x3D; Exception.class可以让其他的非运行时异常也回滚</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/Spring%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" data-id="clix3qjvq000eqwuedvtw7bdx" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E7%AC%94%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/Spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

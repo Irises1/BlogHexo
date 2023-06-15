@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="MedNeXt: Transformer-driven Scaling of ConvNets for Medical Image Segmentation(用于医学图像分割的Transformer驱动缩放卷积网络) AbstractConvNeXt试图通过镜像Transformer块来实现标准ConvNet的现代化（modernize）。基于ConvNeXt工作，设计一种现代化可扩展卷积架构来应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="MedNeXt: Transformer-driven Scaling of ConvNets for Medical Image Segmentation(用于医学图像分割的Transformer驱动缩放卷积网络) AbstractConvNeXt试图通过镜像Transformer块来实现标准ConvNet的现代化（modernize）。基于ConvNeXt工作，设计一种现代化可扩展卷积架构来应">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230404133954142.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230406155916301.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230404144428076.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:574/1*RdZGjeXxq40qGaBK5LBADw.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:565/1*pZyhF39vG5NFGL_QM7QWxQ.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:664/1*8PexH4UjYW5GFQeCRRbNpA.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:700/1*I3keR_Ay0unnekawii5MQw.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:659/1*5gxs8l2GG3wR4UV_fOf1Pw.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:172/1*-JlGdWZQ1Y4qeUMAWdn-GA.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:313/1*SSdJYIx4W5hbdoO-bJt-fw.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330140729726.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330154553104.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330160850857.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.558Z">
+<meta property="article:modified_time" content="2023-04-07T02:56:23.014Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230404133954142.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MedNeXt Transformer-driven Scaling of ConvNets for Medical Image Segmentation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.558Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="MedNeXt-Transformer-driven-Scaling-of-ConvNets-for-Medical-Image-Segmentation"><a href="#MedNeXt-Transformer-driven-Scaling-of-ConvNets-for-Medical-Image-Segmentation" class="headerlink" title="MedNeXt: Transformer-driven Scaling of ConvNets for Medical Image Segmentation"></a>MedNeXt: Transformer-driven Scaling of ConvNets for Medical Image Segmentation</h1><p>(用于医学图像分割的Transformer驱动缩放卷积网络)</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>ConvNeXt试图通过镜像Transformer块来实现标准ConvNet的现代化（modernize）。基于ConvNeXt工作，设计一种现代化可扩展卷积架构来应对数据稀缺（datascarce）医疗环境的挑战。</p>
+<p>MedNeXt：受Transformer启发的大内核分割网络</p>
+<ol>
+<li>用于医学影像分割的完全ConvNeXt 3D编码器-解码器网络</li>
+<li>残差ConvNeXt上采样块和下采样块来保持跨尺度的语义丰富性</li>
+<li>一种通过上采样小内核网络来迭代增加内核大小的新技术，来防止有效医疗数据带来的性能饱和</li>
+<li>多个级别（深度，宽度，内核大小）复合缩放，导致CT和MRI模态和不同数据集上四种任务都能取得领先性能。</li>
+</ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Transform作为单一架构或者混合架构在医学影像被广泛采用。</p>
+<ul>
+<li><p>优势：学习远程空间依赖性的能力。</p>
+</li>
+<li><p>缺陷：有限的归纳偏差（inductive bias）受到大型数据集标注的阻碍，不能最大限度提高性能收益。</p>
+</li>
+</ul>
+<p>为了在使用Transformer架构同时保留卷积的归纳偏差，引入了ConvNeXt。ConvNeXt使用反瓶颈镜像Transformer，由深度层，扩展层和收缩层组成。另外还有大型深度内核来复制远距离的表示学习。但是医学影像分割中，堆叠小内核的VGGNet方法仍然是设计卷积网络的主要技术。开箱即用的数据高效解决方案，如nnUNet，标准的UNet变体在大部分任务中仍然有效。</p>
+<p>ConvNeXt结合了Transformer的远程空间表示学习能力和ConvNets固有的归纳偏置。反瓶颈设计还允许在不受内核大小的影响下拓展通道。在医学影像中使用有以下好处：</p>
+<ol>
+<li>通过<strong>大内核</strong>学习长距离空间依赖</li>
+<li>同时拓展多个网络级别</li>
+</ol>
+<p>为了实现这些，需要技术对抗大型网络在有限的数据上过度拟合的趋势。需要进一步探索内核的缩放问题，同时使用恒定数量的层数和通道数。ConvNeXt架构本身被用在3D-UX-Net，其中用ConvNeXt块替代了Transformer块和SwinUNETR。但是3D-UX-Net中尽在标准卷积编码器中使用限制了带来的好处。</p>
+<p>Contributions：</p>
+<ul>
+<li>使用了一种存粹由<strong>ConvNeXt块</strong>组成的架构，使ConvNeXt块的设计在全网络范围内有优势，(2.1节)</li>
+<li>引入了<strong>反残差瓶颈替代常规上采样块和下采样块</strong>，来在重新采样的同时保证上下文丰富性，有利于密集的分割任务，尤其改善了训练期间的梯度流动，(2.2节)</li>
+<li>引入一种简单有效的技术，即<strong>迭代增加内核大小</strong>，UpKern，通过使用训练的上采样小内核网络进行初始化来防止大内核MedNeXts上性能饱和，(2.3节)</li>
+<li>应用多个网络参数的<strong>复合缩放</strong>，允许宽度（通道数），感受野（核大小）和深度（层数）缩放的正交性，(2.4节)</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="Fully-ConvNeXt-3D-Segmentation-Architecture（全ConvNeXt-3D分割架构）"><a href="#Fully-ConvNeXt-3D-Segmentation-Architecture（全ConvNeXt-3D分割架构）" class="headerlink" title="Fully ConvNeXt 3D Segmentation Architecture（全ConvNeXt 3D分割架构）"></a>Fully ConvNeXt 3D Segmentation Architecture（全ConvNeXt 3D分割架构）</h3><p>ConvNeXt块继承了Transformer很多重要的设计选择，旨在限制计算成本同时增加感受野宽度以学习全局特征。在本工作中利用这些优势采用ConvNeXt的通用设计作为3D UNet中的宏架构下的构建块来搭建MedNeXt。并且类似Transformer有三层结构。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230404133954142.png" alt="image-20230404133954142"></p>
+<p>这三层结构对于输入通道为C的输入可以描述为：</p>
+<ol>
+<li><p>Depthwise Convolution Layer（深度卷积层）</p>
+<p>核大小为k，归一化（GroupNorm），输出通道为C</p>
+</li>
+<li><p>Expansion Layer（扩展层）</p>
+<p>使用内核为1的卷积，输出CR通道，将通道C扩充R倍，然后使用GELU激活</p>
+</li>
+<li><p>Compression Layer（压缩层）</p>
+<p>使用核为1的卷积将通道还原</p>
+</li>
+</ol>
+<h3 id="Resampling-with-Residual-Inverted-Bottlenecks（带残差反向瓶颈的重采样）"><a href="#Resampling-with-Residual-Inverted-Bottlenecks（带残差反向瓶颈的重采样）" class="headerlink" title="Resampling with Residual Inverted Bottlenecks（带残差反向瓶颈的重采样）"></a>Resampling with Residual Inverted Bottlenecks（带残差反向瓶颈的重采样）</h3><p>ConvNeXt中的下采样是标准跨步卷积单独做的。这种方式没有隐含利用基于宽度或者内核的ConvNeXt缩放。</p>
+<p>MedNeXt中：重（上，下）采样块也是MedNeXt组成，同时在第一深度卷积层中插入跨步卷积或者转置卷积。为了更容易实现梯度流，添加了核为1的卷积残差连接或者步长为2的转置卷积。</p>
+<p>反残差最早在MobileNetv2提到：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230406155916301.png" alt="image-20230406155916301"></p>
+<h3 id="UpKern-Large-Kernel-Convolutions-without-Saturation（UpKern：无饱和的大核卷积）"><a href="#UpKern-Large-Kernel-Convolutions-without-Saturation（UpKern：无饱和的大核卷积）" class="headerlink" title="UpKern: Large Kernel Convolutions without Saturation（UpKern：无饱和的大核卷积）"></a>UpKern: Large Kernel Convolutions without Saturation（UpKern：无饱和的大核卷积）</h3><p>容易出现性能饱和，自然影像数据多，ConvNeXt在7*7的核上性能饱和，但是医学影像数据更少。</p>
+<p>解决方案：参考Swin Transformer V2，使用较小的注意窗口训练另一个网络，初始化较大的注意窗口的网络。本文参考但是对卷积内核进行了定制。</p>
+<p>对相同大小的内核复制预训练权重，对于不同大小的内核，使用预训练小内核网络三线性插值（Trilinear Interpolation）初始化，迭代增加内核大小。</p>
+<p>swin transformer:</p>
+<p><strong>Log-spaced continuous position bias</strong>:</p>
+<p>对于下游任务如检测和分割往往要采用更大的分辨率，如果要采用更大的window size，那么就需要对relative position bias进行插值。</p>
+<h3 id="Compound-Scaling-of-Depth-Width-and-Receptive-Field（深度、宽度和感受场的复合缩放）"><a href="#Compound-Scaling-of-Depth-Width-and-Receptive-Field（深度、宽度和感受场的复合缩放）" class="headerlink" title="Compound Scaling of Depth, Width and Receptive Field（深度、宽度和感受场的复合缩放）"></a>Compound Scaling of Depth, Width and Receptive Field（深度、宽度和感受场的复合缩放）</h3><p>在多个角度（深度，宽度，感受野，分辨率）上同时缩放带来的好处超过单一缩放带来的好处。对此设计了四种型号配置（不同参数）来实验实现。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230404144428076.png" alt="image-20230404144428076"></p>
+<h3 id="Experimental-Design"><a href="#Experimental-Design" class="headerlink" title="Experimental Design"></a>Experimental Design</h3><h2 id="Result-and-Discussion"><a href="#Result-and-Discussion" class="headerlink" title="Result and Discussion"></a>Result and Discussion</h2><h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>因为医学影像本身的挑战（比如数据量），医学影像分割缺少从缩放网络中收益的架构。MedNeXt是一种受到Transformer启发的可扩展全ConvNeXt 3D分割架构。与用于自然影像的ConvNeXt类似，提供了复合可扩展的MedNeXt设计。</p>
+<h1 id="归纳偏置（inductive-bias）"><a href="#归纳偏置（inductive-bias）" class="headerlink" title="归纳偏置（inductive bias）"></a>归纳偏置（inductive bias）</h1><p><strong>归纳偏置</strong>（英语：Inductive bias），指的是学习算法中，当学习器去预测其未遇到过的输入结果时，所做的一些<strong>假设</strong>的集合</p>
+<p>机器学习任务中：</p>
+<p>我们处理一些观察子集（样本），我们的目标是基于它们创建泛化。我们还希望我们的概括对新的看不见的数据有效。换句话说，我们想根据有限的样本子集得出一个适用于整个样本群的通用规则。</p>
+<p>对于有限的样本集，存在无限的假设集。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:574/1*RdZGjeXxq40qGaBK5LBADw.png" alt="img"></p>
+<p>现在让我们从新的未见过的数据样本 X2 中推断我们的假设，事实证明大多数复杂的函数都是不准确的。但是，线性函数似乎非常准确。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:565/1*pZyhF39vG5NFGL_QM7QWxQ.png" alt="img"></p>
+<p>某些假设的优先级排序（假设空间的限制）是一种归纳偏差. 因此该模型偏向于某些假设组。对于前面的示例，可以根据一些关于数据的先验知识选择线性模型，从而优先考虑线性泛化。</p>
+<p>选择正确的模型归纳偏差会导致更好的泛化，尤其是在低数据设置中。我们拥有的训练数据越少，归纳偏差就越强，以帮助模型更好地泛化。但在丰富的数据设置中，最好避免任何归纳偏差，让模型受到更少的约束，并自由地搜索假设空间。</p>
+<p><strong>CNN</strong>：</p>
+<p>CNN中的归纳偏置来源于数据和训练过程。大多数一般的 CNN 归纳偏差是局部和权重共享的。局部性意味着紧密放置的像素彼此相关。权重共享意味着搜索特定模式。图像的不同部分应该以相同的方式处理。通常在 CNN 中实施另外两个归纳偏差：具有池化层的平移不变性和不使用它们的平移等变性。</p>
+<p>《Cognitive Psychology for Deep Neural Networks: A Shape Bias Case Study》对纹理和形状的三元组进行实验，发现CNN模型有纹理形状偏差，意味着更多依赖对象形状纹理而不是颜色。《Assessing Shape Bias Property of Convolutional Neural Networks》一文又有人认为CNN设计没有形状纹理偏差。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:664/1*8PexH4UjYW5GFQeCRRbNpA.png" alt="img"></p>
+<p>事实上，这种偏差不是由模型架构引起的，不通的数据增强也会对不同的偏差起到效果。使用冲突的形状纹理数据集还能提高模型准确性和模型鲁棒性。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:700/1*I3keR_Ay0unnekawii5MQw.png" alt="img"></p>
+<p><strong>Transformer</strong></p>
+<p>Transformer没有很强的归纳偏置，所以更灵活，需要更多数据的模型。没有强偏差不会对模型施加额外的限制。因此，如果提供足够的数据，它可以找到更好的优化。缺点是这样的模型在低数据设置下表现更差。即使对于变压器，注入一些偏置也可能有利可图。</p>
+<p>例如，在ConViT中（文章的思路就是在Transformer中引入CNN中的硬归纳偏置，通过门控限制），作者提出使用“软”卷积归纳偏置，以便他们的模型可以在必要时学会忽略它。一个模型可以从低数据设置中的卷积归纳偏差中获益，并且如果它施加了太多约束则能够忽略它。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:659/1*5gxs8l2GG3wR4UV_fOf1Pw.png" alt="img"></p>
+<p><img src="https://miro.medium.com/v2/resize:fit:172/1*-JlGdWZQ1Y4qeUMAWdn-GA.png" alt="img"></p>
+<p><img src="https://miro.medium.com/v2/resize:fit:313/1*SSdJYIx4W5hbdoO-bJt-fw.png" alt="img"></p>
+<p>对于医学影像中（因为医学影像数据不足，必须依靠归纳偏置）归纳偏置的选择：</p>
+<ol>
+<li>在Transformer中加入归纳偏置，（结合CNN的一些结构，或者是知识蒸馏等）</li>
+<li>在CNN的基础上保留归纳偏置同时引入Transformer的一些优点。（MedNeXt和ConvNeXt就是采用了这种，文中写道：ConvNeXt架构将Vision和Swin Transformer的远程空间表示学习能力与ConvNets的固有归纳偏差相结合。）</li>
+</ol>
+<h1 id="A-ConvNet-for-the-2020s"><a href="#A-ConvNet-for-the-2020s" class="headerlink" title="A ConvNet for the 2020s"></a>A ConvNet for the 2020s</h1><p>主旨：使用Transformer的思维魔改ConvNet（ResNet）</p>
+<p>选择的路线和涨点的路线图：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330140729726.png" alt="image-20230330140729726"></p>
+<h2 id="改进的方法"><a href="#改进的方法" class="headerlink" title="改进的方法"></a>改进的方法</h2><h3 id="宏观设计"><a href="#宏观设计" class="headerlink" title="宏观设计"></a>宏观设计</h3><p>参考了Swin Transformer的设计，使用了多阶段实际使用不同特征图分辨率大小。还有两个有趣的设计值得考虑：</p>
+<ul>
+<li><p>the stage compute ratio</p>
+<p><strong>stage ratio</strong></p>
+<p>将ResNet的每个阶段块数从（3，4，6，3）调整为了（3，3，9，3），精度从78.8提高到了79.4</p>
+</li>
+<li><p>the “stem cell” structure</p>
+<p><strong>stem to “Patchify”</strong></p>
+<p>stem设计是处理输入图像的，常常用于将输入图像下采样到适当特征图大小。参考Swin Transformer的patch化，使用了一个4*4步长为4的卷积层替代ResNet的stem层，准确率从79.4提升到79.5.</p>
+</li>
+</ul>
+<h3 id="ResNeXt"><a href="#ResNeXt" class="headerlink" title="ResNeXt"></a>ResNeXt</h3><p>使用ResNeXt的思想，核心是分组卷积，将卷积过滤器（filters）分成不同的组。ResNeXt的原则：使用更多的组，扩大宽度。</p>
+<p>本文的方法：使用深度卷积，组的数量等于通道数量，深度卷积和1*1卷积的组合对空间和通道混合分离，这是ViT的共享特征。每个操作要么在空间上或者通道上混合信息，但不同时混合二者。</p>
+<p>结果：降低了FLOPs，但是精度也降低了。</p>
+<p>提升网络宽度：通道从64增加到96，提升FLOPs同时网络的性能也增加了</p>
+<h3 id="反向瓶颈"><a href="#反向瓶颈" class="headerlink" title="反向瓶颈"></a>反向瓶颈</h3><p>Transformer中MLP层的隐藏层将通道扩大四倍，和卷积中的反向瓶颈设计相联系。由MobileNetV2推广，并受到广泛应用。</p>
+<p>使用反向瓶颈使FLOPs减少，略微提高性能80.5到80.6，在另一个方案（ResNet200&#x2F;Swin-B）中带来了更大的收益81.9到82.6</p>
+<h3 id="大内核size"><a href="#大内核size" class="headerlink" title="大内核size"></a>大内核size</h3><p>ViT最显著的方面是非局部子注意力，虽然之前卷积有尝试大内核，但是gold standard依然还是堆叠小内核(<code>3x3</code>)，这些在现代GPU上有高效的硬件实现。Swin Transformer将本地窗口重新引入自注意力块，但是窗口大小至少也是<code>7x7</code></p>
+<ul>
+<li>Moving up depthwise conv layer（上移深度卷积层）</li>
+</ul>
+<p>因为多头自注意力层（MSA）也在MLP之前，所以要上移深度卷积层</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330154553104.png" alt="image-20230330154553104"></p>
+<p>(a)残差卷积(b)反残差卷积(c)上移卷积层</p>
+<ul>
+<li>Increasing the kernel size（增加核大小）</li>
+</ul>
+<p>在之前的准备后使用了大卷积核，3，5，7，9，11都进行了实验，最终选择7x7到达饱和点。</p>
+<h3 id="分层微观设计"><a href="#分层微观设计" class="headerlink" title="分层微观设计"></a>分层微观设计</h3><h4 id="Replacing-ReLU-with-GELU"><a href="#Replacing-ReLU-with-GELU" class="headerlink" title="Replacing ReLU with GELU"></a>Replacing ReLU with GELU</h4><p>GELU使ReLU更平滑的变体，在Transformer中应用，ConvNet也可以使用，尽管准确率没变化。</p>
+<h4 id="Fewer-activation-functions"><a href="#Fewer-activation-functions" class="headerlink" title="Fewer activation functions"></a>Fewer activation functions</h4><p>Transformer和ResNet一个小区别是Transformer有较少的激活函数。Transformer只有在MLP中有一个激活函数，但是在卷积里，激活函数附加到每个卷积层，本文做了一些实验来研究性能如何变化。</p>
+<p>结果选择：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230330160850857.png" alt="image-20230330160850857"></p>
+<h4 id="Fewer-normalization-layers"><a href="#Fewer-normalization-layers" class="headerlink" title="Fewer normalization layers"></a>Fewer normalization layers</h4><p>Transformer通常也有较少的normalization层，ConvNeXt也根据实验去掉了很多Normalization层，甚至比Transformer更少。</p>
+<h4 id="Substituting-BN-with-LN"><a href="#Substituting-BN-with-LN" class="headerlink" title="Substituting BN with LN"></a>Substituting BN with LN</h4><p>BN一直是视觉任务首选，提高收敛性能并减少过拟合，但是也会对性能产生不利影响。LN更简单，Transformer中首选了LN并取得了良好的性能。原始ResNet中直接替代BN将导致性能次优，这里对网络框架和训练技术的修改，这里获得了更好的性能。</p>
+<h4 id="Separate-downsampling-layers"><a href="#Separate-downsampling-layers" class="headerlink" title="Separate downsampling layers"></a>Separate downsampling layers</h4><p>Swin Transformer在stage之间添加了一个单独下采样层，ResNet的下采样是通过每个阶段开始的残差块来实现的（3*3卷积，步长2）。这里探索了一种类似Swin Transformer的策略，使用步长为2，核为2的卷积进行空间下采样，在空间分辨率改变的地方添加了归一化层还可以帮助稳定训练。显著提高准确率。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/" data-id="clix3qjvj0004qwueb4y6gfjp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

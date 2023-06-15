@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="文件结构img&#x2F;img_id&#x2F;name-id.dcm label&#x2F;img_id.nii.gz 读取Dicom 路径包含中文，重命名复制存放后读取  按照slice的ImagePositionPatient排序切片，组成三维图像  归一化(读取窗宽窗位，落到0-1采样5%-95%之间)： 12imgHu &#x3D; (imgHu+(ww&#x2F;2-wc))&#x2F;wwimgHu &#x3D; np.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E5%8F%A3%E8%85%94%E5%8D%B3%E5%88%BB%E7%A7%8D%E6%A4%8D%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="文件结构img&#x2F;img_id&#x2F;name-id.dcm label&#x2F;img_id.nii.gz 读取Dicom 路径包含中文，重命名复制存放后读取  按照slice的ImagePositionPatient排序切片，组成三维图像  归一化(读取窗宽窗位，落到0-1采样5%-95%之间)： 12imgHu &#x3D; (imgHu+(ww&#x2F;2-wc))&#x2F;wwimgHu &#x3D; np.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328153859991.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230406214858867.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230425103131203.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230409135657738.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230425103550694.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.543Z">
+<meta property="article:modified_time" content="2023-05-05T11:32:48.999Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328153859991.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-口腔即刻种植项目笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E5%8F%A3%E8%85%94%E5%8D%B3%E5%88%BB%E7%A7%8D%E6%A4%8D%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.543Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h1><p>img&#x2F;img_id&#x2F;name-id.dcm</p>
+<p>label&#x2F;img_id.nii.gz</p>
+<h1 id="读取Dicom"><a href="#读取Dicom" class="headerlink" title="读取Dicom"></a>读取Dicom</h1><ol>
+<li><p>路径包含中文，重命名复制存放后读取</p>
+</li>
+<li><p>按照slice的ImagePositionPatient排序切片，组成三维图像</p>
+</li>
+<li><p>归一化(读取窗宽窗位，落到0-1采样5%-95%之间)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imgHu = (imgHu+(ww/<span class="number">2</span>-wc))/ww</span><br><span class="line">imgHu = np.clip(imgHu, <span class="number">0.05</span>, <span class="number">0.95</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据label带的<code>Origin()</code>,<code>Spacing()</code>,<code>Direction()</code>属性给三维图像添加三维信息</p>
+</li>
+<li><p>输出存为nifit文件(.nii.gz格式)</p>
+</li>
+</ol>
+<p>处理过程中用到的一些信息：sapcing代表一个体素的物理分辨率，单位mm，ww和wc是hu值的窗宽窗位</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328153859991.png" alt="image-20230328153859991"></p>
+<h1 id="实验细节"><a href="#实验细节" class="headerlink" title="实验细节"></a>实验细节</h1><p>GPU：4张RTX2080Ti</p>
+<p>CPU：Intel Xeon Silver 4214</p>
+<p>操作系统：Ubuntu(Linux)</p>
+<p>Python：3.9</p>
+<p>pytorch：1.12.1</p>
+<p>epoch：200</p>
+<p>框架初步使用nnUNetv2</p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>验证集（3例）平均：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230406214858867.png" alt="image-20230406214858867"></p>
+<p>训练集</p>
+<p>训练结果不太理想，主要问题在于把11和12两颗牙和分别的牙槽骨识别反了，以及一些细节方面，452效果最好，451和453效果不佳</p>
+<p>451：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230425103131203.png" alt="image-20230425103131203"></p>
+<p>452：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230409135657738.png" alt="image-20230409135657738"></p>
+<p>453：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230425103550694.png" alt="image-20230425103550694"></p>
+<h1 id="第一阶段：端到端的分割框架"><a href="#第一阶段：端到端的分割框架" class="headerlink" title="第一阶段：端到端的分割框架"></a>第一阶段：端到端的分割框架</h1><p>直接输入CBCT影像，得到牙齿和牙槽骨分割结果</p>
+<p>问题：</p>
+<ul>
+<li>牙槽骨分割结果较差</li>
+<li>全图编码导致计算开销大，效率低</li>
+<li>两颗前牙容易识别反</li>
+</ul>
+<h1 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h1><p>更改任务的设计</p>
+<p>问题</p>
+<ol>
+<li><p>是否需要提取ROI：</p>
+<p>使用ROI训练不能改变目前的问题</p>
+<p>但是提取可以加快训练速度</p>
+</li>
+<li><p>数据分布上有什么问题</p>
+<p>451，452，453三例，451和453识别上容易出错，尤其是两颗牙相反的情况，多次训练不同模型取得的效果都类似</p>
+<p>使用五折的另外作为训练集和验证集也依旧在某几例上识别相反</p>
+</li>
+<li><p>是否要分离牙齿和牙槽骨分割任务</p>
+<p>实验室100例cbct只含牙齿标注，可以加入解决数据分布问题，但是没有提取ROI训练耗时很长</p>
+<p>在分割牙齿后使用牙齿数据作为辅助再去分割牙槽骨，本身牙槽骨的dice也不是很理想</p>
+</li>
+</ol>
+<p>思路总结：</p>
+<ol>
+<li><p>端到端直接分割出目标四个区域</p>
+<p>问题：</p>
+<ul>
+<li>牙齿与牙槽骨之间准确率差距比较大</li>
+<li>左右牙在卷积中难分辨</li>
+</ul>
+</li>
+<li><p>设计多任务分割管道</p>
+<ul>
+<li>训练网络，提取roi</li>
+<li>对牙齿训练分割网络</li>
+<li>加上牙齿的辅助对牙槽骨训练分割网络</li>
+</ul>
+</li>
+</ol>
+<p>拓展思路</p>
+<ul>
+<li><p>数据引擎(难，周期长)</p>
+</li>
+<li><p>promopt</p>
+<p>给先验知识一种其他的概念</p>
+</li>
+<li><p>文本+图像</p>
+<p>诊断过程的文本信息</p>
+</li>
+<li><p>zero-shot(零样本)</p>
+<p>SAM为base</p>
+</li>
+</ul>
+<p>汇报内容：</p>
+<p>目前项目进展与结果：（数据，结果）</p>
+<p>第一阶段分割流程图</p>
+<p>技术分享</p>
+<p>后续计划</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E5%8F%A3%E8%85%94%E5%8D%B3%E5%88%BB%E7%A7%8D%E6%A4%8D%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" data-id="clix3qjvs000iqwuegs2vgi9f" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E4%BA%A4%E6%8E%A5%E7%9B%B8%E5%85%B3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

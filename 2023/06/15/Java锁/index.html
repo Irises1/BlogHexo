@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Java锁乐观锁线程访问共享资源可以不停执行无需加锁或者等待，只是在提交修改的时候验证对应资源是否被其他线程修改（方法：CAS或者版本号） 使用场景：适合于读操作比较多，写比较少的场景。冲突发生不是很频繁的并发场景下效率更高（不存在锁资源竞争的线程阻塞，也不会有死锁问题），但是冲突频发时会频繁失败重试影响性能。  CAS：用一个预期值和要更新的变量值比较，相等才更新，不然自旋等待 版本号：数据表中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/Java%E9%94%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Java锁乐观锁线程访问共享资源可以不停执行无需加锁或者等待，只是在提交修改的时候验证对应资源是否被其他线程修改（方法：CAS或者版本号） 使用场景：适合于读操作比较多，写比较少的场景。冲突发生不是很频繁的并发场景下效率更高（不存在锁资源竞争的线程阻塞，也不会有死锁问题），但是冲突频发时会频繁失败重试影响性能。  CAS：用一个预期值和要更新的变量值比较，相等才更新，不然自旋等待 版本号：数据表中">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230319204718723.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f8f5088839a9f1e36a3dd84e80c572e3.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/reentrantlock-class-diagram.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.332Z">
+<meta property="article:modified_time" content="2023-05-15T02:41:28.658Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230319204718723.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java锁" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/Java%E9%94%81/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.332Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Java锁"><a href="#Java锁" class="headerlink" title="Java锁"></a>Java锁</h1><h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>线程访问共享资源可以不停执行无需加锁或者等待，只是在提交修改的时候验证对应资源是否被其他线程修改（方法：CAS或者版本号）</p>
+<p><strong>使用场景</strong>：适合于读操作比较多，写比较少的场景。冲突发生不是很频繁的并发场景下效率更高（不存在锁资源竞争的线程阻塞，也不会有死锁问题），但是冲突频发时会频繁失败重试影响性能。</p>
+<ul>
+<li>CAS：用一个预期值和要更新的变量值比较，相等才更新，不然自旋等待</li>
+<li>版本号：数据表中有一个版本号来控制被修改的次数，在线程访问共享资源要提交更新时检查版本号时对比与是否一致。注意检查版本号与提交更新要保持原子性，不然会出现检查版本号一致后资源被修改的情况。</li>
+</ul>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>​		Compare And Swap(比较与交换)。用一个预期值与要更新的变量值比较，相等才会更新。失败的线程被告知失败后依旧继续尝试，或者在一定次数或者时间后放弃。</p>
+<p><strong>CAS是原子操作。</strong></p>
+<p>​		在JUC的atomic包下提供了原子的变量类（比如AtomicInteger，LongAdder）就是使用了CAS实现的，可以定义多线程来修改变量，但是不会有线程安全问题。</p>
+<h3 id="乐观锁存在的问题"><a href="#乐观锁存在的问题" class="headerlink" title="乐观锁存在的问题"></a>乐观锁存在的问题</h3><h4 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h4><p>​		一个变量，初次读取是A值，在准备赋值时检查到依旧是A值。能保证这个A一定没有被其他线程修改了吗？可能在期间被改变为了其他值后又被改回A，那CAS依旧会误认为没有被修改。</p>
+<p><strong>解决方法</strong></p>
+<p>​		变量前追加版本号或者时间戳，JDK1.5以后<code>AtomicStampedReference</code>类就用于解决ABA问题。<code>compareAndSet</code>方法首先检查引用是否等于预期引用，标志是否等于预期标志，全部相等才以原子方式设置给定更新值。</p>
+<h4 id="循环时间长开销大"><a href="#循环时间长开销大" class="headerlink" title="循环时间长开销大"></a>循环时间长开销大</h4><p>CAS常用自旋操作来进行重试，即不成功就一直循环执行到成功。自旋是CPU操作，长时间不成功会给CPU带来很大执行开销。	</p>
+<h4 id="只能保证一个共享变量的原子操作"><a href="#只能保证一个共享变量的原子操作" class="headerlink" title="只能保证一个共享变量的原子操作"></a>只能保证一个共享变量的原子操作</h4><p>CAS只对单个共享变量有效，当操作涉及到多个共享变量时CAS无效。JDK1.5之后，提供了<code>AtomicReference</code>类保证引用对象之间的原子性，可以把多个变量放在一个对象里进行CAS操作		</p>
+<h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><p>由JVM提供的一种隐式锁（不需要手动加解锁）</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
+<li>原子性：保证线程互斥访问同步代码（操作是原子不可分的，不会被打断，全部执行或者全部不执行）</li>
+<li>可见性：访问的资源所有线程可见（一个线程如果要访问该类或对象必须先获得它的锁，而这个锁的状态对于其他任何线程都是可见的，并且在释放锁之前会将对变量的修改刷新到共享内存当中，保证资源变量的可见性）</li>
+<li>有序性：线程执行同步代码块是分先后顺序的</li>
+</ol>
+<p>​		一种互斥锁。在JDK1.6以前，很多人称之为<strong>重量级锁</strong>，性能不高。但是在JDK1.6之后，对synchronized进行了一些优化，引入了<strong>偏向锁</strong>，<strong>轻量级锁</strong>以及<strong>重量级锁</strong>。这个时候，synchronized会根据<strong>线程竞争的程度</strong>进行<strong>锁升级</strong>或降级。很多的文章或者书籍中都表示synchronized锁升级后就不会降级，其实synchronized存在降级机制，只是这个条件比苛刻。</p>
+<p>​		在对象刚被创建时，此时处于一个<strong>无锁状态</strong>，如果有且仅有一个线程对对象进行了加锁，那么此时将会升级到<strong>偏向锁</strong>状态，记录当前线程id并通过<strong>CAS操作修改Mark Word中的标志位</strong>。当有第二个线程来竞争锁时，并且两个线程执行速度非常快并且竞争比较小，那么此时为抢到锁的线程将会一直处于自旋状态并等待对象所被释放。当有多个线程来竞争锁并且竞争非常强烈时，那么此时会升级到重量级锁。</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><p>修饰实例方法（锁对象）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：子类继承父类方法时，如果synchronized修饰父类方法，不会继承同步。如果需要子类方法也同步，可以在子类方法上显式添加synchronized，或者在子类中使用super调用父类方法</p>
+</li>
+<li><p>修饰静态方法（锁Class类）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> <span class="keyword">void</span> staic <span class="title function_">method</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修饰代码块（锁Class类）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> method&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="built_in">this</span>)&#123;</span><br><span class="line">        <span class="comment">//do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>2修饰静态方法(任何静态成员)和3代码块都是给<strong>Class类</strong>加锁，1实例方法(或对象)是给<strong>对象实例</strong>上锁</p>
+<p>注意：</p>
+<ul>
+<li>接口不能使用synchronized</li>
+<li>构造方法不能使用synchronized，但是可以使用synchronized代码块进行同步</li>
+</ul>
+<h3 id="底层实现"><a href="#底层实现" class="headerlink" title="底层实现"></a>底层实现</h3><p>java对象的存储布局：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230319204718723.png" alt="image-20230319204718723"></p>
+<ul>
+<li>对象头：Java对象头占用2个机器码（如果对象是数组则需要3个）</li>
+<li>实例数据：存放类的属性数据信息，包括父类的属性信息</li>
+<li>对齐填充：因为虚拟机要求，对象起始地址必须是8字节整数倍</li>
+</ul>
+<h4 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h4><p><img src="https://img-blog.csdnimg.cn/img_convert/f8f5088839a9f1e36a3dd84e80c572e3.png" alt="img"></p>
+<p>根据锁的不同对象头存储内容不同</p>
+<ul>
+<li>偏向锁：存储当前占用此对象的线程ID</li>
+<li>轻量锁：存储指向线程栈中锁记录的指针</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>锁</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>偏向锁</td>
+<td>加锁和解锁不需要额外的消耗，和执行非同步方法仅有纳米级的差距</td>
+<td>如果线程间存在锁的竞争，会带来额外的锁撤销的消耗</td>
+<td>适用于只有一个线程访问的同步块场景</td>
+</tr>
+<tr>
+<td>轻量级锁</td>
+<td>竞争的线程不会阻塞，提高了程序的相应速度</td>
+<td>如果始终得不到锁竞争的线程，使用自旋会消耗CPU</td>
+<td>追求响应时间 同步响应非常快</td>
+</tr>
+<tr>
+<td>重量级锁</td>
+<td>线程竞争不使用自旋，不会消耗CPU</td>
+<td>线程阻塞，响应时间缓慢</td>
+<td>追求吞吐量 同步块执行速度较长</td>
+</tr>
+</tbody></table>
+<h4 id="监视器（Monitor）"><a href="#监视器（Monitor）" class="headerlink" title="监视器（Monitor）"></a>监视器（Monitor）</h4><p>java中（HotSpot虚拟机）由ObjectMonitor（C++：ObjectMonitor.cpp）实现，一个对象会关联到一个Monitor，如果Monitor被持有则会处于锁定状态。synchronized的实现基于进入和退出Monitor对象：</p>
+<ol>
+<li>MonitorEnter指令：插入在同步代码块的开始位置，当代码执行到该指令时，将会尝试获取该对象Monitor的所有权，即尝试获得该对象的锁；</li>
+<li>MonitorExit指令：插入在方法结束处和异常处，JVM保证每个MonitorEnter必须有对应的MonitorExit；</li>
+</ol>
+<p>Java中万物都是对象，所有的java对象都可以成为Monitor，因为每个java对象创建时候就带了一把看不见的锁，称为内部锁或者Monitor锁，即synchronized的对象锁。MarkWord锁的标识位为10，指针指向Monitor起始地址。</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>​		JUC下Lock接口的一个实现类。功能比synchronized更灵活，底层实现依赖于<strong>AQS</strong>，支持手动加解锁，支持手动设置<strong>公平锁</strong>和<strong>非公平锁</strong>，支持线程中断。其中定义了一个内部类Sync继承AQS。</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/reentrantlock-class-diagram.png" alt="img"></p>
+<ul>
+<li>公平锁：线程必须依靠先后顺序获取锁，即FIFO队列。公平锁的实现逻辑先判断当前AQS的CLH队列中是否正在排队的线程，如果队列为空，那么通过CAS加锁，如果加锁成功则继续向下执行。如果AQS有正在持有锁的线程，那么会判断持有锁的线程是否为当前线程，如果与当前线程是同一个那么就可以实现锁重入。如果获取锁失败，那么将会插入到CLH队列。</li>
+<li>非公平锁（默认）：直接通过CAS进行资源争抢，获取成功继续执行，否则进入FIFO队列等待唤醒。一般情况下非公平锁的效率要优于公平锁。</li>
+</ul>
+<p>相比synchronized增加的功能：</p>
+<ul>
+<li>等待可中断：正在等待的线程可以放弃等待改处理其他事</li>
+<li>可实现公平锁：可以指定公平锁或者非公平锁，synchronize只能实现风公平锁</li>
+<li>可实现选择性通知（可以绑定多个条件）：可以通过Condition接口和newCondition方法实现等待通知机制</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/Java%E9%94%81/" data-id="clix3qjva0002qwue07z18a50" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/Java%E7%9F%A5%E8%AF%86%E7%82%B9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

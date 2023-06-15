@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="nnUNetv2笔记分割性能保持不变，但是更方便将其用作开发框架，手动微调配置，适应新的数据集 分层标签是什么nnUNet给了一个脑肿瘤的例子（Brain Tumor Segmentation Challenge）：  上面的这一类label被称为individual labels，分别标记肿瘤的水肿，坏死和非增强肿瘤，增强肿瘤（edema, necrosis and non-enhancing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="nnUNetv2笔记分割性能保持不变，但是更方便将其用作开发框架，手动微调配置，适应新的数据集 分层标签是什么nnUNet给了一个脑肿瘤的例子（Brain Tumor Segmentation Challenge）：  上面的这一类label被称为individual labels，分别标记肿瘤的水肿，坏死和非增强肿瘤，增强肿瘤（edema, necrosis and non-enhancing">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230321101149147.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.566Z">
+<meta property="article:modified_time" content="2023-03-23T13:28:20.813Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230321101149147.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-nnUNetv2笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.566Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="nnUNetv2笔记"><a href="#nnUNetv2笔记" class="headerlink" title="nnUNetv2笔记"></a>nnUNetv2笔记</h1><p>分割性能保持不变，但是更方便将其用作开发框架，手动微调配置，适应新的数据集</p>
+<h2 id="分层标签"><a href="#分层标签" class="headerlink" title="分层标签"></a>分层标签</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>nnUNet给了一个脑肿瘤的例子（<a target="_blank" rel="noopener" href="http://braintumorsegmentation.org/">Brain Tumor Segmentation Challenge</a>）：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230321101149147.png" alt="image-20230321101149147"></p>
+<p>上面的这一类label被称为individual labels，分别标记肿瘤的水肿，坏死和非增强肿瘤，增强肿瘤（edema, necrosis and non-enhancing tumor, enhancing tumor）。但是有些临床应用要检测整个肿瘤，肿瘤核心和增强肿瘤（whole tumor, tumor core and enhancing tumor）,如下图标签。</p>
+<p>因此nnUNet提供了新的Region-based segmentation target，基于区域的目标分割。</p>
+<h3 id="nnUNet能做什么"><a href="#nnUNet能做什么" class="headerlink" title="nnUNet能做什么"></a>nnUNet能做什么</h3><p>在训练期间，nnUNet允许通过合并单个标签构建区域来学习。当一个器官和子结构需要分割时候，可以将第一个目标区域输出为整个器官，子结构这样有层次的label。</p>
+<p>注：nnUNet依然需要整数标签图（integer label maps）作为输入和提供整数标签图作为输出。基于区域目标的训练可以学习重叠标签，但是必须要对这些重叠进行建模。</p>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>首先在<code>dataset.json</code>声明标签，以BraTS（上面举例的脑肿瘤分割）为例，labels定义：(这里label的整数和挑战给的整数不一样，因为nnUNet需要连续递增的整数作为label)</p>
+<p>基于单个标签的写法（上图）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="attr">&quot;labels&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;background&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;edema&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;non_enhancing_and_necrosis&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;enhancing_tumor&quot;</span><span class="punctuation">:</span> <span class="number">3</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>基于区域的写法（下图）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="attr">&quot;labels&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;background&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;whole_tumor&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">,</span> <span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tumor_core&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;enhancing_tumor&quot;</span><span class="punctuation">:</span> <span class="number">3</span>  # or <span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;regions_class_order&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">,</span> <span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><code>“labels”</code>给了不同区域对应实际上label的值，下面<code>&quot;regions_class_order&quot;</code>告诉nnUNet要把区域转化回整数映射。也就是将定义的区域”whole_tumor”生成label值为1，”tumor_core”生成label值为2，”enhancing_tumor”生成label值为3。每一步之后设置的label值都会去覆盖之前区域的值，因此设置”regions_class_order”时要从大范围到小范围去写。</p>
+<p>注：因为区域声明对顺序很敏感，所以自动生成json时候，要确保字典的键不按照字母顺序排序，在<code>json.dump()</code>中设置 <code>sort_keys=False</code></p>
+<h2 id="跨平台支持"><a href="#跨平台支持" class="headerlink" title="跨平台支持"></a>跨平台支持</h2><p>Cuda，mps（Apple M1&#x2F;M2），还有CPU支持。只需要在 <code>nnUNetv2_train</code> 使用<code>-device</code> 选择，和 <code>nnUNetv2_predict</code>中选择。</p>
+<h2 id="统一训练器类"><a href="#统一训练器类" class="headerlink" title="统一训练器类"></a>统一训练器类</h2><p>定义了统一训练器类：nnUNetTrainer。所有的训练器默认功能都集中在这里。之后不要乱用cascaded trainer, DDP trainer, region-based trainer, ignore trainer等</p>
+<h2 id="更多数据格式"><a href="#更多数据格式" class="headerlink" title="更多数据格式"></a>更多数据格式</h2><p>通过ImageIO类可以支持更多的输入输出格式</p>
+<h2 id="不再需要nnUNet-raw-cropped-文件夹"><a href="#不再需要nnUNet-raw-cropped-文件夹" class="headerlink" title="不再需要nnUNet_raw_cropped 文件夹"></a>不再需要nnUNet_raw_cropped 文件夹</h2><p>因为裁剪保存npz文件实际上很慢，nnUNetv2改为了实时裁剪。更快的基础上节省磁盘空间</p>
+<h2 id="对多GPU训练提供本地支持"><a href="#对多GPU训练提供本地支持" class="headerlink" title="对多GPU训练提供本地支持"></a>对多GPU训练提供本地支持</h2><h2 id="可以通过API访问nnUNet的所有功能"><a href="#可以通过API访问nnUNet的所有功能" class="headerlink" title="可以通过API访问nnUNet的所有功能"></a>可以通过API访问nnUNet的所有功能</h2><p><code>setup.py</code>中展示了调用的函数入口</p>
+<h2 id="数据集指纹已明确创建并保存在json文件中"><a href="#数据集指纹已明确创建并保存在json文件中" class="headerlink" title="数据集指纹已明确创建并保存在json文件中"></a>数据集指纹已明确创建并保存在json文件中</h2><h2 id="plan文件检查"><a href="#plan文件检查" class="headerlink" title="plan文件检查"></a>plan文件检查</h2><p>plans.json中可以配置全局和本地设置，配置的例子和结构详情查看<a target="_blank" rel="noopener" href="https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/explanation_plans_files.md">文档</a></p>
+<h2 id="文件夹结构不同"><a href="#文件夹结构不同" class="headerlink" title="文件夹结构不同"></a>文件夹结构不同</h2><p>但是更对用户友好：</p>
+<ul>
+<li>nnUNet_preprocessed<ul>
+<li>默认情况下，预处理数据现在保存为：<code>nnUNet_preprocessed/DATASET_NAME/PLANS_IDENTIFIER_CONFIGURATION</code>明确地将它们链接到相应的计划和配置</li>
+<li>包含预处理图像的文件夹的名称可以使用密钥进行调整<code>data_identifier</code>。</li>
+</ul>
+</li>
+<li>nnUNet_results<ul>
+<li>结果现在排序如下：DATASET_NAME&#x2F;TRAINERCLASS__ PLANSIDENTIFIER __CONFIGURATION&#x2F;FOLD</li>
+</ul>
+</li>
+</ul>
+<h2 id="后续未实施更新"><a href="#后续未实施更新" class="headerlink" title="后续未实施更新"></a>后续未实施更新</h2><ul>
+<li>融入MONAI（官网描述：一组开源、可免费使用的协作框架，旨在加速医学成像领域的研究和临床协作。 目标是通过构建一个强大的软件框架来加快创新和临床转化的步伐，该框架几乎可以使医学成像、深度学习研究和部署的各个层面受益。）</li>
+<li>大量数据集的预训练权重</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/" data-id="clix3qjvp000cqwue1rtu2nhq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/Sam%20on%20tooth/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.设计模式 创建型模式 用于描述如何创建对象，特点是将对象的创建和使用分离： 单例，原型，工厂方法，抽象工厂，建造者  结构型模式 描述如何将类或者对象按照某种布局组成更大的结构 代理，适配器，桥接，装饰，外观，享元，组合  行为型模式 描述类或者对象之间怎样相互写作共同完成单个对象无法单独完成的任务，以及怎样分配职责。 模板方法，策略，命令，职责链，状态，观察者，中介者，迭代器，访问者，备忘录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.设计模式 创建型模式 用于描述如何创建对象，特点是将对象的创建和使用分离： 单例，原型，工厂方法，抽象工厂，建造者  结构型模式 描述如何将类或者对象按照某种布局组成更大的结构 代理，适配器，桥接，装饰，外观，享元，组合  行为型模式 描述类或者对象之间怎样相互写作共同完成单个对象无法单独完成的任务，以及怎样分配职责。 模板方法，策略，命令，职责链，状态，观察者，中介者，迭代器，访问者，备忘录">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/02a7b17b00b14278a69aa8518cda4733.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b409264fc2f5434bb00749fb7c0f47be.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0d14d3d928684d53b428fe67bb3d228a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ce80edf346a045e3963d5dc0c1ad584a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/44861fcc633946ab9026e3cc4499304d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4c26d809ed124b2da3e00b2409a10d9c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_19,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f246f125985a4af8a67e9e26bb79fb4b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3c33214ec2c24f5fa0c9d6bc7f9f5bbd.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_18,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230409204145550.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410191438214.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410192936256.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410193815964.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410194257822.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410194710559.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410200201981.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411191150873.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411192011870.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411194005997.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411194132833.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411200733169.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412202647866.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412202746406.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230413204145811.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417194026979.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417200706233.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418195037867.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418195956041.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418200531876.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418201638118.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419163902211.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419200931292.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419200946324.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420194851288.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420195059707.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420195636902.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420203610672.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.322Z">
+<meta property="article:modified_time" content="2023-06-08T01:44:06.146Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/02a7b17b00b14278a69aa8518cda4733.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-设计模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.322Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-设计模式"><a href="#1-设计模式" class="headerlink" title="1.设计模式"></a>1.设计模式</h1><ul>
+<li><p>创建型模式</p>
+<p>用于描述如何创建对象，特点是将对象的创建和使用分离：</p>
+<p>单例，原型，工厂方法，抽象工厂，建造者</p>
+</li>
+<li><p>结构型模式</p>
+<p>描述如何将类或者对象按照某种布局组成更大的结构</p>
+<p>代理，适配器，桥接，装饰，外观，享元，组合</p>
+</li>
+<li><p>行为型模式</p>
+<p>描述类或者对象之间怎样相互写作共同完成单个对象无法单独完成的任务，以及怎样分配职责。</p>
+<p>模板方法，策略，命令，职责链，状态，观察者，中介者，迭代器，访问者，备忘录，解释器</p>
+</li>
+</ul>
+<h2 id="1-1创建型模式"><a href="#1-1创建型模式" class="headerlink" title="1.1创建型模式"></a>1.1创建型模式</h2><h3 id="1-1-1单例设计模式-重要"><a href="#1-1-1单例设计模式-重要" class="headerlink" title="1.1.1单例设计模式(重要)"></a>1.1.1单例设计模式(重要)</h3><h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><p>只能创建自己的单个对象，保证一个类只有一个实例并且提供一个全局访问点</p>
+<p><img src="https://img-blog.csdnimg.cn/02a7b17b00b14278a69aa8518cda4733.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><p>重量级对象，不需要多个实例，如线程池，数据库连接池</p>
+<h4 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h4><p>补充：私有构造方法为了不让创建实例</p>
+<p><strong>定义</strong>：加载不会导致单实例对象被创建，只有在真正使用的时候才会开始实例化</p>
+<p><strong>特点</strong>：</p>
+<p>方式一：synchronized保证线程安全方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//本类中定义本类对象,没有赋值</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//判断instance是否已经创建</span></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">         	instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();   </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式：思考线程安全问题，判断与创建不能满足原子性，需要使用synchronized关键字。问题在于synchronized导致性能差。</p>
+<p>方式二：双重检查锁（推荐）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//本类中定义本类对象,没有赋值</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//一次判断</span></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class)&#123;</span><br><span class="line">                <span class="comment">//二次判断</span></span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时考虑了单例，安全，性能。</p>
+<p>问题：在多线程情况下可能会出现空指针问题，原因是JVM在实例化对象会优化和指令重排，解决方式是使用<code>volatile</code>关键字保证可见性和有序性。</p>
+<p>方式三：静态内部类（推荐）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//由内部类创建实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JVM在<strong>加载外部类过程中，不会加载静态内部类</strong>，只有内部类的属性&#x2F;方法被调用时才会被加载</p>
+<p>没有加任何锁的情况下保证了多线程的安全，同时没有任何性能影响和资源浪费</p>
+<h4 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h4><p><strong>定义</strong>：<strong>类加载</strong>就会导致该单实例对象被创建</p>
+<p><strong>特点</strong>：类加载就创建可能导致内存浪费</p>
+<p>方式一：静态成员变量方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//本类中创建本类对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方式二：静态代码块</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//声明该类变量，不赋值</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line">    <span class="comment">//使用静态代码块进行赋值</span></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">     	instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供获取该对象的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方式三：枚举方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//外部使用</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="comment">//同一个</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance1</span> <span class="operator">=</span> Singleton.INTANCE;</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance2</span> <span class="operator">=</span> Singleton.INTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是极力推荐的单例实现模式，线程安全且只会创建一次。是所有单例实现中唯一一种不会被破坏的单例实现模式</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p><strong>破坏单例模式</strong></p>
+<p>让定义的单例类（上面定义的除枚举方式以外的所有类，但是要在定义类的时候加上<code>implements Serializable</code>）可以创建多个对象，两种方式：序列化和反射</p>
+<p>序列化：</p>
+<p>序列化读取到的对象是原来对象的拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="comment">//不同</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance1</span> <span class="operator">=</span> readObject2File();</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance2</span> <span class="operator">=</span> readObject2File();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//向文件读取数据（对象）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">readObject2File</span><span class="params">()</span> <span class="keyword">throw</span> Exception&#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;path&quot;</span>));</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> (Singleton) ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//向文件写数据（对象）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">writeObject2File</span><span class="params">()</span> <span class="keyword">throw</span> Exception&#123;</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;path&quot;</span>));</span><br><span class="line">        oos.wirteObject(instance);</span><br><span class="line">        oos.close;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反射：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="comment">//获取字节码对象</span></span><br><span class="line">        Class clazz= Singleton.class;</span><br><span class="line">        <span class="comment">//获取无参构造方法对象</span></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">cons</span> <span class="operator">=</span> clazz.getDeclaredConstructor();</span><br><span class="line">        <span class="comment">//取消访问检查</span></span><br><span class="line">        cons.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="comment">//获取的对象不同</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance1</span> <span class="operator">=</span> (Singleton) cons.newInstance();</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance2</span> <span class="operator">=</span> (Singleton) cons.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方法</strong></p>
+<p><strong>序列化反序列化的解决</strong></p>
+<p>在Singleton类中添加<code>readResolve()</code>方法，在序列化和反序列化时被反射调用，如果定义了这个方法就返回方法值，没有定义就返回new的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>&#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">//由内部类创建实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//反序列时会自动调用，直接返回该方法</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">readResolve</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反序列化过程：</p>
+<ol>
+<li>获取序列化类</li>
+<li>判断对象能否被实例化，可以则进行实例化，此时进行第一次实例化对象暂称为obj</li>
+<li>通过反射寻找该类的<code>readResolve()</code>方法，没有则直接返回obj（反序列化破坏单例模式的根本原因）</li>
+<li>如果有<code>readResolve()</code>，通过<code>invokeReadResolve(Object obj)</code>调用<code>readResolve()</code>获取对象实例赋值给第二个实例化对象称为rep，此时如果单例对象被实例化过就指向之前被实例化的单例对象，没有则指向null</li>
+<li>第二个实例化对象rep与obj比较，因为obj是反射创建，不相等，则将rep的实例赋值给obj，返回obj</li>
+</ol>
+<p>总结：当我们通过反序列化<code>readObject()</code>方法获取对象时会去寻找<code>readResolve()</code>方法，如果该方法不存在则直接返回新对象，如果该方法存在则按该方法的内容返回对象，以确保<strong>如果我们之前实例化了单例对象，就返回该对象</strong>。<strong>如果我们之前没有实例化单例对象，则会返回null</strong>。</p>
+<p><strong>反射方式的解决</strong></p>
+<p>思路是在构造方法中统计实例化次数，超过一次就抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//反射化破解单例需要添加的解决方案</span></span><br><span class="line">        <span class="comment">//构造方法中判断是否第一次创建，不是第一次就抛异常</span></span><br><span class="line">        <span class="comment">//这里新加了属性flag判断，其他的可以判断instance是否为null</span></span><br><span class="line">        <span class="comment">//多线程考虑线程安全</span></span><br><span class="line">        <span class="keyword">synchronized</span>(Singleton.class)&#123;</span><br><span class="line">            <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            flag = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//由内部类创建实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供一个全局访问方式获取实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="JDK中的源码案例"><a href="#JDK中的源码案例" class="headerlink" title="JDK中的源码案例"></a>JDK中的源码案例</h4><p>Runtime类(饿汉模式)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.lang;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sun.reflect.CallerSensitive;</span><br><span class="line"><span class="keyword">import</span> sun.reflect.Reflection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.StringTokenizer;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Runtime类，里面可以获得应用运行时的一些状态（主要包括使用的内存和cpu个数）和在应用运行时执行一些操作（程序退出、执行gc、设置退出时的钩子函数）。</span></span><br><span class="line"><span class="comment"> * 用到了单例模式：确保一个类最多只有一个实例，并提供一个全局访问点。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Runtime</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Runtime</span> <span class="variable">currentRuntime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runtime</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 应用了设计模式中的单例模式饿汉式(线程安全)</span></span><br><span class="line"><span class="comment">     * 返回与当前应用程序相关的java运行时对象。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Runtime <span class="title function_">getRuntime</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> currentRuntime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 私有构造函数，单例模式的条件，返回与当前应用程序相关的java运行时对象,不支持new的Runtime</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Runtime</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="comment">//后面还有很多功能的方法，暂时可以忽略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-1-2简单工厂模式"><a href="#1-1-2简单工厂模式" class="headerlink" title="1.1.2简单工厂模式"></a>1.1.2简单工厂模式</h3><p>不是经典设计模式之一，比较像一种编程习惯。</p>
+<p><img src="https://img-blog.csdnimg.cn/b409264fc2f5434bb00749fb7c0f47be.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象产品：定义产品规范，主要特性和功能</li>
+<li>具体产品：实现或者继承抽象产品的子类</li>
+<li>具体工厂：提供创建产品的方法，调用者通过该方法来获取产品</li>
+</ul>
+<p>想要获取产品，通过创建工厂使用方法获取产品</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>封装创建对象的过程，可以通过参数直接获取对象，把对象创建的业务逻辑层分开，避免了修改客户代码</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>工厂和具体产品之间存在耦合，增加新产品需要修改工厂类代码，违背了开闭原则</p>
+<h4 id="扩展-静态工厂"><a href="#扩展-静态工厂" class="headerlink" title="扩展-静态工厂"></a>扩展-静态工厂</h4><p>将工厂类中创建对象的功能定义为静态，也不属于23种设计模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleCoffeeFactory</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Coffee <span class="title function_">createCoffee</span><span class="params">(String type)</span>&#123;</span><br><span class="line">     	<span class="type">Coffee</span> <span class="variable">coffee</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">&quot;americano&quot;</span>.equals(type))&#123;</span><br><span class="line">            coffee = <span class="keyword">new</span> <span class="title class_">AmericanoCoffee</span>();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;latte&quot;</span>.equals(type))&#123;</span><br><span class="line">            coffee = <span class="keyword">new</span> <span class="title class_">LatteCoffee</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> coffee;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-3工厂方法模式（重要）"><a href="#1-1-3工厂方法模式（重要）" class="headerlink" title="1.1.3工厂方法模式（重要）"></a>1.1.3工厂方法模式（重要）</h3><p>改进简单工厂方法，完全遵守开闭原则</p>
+<p><img src="https://img-blog.csdnimg.cn/0d14d3d928684d53b428fe67bb3d228a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>定义一个用于创建对象的接口，让子类决定实例化哪个产品类对象。工厂方法使一个产品类的实例化延迟到其工厂的子类</p>
+<h4 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象工厂：提供创建产品的接口，调用者通过它访问具体工厂的方法来创建产品</li>
+<li>具体工厂：主要实现抽象工厂的抽象方法，完成具体产品的创建</li>
+<li>抽象产品：定义了产品的规范，描述了产品的主要特性和功能</li>
+<li>具体产品：实现了抽象产品角色所定义的接口，由具体工厂来创建，与具体工厂之间<strong>一一对应</strong></li>
+</ul>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>用户只需要知道具体工厂就可以得到需要的产品，不需要知道产品的创建过程</li>
+<li>增加新产品只需要添加具体的产品类和对应的具体工厂类，无需对原工厂进行任何修改</li>
+</ul>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>每增加一个产品就需要增加一个具体产品类和一个对应的具体工厂类，增加了系统的复杂度</li>
+</ul>
+<h3 id="1-1-4抽象工厂模式"><a href="#1-1-4抽象工厂模式" class="headerlink" title="1.1.4抽象工厂模式"></a>1.1.4抽象工厂模式</h3><p>为访问类提供一个创建一组相关或者相互依赖对象的接口，且访问类无需指定所要的产品的具体类九能得到同族的不同等级的产品模式结构。是工厂方法模式的升级版，抽象工厂模式可以生产多类产品。</p>
+<p><img src="https://img-blog.csdnimg.cn/ce80edf346a045e3963d5dc0c1ad584a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="结构-2"><a href="#结构-2" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象工厂：提供创建产品的接口，包含多个创建产品的方法，可以创建多个不同类的产品</li>
+<li>具体工厂：实现抽象工厂的多个抽象方法，完成具体产品的创建</li>
+<li>抽象产品：定义了产品规范，描述产品主要特性和功能，抽象工厂有多个抽象产品</li>
+<li>具体产品：实现抽象产品角色定义的接口，和具体工厂之间是多对一的关系（多个具体产品对应一个具体工厂</li>
+</ul>
+<h4 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h4><p>多类产品对象被设计成一起工作，还能保证客户端始终只使用同一个对象</p>
+<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><p>产品族需要增加一个新类产品，所有工厂类都需要修改</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>需要创建的对象是一系列相互关联或者相互依赖的产品</li>
+<li>系统中有多个产品族，但是每次只使用某一个产品族（同一族含多个不同类产品）</li>
+<li>系统提供了产品的类库，所有产品的接口相同，客户端不依赖产品实例的创建细节和内部结构</li>
+</ul>
+<p>（类似于某一些不同类产品要用就用同一品牌的）</p>
+<h4 id="工厂模式扩展"><a href="#工厂模式扩展" class="headerlink" title="工厂模式扩展"></a>工厂模式扩展</h4><p>简单工厂+配置文件解除耦合：</p>
+<p>在工厂类中加载配置文件中的全类名，并创建对象进行存储，如果客户端需要对象，直接获取即可。参考之前静态工厂方法，里面直接根据名字获取具体产品即可。具体产品可以在配置文件直接写全类名，后续更新也直接在配置文件更新即可。</p>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><p><code>Collection.iterator()</code></p>
+<p><img src="https://img-blog.csdnimg.cn/44861fcc633946ab9026e3cc4499304d.png" alt="img"></p>
+<h3 id="1-1-5原型模式"><a href="#1-1-5原型模式" class="headerlink" title="1.1.5原型模式"></a>1.1.5原型模式</h3><p>用一个已经创建的实例作为原型，通过复制原型对象创建一个和原型对象相同的新对象</p>
+<p><img src="https://img-blog.csdnimg.cn/4c26d809ed124b2da3e00b2409a10d9c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="结构-3"><a href="#结构-3" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象原型类：规定了具体原型对象必须实现的<code>clone()</code>方法</li>
+<li>具体原型类：实现抽象原型类的<code>clone()</code>方法，是可以被复制的对象</li>
+<li>访问类：使用具体原型类中的<code>clone()</code>方法来复制新对象</li>
+</ul>
+<p>访问过程：新建一个具体实现类的实例，然后使用clone创建一个新对象</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><ul>
+<li><p>浅克隆：clone创建的新对象，属性和原来对象完全相同，非基本类型属性仍指向原对象的内存地址</p>
+</li>
+<li><p>深克隆：新对象引用的对象也会被克隆，不指向原有对象的地址(可以使用对象流实现，序列化反序列化可以实现深拷贝)</p>
+</li>
+</ul>
+<p>Java中Object类提供了<code>clone()</code>方法实现浅克隆Cloneable接口为抽象原型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//具体原型类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Realizetype</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span></span><br><span class="line">&#123;</span><br><span class="line">    Realizetype()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;具体原型创建成功！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Realizetype <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;具体原型复制成功！&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> (Realizetype) <span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//原型模式的测试类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrototypeTest</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> CloneNotSupportedException</span><br><span class="line">    &#123;</span><br><span class="line">        Realizetype obj1=<span class="keyword">new</span> <span class="title class_">Realizetype</span>();</span><br><span class="line">        Realizetype obj2=(Realizetype)obj1.clone();</span><br><span class="line">        System.out.println(<span class="string">&quot;obj1==obj2?&quot;</span>+(obj1==obj2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-6建造者模式"><a href="#1-1-6建造者模式" class="headerlink" title="1.1.6建造者模式"></a>1.1.6建造者模式</h3><p>将一个复杂对象（比如主机）构建（零件）与表示（主机）分离，使同样的构建过程（装配）可以创建不同表示</p>
+<p><img src="https://img-blog.csdnimg.cn/f246f125985a4af8a67e9e26bb79fb4b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="结构-4"><a href="#结构-4" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象建造者类：接口规定要实现复杂对象的哪些部分的创建，不涉及具体对象部件的创建</li>
+<li>具体建造者类：实现抽象建造者类接口，完成复杂产品的各个部件的具体创建方法，构建完成后提供产品实例</li>
+<li>产品类：要创建的复杂对象</li>
+<li>指挥者类：调用具体建造者来创建复杂对象各个部分，在指导者中不涉及具体产品信息，只负责保证对象各部分完整创建或者按照某种顺序创建</li>
+</ul>
+<h4 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>封装性好，建造者模式场景中一般产品类和建造者类都是稳定的，将主要业务逻辑封装在指挥者类对整体可以取得比较好的稳定性</li>
+<li>客户端不必知道产品内部组成细节，将产品本身和创建过程解耦，相同的创建过程因此可以创建不同的对象</li>
+<li>可以更精细控制产品创建，将步骤分解在不同方法，使创建过程更清晰，更方便程序员控制</li>
+<li>容易扩展，新的需求实现新的建造者类就可以完成，基本上不用修改之前测试通过的代码，符合开闭原则</li>
+</ul>
+<h4 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h4><p>创建的产品一般有较多共同点，组成部分相似，如果产品之间差异很大则不适合使用</p>
+<h4 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h4><p>创建的复杂对象各个部分经常面临变化，但是组合的算法相对稳定</p>
+<ul>
+<li>创建的对象复杂，有多个部分，部件面临复杂变化，但是构件间的建造顺序稳定</li>
+<li>创建复杂对象的算法独立于对象的组成部分和他们的装配方式，即产品的构建过程和最终表示是独立的</li>
+</ul>
+<h4 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h4><p>当一个类构造器需要传入很多参数，创建这个类的实例，代码可读性会非常差且容易引入错误，此时可以用建造者模式进行重构</p>
+<p>创建静态内部类Builder，提供每个部件的传入方法。创建实例构造方法只需要传入Builder。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//重构前</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Phone</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String cpu;</span><br><span class="line">    <span class="keyword">private</span> String screen;</span><br><span class="line">    <span class="keyword">private</span> String memory;</span><br><span class="line">    <span class="keyword">private</span> String mainboard;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Phone</span><span class="params">(String cpu, String screen, String memory, String mainboard)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.cpu = cpu;</span><br><span class="line">        <span class="built_in">this</span>.screen = screen;</span><br><span class="line">        <span class="built_in">this</span>.memory = memory;</span><br><span class="line">        <span class="built_in">this</span>.mainboard = mainboard;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getCpu</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> cpu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCpu</span><span class="params">(String cpu)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.cpu = cpu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getScreen</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> screen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setScreen</span><span class="params">(String screen)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.screen = screen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMemory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> memory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMemory</span><span class="params">(String memory)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.memory = memory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMainboard</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mainboard;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMainboard</span><span class="params">(String mainboard)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.mainboard = mainboard;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Phone&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;cpu=&#x27;&quot;</span> + cpu + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, screen=&#x27;&quot;</span> + screen + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, memory=&#x27;&quot;</span> + memory + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, mainboard=&#x27;&quot;</span> + mainboard + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//构建Phone对象需要传递很多参数，可读性差</span></span><br><span class="line">        <span class="type">Phone</span> <span class="variable">phone</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phone</span>(<span class="string">&quot;intel&quot;</span>,<span class="string">&quot;三星屏幕&quot;</span>,<span class="string">&quot;金士顿&quot;</span>,<span class="string">&quot;华硕&quot;</span>);</span><br><span class="line">        System.out.println(phone);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建造者模式链式重构后</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Phone</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String cpu;</span><br><span class="line">    <span class="keyword">private</span> String screen;</span><br><span class="line">    <span class="keyword">private</span> String memory;</span><br><span class="line">    <span class="keyword">private</span> String mainboard;</span><br><span class="line">	<span class="comment">//构造方法私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Phone</span><span class="params">(Builder builder)</span> &#123;</span><br><span class="line">        cpu = builder.cpu;</span><br><span class="line">        screen = builder.screen;</span><br><span class="line">        memory = builder.memory;</span><br><span class="line">        mainboard = builder.mainboard;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//静态内部类</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Builder</span> &#123;</span><br><span class="line">        <span class="comment">//跟要创建的对象类的属性一致</span></span><br><span class="line">        <span class="keyword">private</span> String cpu;</span><br><span class="line">        <span class="keyword">private</span> String screen;</span><br><span class="line">        <span class="keyword">private</span> String memory;</span><br><span class="line">        <span class="keyword">private</span> String mainboard;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Builder</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">		<span class="comment">//返回一个当前的Builder对象</span></span><br><span class="line">        <span class="keyword">public</span> Builder <span class="title function_">cpu</span><span class="params">(String val)</span> &#123;</span><br><span class="line">            cpu = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> Builder <span class="title function_">screen</span><span class="params">(String val)</span> &#123;</span><br><span class="line">            screen = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> Builder <span class="title function_">memory</span><span class="params">(String val)</span> &#123;</span><br><span class="line">            memory = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> Builder <span class="title function_">mainboard</span><span class="params">(String val)</span> &#123;</span><br><span class="line">            mainboard = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> Phone <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Phone</span>(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Phone&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;cpu=&#x27;&quot;</span> + cpu + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, screen=&#x27;&quot;</span> + screen + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, memory=&#x27;&quot;</span> + memory + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, mainboard=&#x27;&quot;</span> + mainboard + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Phone</span> <span class="variable">phone</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phone</span>.Builder()</span><br><span class="line">                .cpu(<span class="string">&quot;intel&quot;</span>)</span><br><span class="line">                .mainboard(<span class="string">&quot;华硕&quot;</span>)</span><br><span class="line">                .memory(<span class="string">&quot;金士顿&quot;</span>)</span><br><span class="line">                .screen(<span class="string">&quot;三星&quot;</span>)</span><br><span class="line">                .build();</span><br><span class="line">        System.out.println(phone);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2结构型模式"><a href="#1-2结构型模式" class="headerlink" title="1.2结构型模式"></a>1.2结构型模式</h2><p>描述如何将类或者对象按照某种布局组成更大的<strong>结构</strong>。分为类结构型模式和对象结构型模式，前者采用继承机制组织接口和类，后者采用组合或聚合来组合对象。因为组合或者聚合关系耦合度更低，满足合成复用原则，所以对象结构型模式更灵活。</p>
+<h3 id="1-2-1代理模式（重要）"><a href="#1-2-1代理模式（重要）" class="headerlink" title="1.2.1代理模式（重要）"></a>1.2.1代理模式（重要）</h3><p>某些原因需要给某对象提供一个代理以控制该对象的访问。此时访问对象不适合或者不能直接引用目标对象，代理对象作为访问对象和目标对象之间的中介。</p>
+<p>根据代理类生成时机可以分为<strong>静态代理</strong>（代理类在编译期就生成）和<strong>动态代理</strong>（在Java运行时动态生成），动态代理又可以分为JDK代理和CGLib代理。</p>
+<p><img src="https://img-blog.csdnimg.cn/3c33214ec2c24f5fa0c9d6bc7f9f5bbd.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5LiJ5Zub5pyI5LqL5YWr5Lmd5pyI5p6c,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h4 id="结构-5"><a href="#结构-5" class="headerlink" title="结构"></a>结构</h4><p>三种角色：</p>
+<ul>
+<li>抽象主题（Subject）类：通过接口或者抽象类声明的真实主题和代理对象实现的业务方法</li>
+<li>真实主题（Real Subject）类：实现了抽象主题中的具体业务，是代理对象所代表的真实对象，是最终要引用的对象</li>
+<li>代理（Proxy）类：提供了与真实主题相同的接口，内部含有对真实主题的引用，可以访问，控制或者扩展真实主题的功能</li>
+</ul>
+<p>代理可以代理多种真实主题，真实主题要符合抽象主题的规范</p>
+<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><p>类似火车站和代售点，火车站是目标对象，代售点是代理对象</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230409204145550.png" alt="image-20230409204145550"></p>
+<p>代售点相当于对火车站类的一个增强，在里面可以调用火车站类的方法同时还能进行业务的扩展。</p>
+<p>（只是注入火车站的依赖，而且这里如果两个类不实现同一接口，照样能增强另一个类的方法，只是设计模式讲究降低耦合，我们在一个类中，想调用其它类的方法，拿到其对象就能”对象.方法”了，我们在声明个方法套一下这个调用，就是对这个方法做了增强，它们实现同一个接口，一个目的是将类型向上抽象，再一个目的是由接口的规范统一两者的动作（方法）。）</p>
+<h4 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h4><p>Java中提供了一个动态代理类Proxy，与上述静态代理不同，而是<strong>提供了一个创建代理对象的静态方法</strong>(<code>newProxyInstance()</code>)来获取代理对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用JDK的动态代理类的静态方法创建代理对象</span></span><br><span class="line"><span class="comment">//返回使用抽象主题类(SellTickets)接收，强转</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyFactory</span>&#123;</span><br><span class="line">    <span class="comment">//引入真实主题类(需要被代理的目标对象)</span></span><br><span class="line"> 	<span class="keyword">private</span> <span class="type">TrainStation</span> <span class="variable">station</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrainStation</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> SellTickets <span class="title function_">getProxyObject</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            Proxy.newProxyInstance()的参数</span></span><br><span class="line"><span class="comment">            ClassLoader Loader : 类加载器，用于加载代理类。可以通过目标对象获取类加载器</span></span><br><span class="line"><span class="comment">            Class&lt;?&gt;[] interface : 代理类实现的接口的字节码对象,这里可以通过目标对象往上找实现的接口</span></span><br><span class="line"><span class="comment">            InvocationHandler h : 代理对象的调用处理程序,根本上调用代理对象是通过其invoke方法调用的</span></span><br><span class="line"><span class="comment">		*/</span>			</span><br><span class="line">        <span class="type">SellTickets</span> <span class="variable">proxyObject</span> <span class="operator">=</span> (SellTickets) Proxy.newProxyInstance(</span><br><span class="line">            station.getClass().getClassLoader(),</span><br><span class="line">            station.getClass().getInterfaces(),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">InvocationHandler</span>()&#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                	参数中</span></span><br><span class="line"><span class="comment">                	proxy：代理类的实例，代理对象，和proxyObject是同一个，invoke中基本不用</span></span><br><span class="line"><span class="comment">                	method：对接口中的方法进行封装的method对象</span></span><br><span class="line"><span class="comment">                	args：方法的参数</span></span><br><span class="line"><span class="comment">                	返回值：方法的返回值</span></span><br><span class="line"><span class="comment">                	本质是反射</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable&#123;</span><br><span class="line">                    <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> method.invoke(sation, args);</span><br><span class="line">					<span class="keyword">return</span> obj;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的<code>ProxyFactory</code>并非我们的代理类，代理类($Proxy0)是在程序运行过程中在内存动态生成的类(继承Proxy，实现抽象主题类的接口（SellTickets）)</p>
+<p>代理类将我们提供的匿名内部类对象(<code>InvocationHandler()</code>)传递给了父类</p>
+<p><strong>执行流程</strong></p>
+<ol>
+<li>在测试类中通过代理对象调用sell()方法</li>
+<li>根据多态特性，执行的是代理类的sell()方法</li>
+<li>代理类的sell()又调用了InvocationHandler接口的子实现类对象的invoke方法</li>
+<li>invoke方法通过反射执行了真实对象所属类中的sell()方法</li>
+</ol>
+<h4 id="CGLib动态代理"><a href="#CGLib动态代理" class="headerlink" title="CGLib动态代理"></a>CGLib动态代理</h4><p>如果没有定义抽象主题接口，只定义了代理对象类，显然无法使用JDK代理了，因为JDK代理要求必须定义接口对接口进行代理</p>
+<p>CGLib是第三方提供的包，需要提前导入jar包的坐标</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyFactory</span> <span class="keyword">implements</span> <span class="title class_">MethodInterceptor</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">TrainStation</span> <span class="variable">station</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrainStation</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> TrainStation <span class="title function_">getProxyObject</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//创建Enhancer对象，类似于JDK代理中的Proxy类</span></span><br><span class="line">        <span class="type">Enhancer</span> <span class="variable">enhancer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Enhancer</span>();</span><br><span class="line">        <span class="comment">//设置父类的字节码对象</span></span><br><span class="line">        enhancer.setSuperclass(TrainStation.class);</span><br><span class="line">        <span class="comment">//设置回调函数</span></span><br><span class="line">        enhancer.setCallback(<span class="built_in">this</span>);</span><br><span class="line">        <span class="comment">//创建代理对象</span></span><br><span class="line">        <span class="type">TrainStation</span> <span class="variable">proxyObject</span> <span class="operator">=</span> (TrainStation) enhancer.create();</span><br><span class="line">        <span class="keyword">return</span> proxyObject;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">intercept</span><span class="params">(Object o, Method method, Object[] objects, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable&#123;</span><br><span class="line">        <span class="comment">//要调用目标对象的方法</span></span><br><span class="line">        method.invoke(station, objects)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="代理的比较"><a href="#代理的比较" class="headerlink" title="代理的比较"></a>代理的比较</h4><ul>
+<li><p>JDK动态代理与CGLib动态代理</p>
+<p>CGLib底层采用ASM字节码生成框架，不能对声明为final的类或者方法进行代理。在JDK1.8之后JDK动态代理效率高于CGLib代理。因此选择上看有没有接口，代理对象有实现接口就用JDK动态代理，没有就用CGLib代理</p>
+</li>
+<li><p>动态代理和静态代理</p>
+<p>动态代理最大的好处是接口中声明的所有方法都被转移到调用处理器的一个集中方法中处理，接口方法数量多时候更灵活不需要像静态代理一样进行一个个中转。</p>
+<p>如果接口增加一个方法，静态代理模式所有实现类需要实现，代理类也需要实现，增加了代码复杂度。</p>
+</li>
+</ul>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>优点：</p>
+<ul>
+<li>代理模式在客户端和目标对象之间起中介和保护对象的作用</li>
+<li>代理对象可以扩展目标对象功能</li>
+<li>代理模式可以将客户端和目标对象分离，降低耦合度</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>增加了系统复杂度</li>
+</ul>
+<h4 id="使用场景-2"><a href="#使用场景-2" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li><p>远程代理</p>
+<p>本地服务通过网络请求远程服务。实现网络通信，我们可以将网络通信部分隐藏，给本地服务一个接口，通过接口访问远程服务提供的功能，不必关心通信部分</p>
+</li>
+<li><p>防火墙代理</p>
+<p>浏览器配置代理功能，防火墙会将请求转给互联网，互联网响应时代理服务器再转给浏览器</p>
+</li>
+<li><p>保护代理</p>
+<p>控制对一个对象的访问，如果需要可以给不同用户提供不同级别权限</p>
+</li>
+</ul>
+<h3 id="1-2-2适配器模式"><a href="#1-2-2适配器模式" class="headerlink" title="1.2.2适配器模式"></a>1.2.2适配器模式</h3><p>将一个类的接口转换成客户希望的另一个接口，使原本由于接口不兼容不能一起工作的类可以一起工作</p>
+<p>分为类适配器模式（继承实现）和对象适配器模式（聚合组合实现），前者类之间耦合度比后者高且要求程序员了解现有组件库中相关组件的内部结构，应用相对较少。</p>
+<p>还有一种接口适配器模式，当不希望实现一个接口所有方法时，创建一个抽象类Adapter，实现所有方法，而我们此时只需要继承抽象类。</p>
+<h4 id="结构-6"><a href="#结构-6" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>目标接口：当前业务期待的接口，也可以是抽象类或接口</li>
+<li>适配者类：被 访问和适配的现存组件库中的组件接口</li>
+<li>适配器类：转换器，通过继承或者引用适配者对象，把适配者接口转换成目标接口，让客户按目标接口的格式访问适配者</li>
+</ul>
+<h4 id="类适配器模式实现"><a href="#类适配器模式实现" class="headerlink" title="类适配器模式实现"></a>类适配器模式实现</h4><p>定义一个适配器类实现当前业务接口，同时又继承现有组件库中已经存在的组件</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410191438214.png" alt="image-20230410191438214"></p>
+<p>类适配器模式违背了合成复用原则，只有客户类有接口规范的情况下可用</p>
+<h4 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h4><p>对象适配器模式可以采用将现有组件库中已经实现的组件引入适配器类，同时实现当前系统的业务接口</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410192936256.png" alt="image-20230410192936256"></p>
+<p>把接口作为成员适配者类，使用构造方法组合在适配器类中，同时继承目标接口。使用成员方法实现业务方法。</p>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li>以前开发的系统存在满足新系统功能需求的类，但是新系统接口不一致</li>
+<li>使用第三方提供的组件，但是组件接口定义和自己要求的接口定义不同</li>
+</ul>
+<h4 id="JDK源码案例"><a href="#JDK源码案例" class="headerlink" title="JDK源码案例"></a>JDK源码案例</h4><p>Reader（字符流）， InputStream（字节流）的适配使用的就是InputStreamReader（封装了适配器StreamDecoder）。继承Reader对抽象未实现方法给出实现</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410193815964.png" alt="image-20230410193815964"></p>
+<h3 id="1-2-3装饰者模式（重要）"><a href="#1-2-3装饰者模式（重要）" class="headerlink" title="1.2.3装饰者模式（重要）"></a>1.2.3装饰者模式（重要）</h3><p>快餐店例子：</p>
+<p>在新加配料或者快餐品类需要定义很多子类，出现类爆炸</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410194257822.png" alt="image-20230410194257822"></p>
+<p>在不改变现有对象结构的情况下动态给对象增加一些职责的模式</p>
+<h4 id="结构-7"><a href="#结构-7" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象构件角色：定义一个抽象接口来规范准备接收附加责任的对象</li>
+<li>具体构件角色：实现抽象构件，通过装饰角色为其添加一些职责</li>
+<li>抽象装饰角色：继承或实现抽象构件，并<strong>聚合包含具体构件</strong>的案例，可以通过其子类扩展具体构件功能</li>
+<li>具体装饰角色：实现抽象装饰的相关方法，并给具体构件对象添加附加责任</li>
+</ul>
+<p>装饰者模式改进后：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410194710559.png" alt="image-20230410194710559"></p>
+<h4 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>比继承更灵活的扩展功能，使用更方便，可以组合不同装饰者对象获取具有不同行为状态的多样化结果，完美遵循开闭原则。继承是静态附加责任，装饰者是动态附加</li>
+<li>装饰类和被装饰类可以独立发展，不会相互耦合，是继承的一个替代模式，可以动态实现一个实现类的功能</li>
+</ul>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li><p>不能采用继承的方式对系统进行扩充或者采用继承不利于系统扩展和维护时</p>
+<p>不能使用继承的情况主要有：</p>
+<ul>
+<li>系统存在大量独立扩展，为支持每一种组合将产生大量子类</li>
+<li>类不能被继承（比如final类）</li>
+</ul>
+</li>
+<li><p>在不影响其他对象情况下，动态透明的方式给单个对象添加职责</p>
+</li>
+<li><p>对象的功能要求可以动态添加也可以再撤销</p>
+</li>
+</ul>
+<h4 id="源码案例"><a href="#源码案例" class="headerlink" title="源码案例"></a>源码案例</h4><p>IO流中的包装类都使用了装饰者模式。BufferedInputStream，BufferedOutputStream，BufferedReader，BufferedWriter</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230410200201981.png" alt="image-20230410200201981"></p>
+<h4 id="静态代理和装饰者的区别"><a href="#静态代理和装饰者的区别" class="headerlink" title="静态代理和装饰者的区别"></a>静态代理和装饰者的区别</h4><ul>
+<li><p>相同</p>
+<ul>
+<li>都实现与目标类相同的业务接口</li>
+<li>在两个类中都要声明目标对象</li>
+<li>都可以在不改变目标类的前提下增强目标方法</li>
+</ul>
+</li>
+<li><p>不同</p>
+<ul>
+<li><p>目的不同</p>
+<p>装饰者为了增强目标对象</p>
+<p>静态代理为了保护和隐藏目标对象</p>
+</li>
+<li><p>获取目标对象构建的地方不同</p>
+<p>装饰者由外界传递，可以使用构造方法传递</p>
+<p>静态代理由代理类内部创建以此来隐藏目标对象</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-4桥接模式"><a href="#1-2-4桥接模式" class="headerlink" title="1.2.4桥接模式"></a>1.2.4桥接模式</h3><p>场景：不同几何形状分别有多种不同颜色，使用继承会出现类爆炸</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411191150873.png" alt="image-20230411191150873"></p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>将抽象与实现分离，使它们可以独立变化，是用组合关系替代继承关系来实现的，降低两个可变维度（比如形状和颜色）的耦合度</p>
+<h4 id="结构-8"><a href="#结构-8" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象化角色：定义抽象类，包含一个对实现化对象的引用</li>
+<li>扩展抽象化角色：抽象化角色的子类，实现父类中的业务方法，并通过组合关系调用实现化角色中的业务方法</li>
+<li>实现化（Implementor）角色：定义实现化角色的接口，供扩展抽象化角色调用</li>
+<li>具体实现化角色：给出实现化角色接口的具体实现</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411192011870.png" alt="image-20230411192011870"></p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ul>
+<li><p>桥接模式提高了系统的可扩容性，在两个变化维度中任意扩展一个维度，都不需要修改原有的系统</p>
+<p>新的操作系统，或者新的视频文件格式，只需要去再定义一个类实现接口即可</p>
+</li>
+<li><p>实现细节对客户透明</p>
+</li>
+</ul>
+<h4 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>当一个类存在两个独立变化的维度，都可能需要进行拓展</li>
+<li>当一个系统不希望使用继承或因为多层次继承导致系统类的个数剧增时</li>
+<li>当一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性时。避免在两个层次之间建立静态的继承联系，通过桥接模式可以使他们在抽象层建立一个关联关系</li>
+</ul>
+<h3 id="1-2-5外观模式"><a href="#1-2-5外观模式" class="headerlink" title="1.2.5外观模式"></a>1.2.5外观模式</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>又名门面模式，通过为多个复杂的子系统提供一个一致的接口，而使子系统更加容易被访问。模式对外有一个统一的接口，外部应用程序不用关心内部子系统具体细节，会大大降低应用程序的复杂度，提高程序可维护性</p>
+<p>是“迪米特法则”的经典应用</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411194005997.png" alt="image-20230411194005997"></p>
+<h4 id="结构-9"><a href="#结构-9" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>外观角色：为多个子系统对外提供一个共同的接口</li>
+<li>子系统角色：实现系统的部分功能，客户可以通过外观角色访问它</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411194132833.png" alt="image-20230411194132833"></p>
+<h4 id="优点-5"><a href="#优点-5" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>降低子系统与客户端之间的耦合度，使子系统的变化不会影响调用它的客户类</li>
+<li>对客户端屏蔽了子系统组件，减少了客户处理的对象数目，使子系统使用起来更加容易</li>
+</ul>
+<h4 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>不符合开闭原则，修改很麻烦</li>
+</ul>
+<h4 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>当分层结构系统构建时，使用外观模式定义子系统中每层的入口点可以简化子系统之间的依赖关系</li>
+<li>当一个复杂系统的子系统很多时，外观模式可以为系统设计一个简单的接口供外界访问</li>
+<li>当客户端与多个子系统之间存在很大联系时，引入外观模式可以将它们分离，从而提高子系统的独立性和可移植性</li>
+</ul>
+<h4 id="源码案例-1"><a href="#源码案例-1" class="headerlink" title="源码案例"></a>源码案例</h4><p>Tomcat作为web容器，接收浏览器发送的请求，tomcat会将请求封装成ServletRequest对象，是一个接口，其下还有子接口及其子实现类</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230411200733169.png" alt="image-20230411200733169"></p>
+<h3 id="1-2-6组合模式"><a href="#1-2-6组合模式" class="headerlink" title="1.2.6组合模式"></a>1.2.6组合模式</h3><p>类似文件夹，菜单等的结构。又名部分整体结构，用于把一组相似的对象作为单一对象。依据树型结构组合对象，用来表示部分和整体层次，创建了对象组的树型结构。</p>
+<h4 id="结构-10"><a href="#结构-10" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象根节点：定义系统各个层次对象的共有方法和属性，可以预先定义一些默认的行为和属性</li>
+<li>树枝节点：定义树枝节点的行为，存储子节点，组合树枝节点和叶子节点形成一个树型结构</li>
+<li>叶子节点：叶子节点对象，其下再无分支，是系统层次遍历的最小单位</li>
+</ul>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>根据抽象构建类的定义形式可以分为</p>
+<ul>
+<li><p>透明组合模式</p>
+<p>抽象根节点声明了所有用于成员管理的方法，比如add，remove，getchild等，可以确保构件类都有相同的接口，是组合模式的标准形式。</p>
+<p>但是不够安全，因为叶子节点的区别，无法添加删除子节点，编译阶段不会出错但是运行阶段如果被调用就会出错（如果不提供错误处理）</p>
+</li>
+<li><p>安全组合模式</p>
+<p>抽象构件角色中没声明任何用于管理成员对象的方法，而是在树枝节点类中声明并实现，缺点是不够透明，叶子构件和容器构件具有不同方法，容器构件那些用于管理成员对象的方法没有在抽象类定义。客户端不能完全针对抽象编程，必须了解并有区别对待叶子和容器。</p>
+</li>
+</ul>
+<h4 id="优点-6"><a href="#优点-6" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>可以清晰定义分层次复杂对象，表示对象的全部或者部分层次，让客户端忽略层次差异，方便对整个层次结构进行控制</li>
+<li>客户端可以一致调用组合结构或者单个对象，不必关心处理的是单个对象还是组合结构，简化代码</li>
+<li>在组合模式中新增树枝节点和叶子节点都很方便，无需对现有类库进行修改，符合“开闭原则”</li>
+<li>给树型结构的面向对象实现提供一种灵活解决方案，可以形成复杂树型结构但是控制却很简单</li>
+</ul>
+<h4 id="适用场景-3"><a href="#适用场景-3" class="headerlink" title="适用场景"></a>适用场景</h4><p>出现树形结构的地方，比如文件目录显示，多级目录等</p>
+<h3 id="1-2-7享元模式"><a href="#1-2-7享元模式" class="headerlink" title="1.2.7享元模式"></a>1.2.7享元模式</h3><p>使用共享技术来有效支持大量细粒度对象的复用，通过共享已经存在的对象大幅减少需要创建对象的数量，避免大量相似对象的开销，提高系统资源利用率。</p>
+<p>常用在池技术，String常量池，线程池，数据库连接池，缓冲池</p>
+<h4 id="结构-11"><a href="#结构-11" class="headerlink" title="结构"></a>结构</h4><p>享元（Flyweight）模式存在两种状态</p>
+<ol>
+<li>内部状态，不会随着环境改变的可共享部分</li>
+<li>外部状态，随着环境改变而改变的不可共享部分。享元模式实现就是要区分应用的这两种状态，并将外部状态外部化</li>
+</ol>
+<p>主要角色：</p>
+<ul>
+<li>抽象享元角色：通常是接口或者抽象类，在抽象享元类中声明了具体享元类公共的方法，这些方法可以向外界提供享元内部数据（内部状态），同时也可以通过这些方法来设置外部数据（外部状态）</li>
+<li>具体享元角色：实现抽象享元类，称为享元对象。在具体享元类中为内部状态提供存储空间。通常可以结合单例模式来设计享元类，为每一个具体享元类提供唯一的享元对象</li>
+<li>非享元角色：并不是所有抽象享元的子类都需要被共享，不能被共享的子类可以设计为非共享具体享元类。当需要一个非共享具体享元类的对象时可以直接通过实例化创建</li>
+<li>享元工厂角色：负责创建和管理享元角色，当客户对象请求一个享元对象时，享元工厂检查系统中是否存在符合要求的享元对象，存在则提供给客户，不存在则创建一个新享元</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412202647866.png" alt="image-20230412202647866"></p>
+<p>可以将形状视为内部状态，颜色等属性视为外部状态。可以使用享元模式来实现</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230412202746406.png" alt="image-20230412202746406"></p>
+<h4 id="优点-7"><a href="#优点-7" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>极大减少内存中相似或者相同对象数量，节约系统资源，提高系统性能</li>
+<li>享元模式的外部状态相对独立，且不影响内部状态</li>
+</ul>
+<h4 id="缺点-5"><a href="#缺点-5" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>为了使对象可以共享，需要将享元对象部分状态外部化，分离内部状态和外部状态使程序逻辑复杂</li>
+</ul>
+<h4 id="使用场景-3"><a href="#使用场景-3" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>一个系统有大量相同或者相似对象，造成内存大量耗费</li>
+<li>对象大部分状态都可以外部化，可以将这些外部状态传入对象</li>
+<li>使用享元模式时需要维护一个存储享元对象的享元池，需要耗费一定系统资源，因此在需要多次重复使用享元对象时才值得使用</li>
+</ul>
+<h4 id="JKD源码案例"><a href="#JKD源码案例" class="headerlink" title="JKD源码案例"></a>JKD源码案例</h4><p>Integer类（默认缓存-128-127以内的值，不会新建实例）</p>
+<h2 id="1-3行为型模式"><a href="#1-3行为型模式" class="headerlink" title="1.3行为型模式"></a>1.3行为型模式</h2><p>用于描述程序运行时复杂的流程控制，描述多个类或者对象之间如何写作完成任务，设计算法和对象间职责的分配。</p>
+<p>可以进一步分为</p>
+<ul>
+<li><p>类行为模式，采用继承机制在类间分派行为，以下仅模板方法和解释器模式</p>
+</li>
+<li><p>对象行为模式：使用组合或者聚合在对象间分配行为，因为组合耦合度更低，符合合成复用原则，这一种具有更大的灵活性</p>
+</li>
+</ul>
+<h3 id="1-3-1模板方式模式（类行为）"><a href="#1-3-1模板方式模式（类行为）" class="headerlink" title="1.3.1模板方式模式（类行为）"></a>1.3.1模板方式模式（类行为）</h3><p>设计一个系统知道了算法的关键步骤以及顺序，但是某些具体的实现步骤未知，可能需要当时环境来决定。</p>
+<p>例如银行流程，取号，排队，办理业务，对服务评价的流程每个客户都是一样，但是办理业务因人而异，可以延迟到子类中实现</p>
+<h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p>定义一个操作中的算法股价，将算法的一些步骤延迟到子类中，使子类可以不改变算法结构的情况下重新定义该算法的某些特定步骤。</p>
+<h4 id="结构-12"><a href="#结构-12" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象类：给一个算法轮廓和骨架，由一个模板方法和若干个基本方法构成<ul>
+<li>模板方法（final声明不能更改）：定义了算法骨架，按某种顺序调用其包含的基本方法</li>
+<li>基本方法：实现算法各个步骤的方法，是组成部分<ul>
+<li>抽象方法（类似于办理业务）：由抽象类声明，具体子类实现</li>
+<li>具体方法（类似固定的其他三个方法）：抽象类或具体类声明并实现，子类可以进行覆盖或者直接继承</li>
+<li>钩子方法：抽象类中已实现，包括用于判断的逻辑方法和需要子类重写的空方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>具体子类：实现抽象类定义的抽象方法和钩子方法，是一个顶级逻辑的组成部分</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230413204145811.png" alt="image-20230413204145811"></p>
+<h4 id="优点-8"><a href="#优点-8" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>提高代码复用性，相同的代码放在父类抽象中</li>
+<li>实现反向控制，通过父类调用子类操作，通过子类的具体实现拓展不同的行为，并符合开闭原则</li>
+</ul>
+<h4 id="缺点-6"><a href="#缺点-6" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>对每个不同的实现都需要定义一个子类，导致类个数增加，系统庞大，设计抽象</li>
+<li>父类的抽象方法由子类实现，子类的执行结果也会影响父类结果，反向控制结构提高代码的阅读难度</li>
+</ul>
+<h4 id="适用场景-4"><a href="#适用场景-4" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>算法步骤很固定，个别部分易变，可以将易变部分抽象出来供子类实现</li>
+<li>需要通过子类来决定父类算法某个步骤是否执行，实现子类对父类的反转控制</li>
+</ul>
+<h4 id="JDK源码案例-1"><a href="#JDK源码案例-1" class="headerlink" title="JDK源码案例"></a>JDK源码案例</h4><p>InputStream类实现就是模板方式，在InputStream类中定义了多个read方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">InputStream</span> <span class="keyword">implements</span> <span class="title class_">Closeable</span> &#123;</span><br><span class="line">    <span class="comment">//抽象方法，要求子类必须重写</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="type">int</span> <span class="title function_">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">read</span><span class="params">(<span class="type">byte</span> b[])</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> read(b, <span class="number">0</span>, b.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">read</span><span class="params">(<span class="type">byte</span> b[], <span class="type">int</span> off, <span class="type">int</span> len)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">if</span> (b == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (off &lt; <span class="number">0</span> || len &lt; <span class="number">0</span> || len &gt; b.length - off) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IndexOutOfBoundsException</span>();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> read(); <span class="comment">//调用了无参的read方法，该方法是每次读取一个字节数据</span></span><br><span class="line">        <span class="keyword">if</span> (c == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        b[off] = (<span class="type">byte</span>)c;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (; i &lt; len ; i++) &#123;</span><br><span class="line">                c = read();</span><br><span class="line">                <span class="keyword">if</span> (c == -<span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                b[off + i] = (<span class="type">byte</span>)c;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ee) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-2策略模式"><a href="#1-3-2策略模式" class="headerlink" title="1.3.2策略模式"></a>1.3.2策略模式</h3><p>情景：去一个目的地可以选择任意交通工具</p>
+<p>定义了一系列算法，并把每个算法封装起来，使可以相互替换，且算法的变化不会影响使用算法的客户。属于对象行为模式，通过对算法进行封装，把使用算法的责任和算法的实现分割开来，并委派给不同的对象对这些算法进行管理。</p>
+<h4 id="结构-13"><a href="#结构-13" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象策略类：通常由接口或者抽象类实现，给所有具体策略类所需的接口</li>
+<li>具体策略类：实现抽象策略定义，提供具体的算法实现或行为</li>
+<li>环境类：持有一个策略类的引用，最终给客户端调用</li>
+</ul>
+<h4 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h4><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417194026979.png" alt="image-20230417194026979"></p>
+<h4 id="优点-9"><a href="#优点-9" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>策略类之间可以自由切换</li>
+<li>易于拓展，新增不需要修改原本代码</li>
+<li>避免使用多重选择语句(if else)</li>
+</ul>
+<h4 id="缺点-7"><a href="#缺点-7" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>客户端必须知道所有策略类，并自己决定使用</li>
+<li>策略模式将造成产生很多策略类，可以使用享元模式一定程度上减少对象数量</li>
+</ul>
+<h4 id="使用场景-4"><a href="#使用场景-4" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>一个系统需要动态在几种算法中选择一种时</li>
+<li>一个类定义了多种行为，且这些行为以多个条件语句的形式出现，可以将每个条件分支移入各自的策略类</li>
+<li>系统各算法彼此独立，且对客户隐藏具体算法实现细节</li>
+<li>系统要求使用算法的客户不应该知道其具体操作的数据</li>
+</ul>
+<h4 id="JDK源码例子"><a href="#JDK源码例子" class="headerlink" title="JDK源码例子"></a>JDK源码例子</h4><p><code>Comparator</code>，在Arrays类中有一个<code>sort()</code>方法、</p>
+<p>其中Arrays就是一个环境角色类，sort方法可以传一个新策略让Arrays根据这个策略排序</p>
+<h3 id="1-3-3命令模式"><a href="#1-3-3命令模式" class="headerlink" title="1.3.3命令模式"></a>1.3.3命令模式</h3><p>将一个请求封装为一个对象，使发出请求的责任和执行请求的责任分割开。这样两者之间通过命令对象进行沟通，这样方便将命令对象进行存储，传递，调用，增加与管理</p>
+<h4 id="结构-14"><a href="#结构-14" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象命令类角色：定义命令的接口，声明执行的方法</li>
+<li>具体命令角色：具体的命令，实现命令接口，通常会持有接收者，并调用接收者的功能来完成命令的操作。</li>
+<li>实现者&#x2F;接收者角色：真正执行命令的对象，任何类都有可能称为一个接收者，只要它能够实现命令要求实现的相应功能</li>
+<li>调用者&#x2F;请求者角色：要求命令对象执行请求，通常会持有命令对象，可以持有很多命令对象，是客户端真正触发命令并要求命令执行相应操作的地方，相当于使用命令对象的入口</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230417200706233.png" alt="image-20230417200706233"></p>
+<h4 id="优点-10"><a href="#优点-10" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>降低系统耦合度，命令模式能够将调用操作对象与实现该操作的对象解耦</li>
+<li>增加或者删除命令非常方便，采用命令模式增加与删除命令不会影响其他类，满足开闭原则</li>
+<li>可以实现宏命令，命令模式可以与组合模式结合，将多个命令装配成一个组合命令，即宏命令</li>
+<li>方便实现Undo和Redo操作，命令模式可以与后面介绍的备忘录模式结合，实现命令的撤销和恢复</li>
+</ul>
+<h4 id="缺点-8"><a href="#缺点-8" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>使用命令模式可能会导致某些系统有过多的具体命令类</li>
+<li>系统结构更复杂</li>
+</ul>
+<h4 id="使用场景-5"><a href="#使用场景-5" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>系统需要将请求调用者和请求接受者解耦，使调用者和接收者不直接交互</li>
+<li>系统需要在不同时间指定请求，将请求排队和执行请求</li>
+<li>系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作</li>
+</ul>
+<h4 id="JDK源码案例-2"><a href="#JDK源码案例-2" class="headerlink" title="JDK源码案例"></a>JDK源码案例</h4><p><code>Runable</code>接口，命令的角色，Thread是调用者，start方法就是其执行方法</p>
+<h3 id="1-3-4责任链模式"><a href="#1-3-4责任链模式" class="headerlink" title="1.3.4责任链模式"></a>1.3.4责任链模式</h3><p>案例：请假需要审批，不同的领导有不同的权限，请求者要根据需求找不同领导，需要提前记住所有的领导与其权限，难度很高。</p>
+<p>为了避免请求发送者与多个请求处理者耦合在一起，将所有的请求处理者通过前一对象记住其下一个对象的引用而连成一条链；当有请求发生时，可以请求沿着这条链处理下去，直到有对象处理它</p>
+<h4 id="结构-15"><a href="#结构-15" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象处理者角色：定义一个处理请求的接口。包括处理方法和一个后续连接</li>
+<li>具体处理者角色：实现抽象处理者的处理方法，判断能否处理本次请求，可以则处理，否则请求传递给后继</li>
+<li>客户类角色：创建处理链，并向链头的具体处理者对象提交请求，不关心处理细节和请求的传递过程</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418195037867.png" alt="image-20230418195037867"></p>
+<h4 id="优点-11"><a href="#优点-11" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>降低了对象之间的耦合度</li>
+<li>增加了系统的可扩展性</li>
+<li>增强了给对象指派职责的灵活性</li>
+<li>责任链简化了对象之间的连接</li>
+<li>责任分担</li>
+</ul>
+<h4 id="缺点-9"><a href="#缺点-9" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>不能保证请求一定被处理</li>
+<li>对比较长的职责链，请求的处理可能涉及多个处理对象，系统性能受到影响</li>
+<li>职责链建立的合理性要靠客户端保证，增加了客户端的复杂性，职责链错误设置可能造成循环调用</li>
+</ul>
+<h4 id="源码案例-2"><a href="#源码案例-2" class="headerlink" title="源码案例"></a>源码案例</h4><p>javaweb中，FilterChain(过滤器)是责任链模式典型应用</p>
+<h3 id="1-3-5状态模式"><a href="#1-3-5状态模式" class="headerlink" title="1.3.5状态模式"></a>1.3.5状态模式</h3><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418195956041.png" alt="image-20230418195956041"></p>
+<p>对有状态的对象，把复杂的判断逻辑提取到不同的状态对象中，允许状态对象在其内部状态发生改变时改变其行为</p>
+<h4 id="结构-16"><a href="#结构-16" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>环境角色：也称为上下文，定义了客户程序需要的接口，维护一个当前状态，并将与状态相关的操作委托给当前状态对象来处理</li>
+<li>抽象状态角色：定义一个接口，用来封装环境对象中特定状态所对应的行为</li>
+<li>具体状态角色：实现抽象状态对应的行为</li>
+</ul>
+<p>上述电梯案例可以改进为：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418200531876.png" alt="image-20230418200531876"></p>
+<h4 id="优点-12"><a href="#优点-12" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><p>将所有与某个状态有关的行为放到一个类中，可以方便地增加新的状态，只需要改变对象状态即可改变对象行为</p>
+</li>
+<li><p>允许状态转换逻辑与状态对象合成一体，而不是某个巨大的条件语句块</p>
+</li>
+</ul>
+<h4 id="缺点-10"><a href="#缺点-10" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>状态模式的使用必然会增加系统类和对象的个数</li>
+<li>状态模式的结构与实现都较为复杂，如果使用不当将导致程序结构和代码的混乱</li>
+<li>状态模式对开闭原则的支持不好</li>
+</ul>
+<h4 id="使用场景-6"><a href="#使用场景-6" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li><p>当一个对象的行为取决于它的状态，并且必须在运行时根据状态改变它的行为时，就可以考虑使用状态模式</p>
+</li>
+<li><p>一个操作中含有庞大的分支结构，并且这些分支决定于对象的状态</p>
+</li>
+</ul>
+<h3 id="1-3-6观察者模式（重要）"><a href="#1-3-6观察者模式（重要）" class="headerlink" title="1.3.6观察者模式（重要）"></a>1.3.6观察者模式（重要）</h3><p>又称发布-订阅模式，定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新自己</p>
+<h4 id="结构-17"><a href="#结构-17" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象主题：抽象的被观察者，把所有观察者对象保存在一个集合，可以有任意数量观察者，提供一个接口增删观察者对象</li>
+<li>具体主题：具体被观察者，将有关状态存入具体观察者对象，在具体主题的内部状态发生改变时，给所有注册过的观察者发送通知</li>
+<li>抽象观察者：是观察者的抽象类，定义了一个更新接口，得到主题更改时更新自己</li>
+<li>具体观察者：实现抽象观察者定义的更新接口，以便在得到主题更改通知时更新自身状态</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230418201638118.png" alt="image-20230418201638118"></p>
+<h4 id="优点-13"><a href="#优点-13" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>降低了目标与观察者之间的耦合关系，两者之间是抽象耦合关系</li>
+<li>被观察者发送通知，所有注册的观察者会受到信息</li>
+</ul>
+<h4 id="缺点-11"><a href="#缺点-11" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li><p>如果观察者非常多，那么所有的观察者受到被观察者发送的通知会耗时</p>
+</li>
+<li><p>如果被观察者有循环依赖，那么被观察者发送通知会使观察者循环调用导致系统崩溃</p>
+</li>
+</ul>
+<h4 id="使用场景-7"><a href="#使用场景-7" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li><p>当对象间存在一对多关系，并且一个对象发生改变会影响其他对象</p>
+</li>
+<li><p>一个抽象模型有两方面，其中一个方面依赖于另一方面</p>
+</li>
+</ul>
+<h4 id="JDK源码案例-3"><a href="#JDK源码案例-3" class="headerlink" title="JDK源码案例"></a>JDK源码案例</h4><p>java.util.Observable类和java.util.Observer接口定义了观察者模式，只要实现他们的子类就可以编写观察者模式</p>
+<ul>
+<li><p>java.util.Observable类</p>
+<p>抽象被观察者，有一个Vector集合成员变量，用于保存要通知的观察者对象，主要的三个方法</p>
+<ul>
+<li>void addObserver(Observer o)</li>
+<li>void  notifyObservers(Object arg)：调用集合中所有观者者对象的update方法，通知他们数据发生改变，通常越晚加入集合的观察者越先得到通知</li>
+<li>void setChange()：用来设置一个boolean类型的内部标志，注明对象发生改变，当为true时，notifyObeservers才会通知观察者</li>
+</ul>
+</li>
+<li><p>java.util.Observer接口</p>
+<p>抽象观察者，监视目标变化，当改变时得到通知并调用update方法完成相应工作</p>
+</li>
+</ul>
+<h3 id="1-3-7中介者模式"><a href="#1-3-7中介者模式" class="headerlink" title="1.3.7中介者模式"></a>1.3.7中介者模式</h3><p>多对多的关系中，不同对象之间耦合度很高</p>
+<p>又称调停模式，定义一个中介角色来封装一系列对象之间的交互，使原有对象之间的耦合松散，且可以独立改变他们之间的交互</p>
+<h4 id="结构-18"><a href="#结构-18" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象中介者角色：中介者接口，提供了同事对象注册与转发同事对象信息的抽象方法</li>
+<li>具体中介者角色：实现中介者接口，定义一个List管理同事对象，协调各个同事角色之间的交互关系，依赖于同事角色</li>
+<li>抽象同事类角色：定义同事类接口，保存中介者对象，提供同事对象交互的抽象方法，实现所有相互影响同事类的公共功能</li>
+<li>具体同事类角色：实现抽象同事类，当需要与其他同事对象交互时，由中介者对象负责后续的交互</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419163902211.png" alt="image-20230419163902211"></p>
+<h4 id="优点-14"><a href="#优点-14" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><p>松散耦合</p>
+<p>通过把多个同事对象之间的交互封装到中介者对象里面，使得同时对象之间松散耦合，基本上可以互补依赖。这样同事对象就可以独立的变化和复用</p>
+</li>
+<li><p>集中控制交互</p>
+<p>多个同事对象的交互，被封装在中介者对象里面集中管理，是的交互行为发生变化时候，只需要修改或者扩展中介者对象就可以</p>
+</li>
+<li><p>一对多关联转变为一对一的关联</p>
+<p>没有中介者模式，同事对象之间的关系是一对多的，引入中介者对象以后中介者和同事的关系变成双向的一对一</p>
+</li>
+</ul>
+<h4 id="缺点-12"><a href="#缺点-12" class="headerlink" title="缺点"></a>缺点</h4><p>当同事类太多时，中介者的职责很大，变得复杂而庞大，以至于系统很难维护</p>
+<h4 id="使用场景-8"><a href="#使用场景-8" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li><p>系统对象之间存在复杂的引用关系，系统结构混乱且难以理解</p>
+</li>
+<li><p>像创建一个运行于多个类之间的对象，又不想生成新的子类时</p>
+</li>
+</ul>
+<h3 id="1-3-8迭代器模式"><a href="#1-3-8迭代器模式" class="headerlink" title="1.3.8迭代器模式"></a>1.3.8迭代器模式</h3><p>提供一个对象来顺序访问聚合对象中的一系列数据，而不暴露聚合对象的内部表示</p>
+<h4 id="结构-19"><a href="#结构-19" class="headerlink" title="结构"></a>结构</h4><ul>
+<li><p>抽象聚合角色</p>
+<p>定义存储，添加，删除元素以及创建迭代器对象的接口</p>
+</li>
+<li><p>具体聚合角色</p>
+<p>实现抽象聚合类，返回一个具体迭代器实例</p>
+</li>
+<li><p>抽象迭代器角色</p>
+<p>定义访问和遍历聚合元素的接口，通常包含hasNext(),next()等方法</p>
+</li>
+<li><p>具体迭代器角色</p>
+<p>实现抽象迭代器接口所定义的方法，完成对聚合对象的遍历，记录遍历的当前位置</p>
+</li>
+</ul>
+<p>![1681903928764](C:\Users\Bubble\Documents\WeChat Files\wxid_gml3vksg039r22\FileStorage\Temp\1681903928764.png)</p>
+<h4 id="优点-15"><a href="#优点-15" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>支持以不同的方式遍历一个聚合对象，在同一个聚合对象上可以定义多种遍历方式。在迭代器模式中只需要用一个不通的迭代器来替换原有迭代器即可改变遍历算法，也可以自己定义迭代器的子类以支持新的遍历方式</li>
+<li>简化了聚合类，由于引入了迭代器，在原有的聚合对象中不需要再自行提供数据遍历等方法，这样可以简化聚合类的设计</li>
+<li>在迭代器模式中，由于引入了抽象层，增加了新的聚合类和迭代器类都很方便，无需修改原有代码，符合开闭原则</li>
+</ul>
+<h4 id="缺点-13"><a href="#缺点-13" class="headerlink" title="缺点"></a>缺点</h4><p>增加了类的个数，在一定程度上增加了系统的复杂性</p>
+<h4 id="使用场景-9"><a href="#使用场景-9" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>当需要为聚合对象提供多种遍历方式时</li>
+<li>当需要为遍历不同的聚合结构提供一个统一的接口时</li>
+<li>当访问一个聚合对象的内容无需暴露其内部细节表示的时候</li>
+</ul>
+<h4 id="JDK源码案例-4"><a href="#JDK源码案例-4" class="headerlink" title="JDK源码案例"></a>JDK源码案例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">Iterator&lt;String&gt; iterator = list.iterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">    System.out.printLn(iterator.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单例集合中都使用到了迭代器，以ArrayList举例</p>
+<ul>
+<li>List：抽象聚合类</li>
+<li>ArrayList：具体的聚合类</li>
+<li>Iterator：抽象迭代器</li>
+<li>list.iterator()：返回实现了<code>Iterator</code>接口的具体迭代器对象</li>
+</ul>
+<p>Java开发要使用迭代器模式，只需要在自己定义的容器类实现<code>java.util.Iterable</code>并实现其中iterator()方法使其返回一个<code>java.util.Iterator</code>的实现类就可以了</p>
+<h3 id="1-3-9访问者模式"><a href="#1-3-9访问者模式" class="headerlink" title="1.3.9访问者模式"></a>1.3.9访问者模式</h3><p>封装了一些作用于某种数据结构中的各元素操作（将数据结构和元素的操作分离），可以在不改变这个数据结构的前提下定义作用于这些元素的新的操作</p>
+<h4 id="结构-20"><a href="#结构-20" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象访问者角色：定义对每一个元素(Element)访问的行为，参数是可以访问的元素，方法个数理论上来说与元素个数是一样的，所以元素个数不能改变</li>
+<li>具体访问者角色：给出对每一个元素类访问时所产生的具体行为</li>
+<li>抽象元素角色：定义接受访问者的方法(accept)，意义是每一个元素都可以被访问者访问</li>
+<li>具体元素角色：提供接收访问方法的具体实现，通常情况下是使用访问者提供的访问该元素类的方法</li>
+<li>对象结构角色：定义当中提到的对象结构，是一个抽象表述，可以理解为具有容器性质或者复合对象特性的类，含有一组元素，且可以迭代这些元素，供访问者访问</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419200931292.png" alt="image-20230419200931292"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230419200946324.png" alt="image-20230419200946324"></p>
+<h4 id="优点-16"><a href="#优点-16" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>扩展性好：不改变对象结构的元素的情况下，可以给对象结构中的元素添加新的功能</li>
+<li>复用性好：通过访问者来定义整个对象结构通用的功能，从而提高复用程度</li>
+<li>分离无关行为：通过访问者来分离无关的行为，把相关的行为封装在一起构成一个访问者，这样每一位访问者的功能都比较单一</li>
+</ul>
+<h4 id="缺点-14"><a href="#缺点-14" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li><p>对象结构变化很困难</p>
+<p>每增加一个新的元素类，都要在每一个具体访问者类中增加相应的具体操作，违背了开闭原则</p>
+</li>
+<li><p>违反了依赖倒置原则</p>
+<p>访问者模式依赖具体类，且没有依赖抽象类</p>
+</li>
+</ul>
+<h4 id="使用场景-10"><a href="#使用场景-10" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>对象结构相对稳定，但其操作算法经常变化的程序</li>
+<li>对象结构中的对象需要提供多种不同且不相关的操作，且要避免这些操作的变化影响对象的结构</li>
+</ul>
+<h4 id="模式扩展-双分派"><a href="#模式扩展-双分派" class="headerlink" title="模式扩展-双分派"></a>模式扩展-双分派</h4><p>分派：变量被声明时的类型叫做变量的静态类型，又把静态类型角坐明显类型，变量引用的对象的真实类型又称为变量的实际类型</p>
+<p>比如<code>Map map = new HashMap()</code>，map变量静态类型是Map，实际类型是HashMap。</p>
+<p>根据对象类型对方法进行选择就是分派，分为静态分派和动态分派</p>
+<ul>
+<li>静态分派：发生在编译时期，根据静态类型信息发生。方法重载就是静态分派</li>
+<li>动态分派：发生在运行时期，动态地置换某个方法，Java通过方法重写支持动态分派</li>
+</ul>
+<p>双分派：在选择一个方法时，不仅仅根据消息接收者和运行时区分，还要根据参数地运行时区别</p>
+<h3 id="1-3-10备忘录模式"><a href="#1-3-10备忘录模式" class="headerlink" title="1.3.10备忘录模式"></a>1.3.10备忘录模式</h3><p>提供了一种状态恢复的实现机制</p>
+<p>又称快照模式，在不破坏封装性的前提下，捕获一个对象内部状态，在该对象之外保存这个状态，以便以后当需要时能将该对象恢复到原先保存的状态</p>
+<h4 id="结构-21"><a href="#结构-21" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>发起人角色：记录当前时刻的内部状态信息，提供创建备忘录和恢复备忘录数据的功能，实现其他业务功能，它可以访问备忘录里的所有信息</li>
+<li>备忘录角色：负责存储发起人的内部状态，在有需要的时候提供这些内部状态给发起人</li>
+<li>管理者角色：对备忘录进行管理，提供保存与获取备忘录的功能，但其不能对备忘录的内容进行访问和修改</li>
+</ul>
+<p>两个等效的接口：</p>
+<ul>
+<li>窄接口：管理者对象看到的是备忘录的窄接口，只允许把备忘录对象传给其他的对象（无法修改或看到备忘录中具体信息）</li>
+<li>宽接口：与管理者的窄接口相反，发起人可以看到宽接口，允许读取所有数据，以便根据这些数据恢复发起人对象的内部状态</li>
+</ul>
+<h4 id="案例-2"><a href="#案例-2" class="headerlink" title="案例"></a>案例</h4><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420194851288.png" alt="image-20230420194851288"></p>
+<h4 id="”白箱“备忘录模式"><a href="#”白箱“备忘录模式" class="headerlink" title="”白箱“备忘录模式"></a>”白箱“备忘录模式</h4><p>备忘录角色对任何对象都提供一个款接口，备忘录角色内部所存储的状态全部公开</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420195059707.png" alt="image-20230420195059707"></p>
+<h4 id="“黑箱”备忘录模式"><a href="#“黑箱”备忘录模式" class="headerlink" title="“黑箱”备忘录模式"></a>“黑箱”备忘录模式</h4><p>对发起人对象提供一个款接口，为其他对象提供一个窄接口。Java中使用双重接口的方法将备忘录类设计成发起人类的内部成员类</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420195636902.png" alt="image-20230420195636902"></p>
+<h4 id="优点-17"><a href="#优点-17" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>提供了一种可以恢复状态的机制，当需要的时候可以比较方便将数据恢复到某个历史状态</li>
+<li>实现了内部状态的封装，除了创建的发起人之外，其他对象都不能够访问这些状态信息</li>
+<li>简化了发起人类，发起人类不需要管理和保存内部状态的各个备份，所有的状态信息都保存在备忘录中，并由管理者进行管理，符合单一职责原则</li>
+</ul>
+<h4 id="缺点-15"><a href="#缺点-15" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>资源消耗大，如果需要保存内部状态信息过多或者非常频繁，会占用比较大的内存资源</li>
+</ul>
+<h4 id="使用场景-11"><a href="#使用场景-11" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>需要保存与恢复数据的场景，如玩游戏时中间结果的存档功能</li>
+<li>需要提供一个可回滚操作的场景，如Ctrl+z操作，数据库事务操作</li>
+</ul>
+<h3 id="1-3-11解释器模式（类行为）"><a href="#1-3-11解释器模式（类行为）" class="headerlink" title="1.3.11解释器模式（类行为）"></a>1.3.11解释器模式（类行为）</h3><p>给定一个语言，定义它的文法表示，并定义一个解释器，使用该标识来解释语言中的句子</p>
+<h4 id="结构-22"><a href="#结构-22" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>抽象表达式角色：定义解释器接口，约定解释器的解释操作，主要包含解释方法interpret()</li>
+<li>终结符表达式角色：抽象表达式的子类，用来实现与终结符相关的操作，文法中的每一个终结符都有一个具体的终结表达式与之对应</li>
+<li>非终结符表达式：也是抽象表达式的子类，实现文法中与非终结符相关的操作，每条规则都对应一个非终结符表达式</li>
+<li>环境角色：包含各个解释器需要的数据或者是公共的功能，一般用来传递所有解释器共享的数据，后面的解释器可以从这里获取</li>
+<li>客户端：将需要分析的句子或者表达式转换成通用的解释器对象描述的抽象语法树，调用解释器的解释方法，也可以通过环境角色间接访问解释器的解释方法</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230420203610672.png" alt="image-20230420203610672"></p>
+<h4 id="优点-18"><a href="#优点-18" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>易于改变和扩展文法</li>
+<li>实现文法比较容易</li>
+<li>增加新的解释表达式较为方便</li>
+</ul>
+<h4 id="缺点-16"><a href="#缺点-16" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>对于复杂的文法难以维护</li>
+<li>执行效率低</li>
+</ul>
+<h4 id="使用场景-12"><a href="#使用场景-12" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>当语言文法较为简单，执行效率不是关键问题时</li>
+<li>问题重复出现，可以用一种简单的语言来进行表达时</li>
+<li>当一个语言需要解释执行，并且语言中的句子可以表示为一个抽象语法树的时候</li>
+</ul>
+<h1 id="2设计原则"><a href="#2设计原则" class="headerlink" title="2设计原则"></a>2设计原则</h1><h2 id="2-1单一职责原则"><a href="#2-1单一职责原则" class="headerlink" title="2.1单一职责原则"></a>2.1单一职责原则</h2><p>每个类只负责自己的事情，不是变成万能的</p>
+<h2 id="2-2开闭原则"><a href="#2-2开闭原则" class="headerlink" title="2.2开闭原则"></a>2.2开闭原则</h2><p>对扩展开放，对修改关闭：</p>
+<p>程序需要拓展不能修改原有代码——&gt;使用抽象类和接口</p>
+<h2 id="2-3里氏代换原则"><a href="#2-3里氏代换原则" class="headerlink" title="2.3里氏代换原则"></a>2.3里氏代换原则</h2><p>任何基类可以出现的地方，子类一定可以出现：</p>
+<p>子类可以拓展父类功能，但不能改变父类原有功能。即子类继承父类，除了添加新功能，尽量不要重写父类方法。</p>
+<p>举例（正方形是矩形）</p>
+<h2 id="2-4依赖倒转原则"><a href="#2-4依赖倒转原则" class="headerlink" title="2.4依赖倒转原则"></a>2.4依赖倒转原则</h2><p>高层模块不应该依赖低层模块，都应该依赖抽象；抽象不应该依赖细节，细节应该依赖抽象：</p>
+<p>A类中某个成员是B类，即A类依赖B类，此时A类就是高层模块，B类是低层模块。A类应该依赖抽象类，不应该依赖实体类。</p>
+<p>（可以视作开闭原则的具体实现）</p>
+<h2 id="2-5接口隔离原则"><a href="#2-5接口隔离原则" class="headerlink" title="2.5接口隔离原则"></a>2.5接口隔离原则</h2><p>客户端不应该被迫依赖它不使用的方法：一个类对另一个类的依赖应该建立在最小的接口上。（接口定义的内容应该尽可能隔离</p>
+<h2 id="2-6迪米特法则"><a href="#2-6迪米特法则" class="headerlink" title="2.6迪米特法则"></a>2.6迪米特法则</h2><p>最少知识原则：只和你的直接朋友交流，不和陌生人说话：</p>
+<p>两个实体之间无须直接通信情况下不应该发生直接相互调用，可以通过第三方转发调用</p>
+<p>这里的直接朋友指：当前对象本身，成员对象，创建的对象，对象的方法，方法参数</p>
+<h2 id="2-7合成复用原则"><a href="#2-7合成复用原则" class="headerlink" title="2.7合成复用原则"></a>2.7合成复用原则</h2><p>尽量先使用组合或者聚合等关联关系来实现，其次才考虑使用继承关系</p>
+<p>直接使用继承缺点：</p>
+<ol>
+<li>破坏了类的封装性。因为继承时父类的细节是暴露给子类的</li>
+<li>子类和父类耦合度高。父类改变会导致子类改变，不利于类的扩展和维护</li>
+<li>限制了复用的灵活性，从父类继承的实现是静态的，编译时已定义，运行时不可能变化</li>
+</ol>
+<p>使用合成复用的优点：</p>
+<p>上面相反就是</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-id="clix3qjvx000rqwueh8pea9e1" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

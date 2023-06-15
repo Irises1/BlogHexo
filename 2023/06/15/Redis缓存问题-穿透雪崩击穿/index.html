@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Redis缓存问题1.缓存穿透1.1.问题描述​		客户端请求数据在缓存层中和持久层（数据库）中都不存在，这样缓存永远不会生效，这些请求都会打到持久层，失去了缓存保护后端持久的意义。  缓存穿透示意  1.2.解决方法 缓存空对象向缓存中写入空值。   优点：实现简单，维护方便 缺点（一般会为空值对象设置较短的TTL）： 会造成额外内存消耗 可能造成短期内的不一致    代码实现 12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/Redis%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98-%E7%A9%BF%E9%80%8F%E9%9B%AA%E5%B4%A9%E5%87%BB%E7%A9%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Redis缓存问题1.缓存穿透1.1.问题描述​		客户端请求数据在缓存层中和持久层（数据库）中都不存在，这样缓存永远不会生效，这些请求都会打到持久层，失去了缓存保护后端持久的意义。  缓存穿透示意  1.2.解决方法 缓存空对象向缓存中写入空值。   优点：实现简单，维护方便 缺点（一般会为空值对象设置较短的TTL）： 会造成额外内存消耗 可能造成短期内的不一致    代码实现 12345678">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\Desktop\note\pic\%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315164111509.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315183102551.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315183942065.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315184800659.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315190127940.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315185909234.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.379Z">
+<meta property="article:modified_time" content="2023-05-08T02:38:06.531Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\Desktop\note\pic\%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Redis缓存问题-穿透雪崩击穿" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/Redis%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98-%E7%A9%BF%E9%80%8F%E9%9B%AA%E5%B4%A9%E5%87%BB%E7%A9%BF/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.379Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis缓存问题"><a href="#Redis缓存问题" class="headerlink" title="Redis缓存问题"></a>Redis缓存问题</h1><h2 id="1-缓存穿透"><a href="#1-缓存穿透" class="headerlink" title="1.缓存穿透"></a>1.缓存穿透</h2><h3 id="1-1-问题描述"><a href="#1-1-问题描述" class="headerlink" title="1.1.问题描述"></a>1.1.问题描述</h3><p>​		客户端请求数据在缓存层中和持久层（数据库）中都不存在，这样缓存永远不会生效，这些请求都会打到持久层，失去了缓存保护后端持久的意义。</p>
+<p><img src="C:\Users\Bubble\Desktop\note\pic\缓存穿透.png" alt="缓存穿透"></p>
+<div align = "center">缓存穿透示意</div>
+
+<h3 id="1-2-解决方法"><a href="#1-2-解决方法" class="headerlink" title="1.2.解决方法"></a>1.2.解决方法</h3><ul>
+<li><h4 id="缓存空对象"><a href="#缓存空对象" class="headerlink" title="缓存空对象"></a>缓存空对象</h4><p>向缓存中写入空值。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315164111509.png" alt="image-20230315164111509"></p>
+<ul>
+<li><strong>优点</strong>：实现简单，维护方便</li>
+<li><strong>缺点</strong>（一般会为空值对象设置较短的TTL）：<ul>
+<li>会造成额外内存消耗</li>
+<li>可能造成短期内的不一致</li>
+</ul>
+</li>
+</ul>
+<p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Shop <span class="title function_">queryWithPassThrough</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        <span class="comment">//1.从redis查询商铺缓存</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">shopjson</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(CACHE_SHOP_KEY + id);</span><br><span class="line">        <span class="comment">//2.判断是否存在</span></span><br><span class="line">        <span class="comment">//3.存在直接返回</span></span><br><span class="line">        <span class="keyword">if</span>(StrUtil.isNotBlank(shopjson))&#123;</span><br><span class="line">            <span class="keyword">return</span> JSONUtil.toBean(shopjson, Shop.class);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//判断命中是否为空值,防止缓存穿透,之前isNotBlank判断中，空值和null都会跳出if</span></span><br><span class="line">    	</span><br><span class="line">    	<span class="comment">//如果是空值不是null说明已经对不存在的key缓存了空值，视为命中</span></span><br><span class="line">        <span class="keyword">if</span> (shopjson != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//4.不存在，根据id查询数据库</span></span><br><span class="line">        <span class="type">Shop</span> <span class="variable">shop</span> <span class="operator">=</span> getById(id);</span><br><span class="line">        <span class="comment">//5.不存在，返回错误</span></span><br><span class="line">        <span class="keyword">if</span> (shop == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//防止穿透，空值写入redis</span></span><br><span class="line">            stringRedisTemplate.opsForValue().set(CACHE_SHOP_KEY + id,<span class="string">&quot;&quot;</span>,CACHE_NULL_TTL, TimeUnit.MINUTES);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//6.存在，写入redis</span></span><br><span class="line">        stringRedisTemplate.opsForValue().set(CACHE_SHOP_KEY + id, JSONUtil.toJsonStr(shop),CACHE_SHOP_TTL, TimeUnit.MINUTES);</span><br><span class="line">        <span class="comment">//7.返回</span></span><br><span class="line">        <span class="keyword">return</span> shop;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="布隆过滤"><a href="#布隆过滤" class="headerlink" title="布隆过滤"></a>布隆过滤</h4><p>​		访问缓存层和存储层之前，将存在的key用布隆过滤器提前保存起来，做第一层拦截，当收到一个对key请求时先用布隆过滤器验证是key否存在，如果存在在进入缓存层、存储层。可以使用bitmap做布隆过滤器。</p>
+<p>​		布隆过滤器实际上是一个很长的二进制向量和一系列随机映射函数。类似哈希映射。如果判断存在则实际有可能不存在，如果判断不存在则一定不存在（类似哈希冲突）。因此不是百分百准确。</p>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315183102551.png" alt="image-20230315183102551"></p>
+<ul>
+<li><strong>优点</strong>：内存占用少，没有多余key</li>
+<li><strong>缺点</strong>：<ul>
+<li>实现复杂</li>
+<li>存在误判可能</li>
+</ul>
+</li>
+</ul>
+<p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用bitmap实现</span></span><br><span class="line"><span class="comment">//todo</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="2-缓存雪崩"><a href="#2-缓存雪崩" class="headerlink" title="2.缓存雪崩"></a>2.缓存雪崩</h2><h3 id="2-1-问题描述"><a href="#2-1-问题描述" class="headerlink" title="2.1.问题描述"></a>2.1.问题描述</h3><p>​		同一时段的大量缓存key同时失效或者redis服务宕机，此时大量请求会到达数据库产生压力。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315183942065.png" alt="image-20230315183942065"></p>
+<h3 id="2-2-解决方法"><a href="#2-2-解决方法" class="headerlink" title="2.2.解决方法"></a>2.2.解决方法</h3><ul>
+<li>缓存预热，使用缓存reload机制，预先更新缓存。给不同key的TTL添加随机值</li>
+<li>利用redis集群提高服务可用性，利用sentinel或者cluster实现</li>
+<li>给缓存业务添加降级限流策略</li>
+<li>给业务添加多级缓存</li>
+</ul>
+<h2 id="3-缓存击穿"><a href="#3-缓存击穿" class="headerlink" title="3.缓存击穿"></a>3.缓存击穿</h2><h3 id="3-1-问题描述"><a href="#3-1-问题描述" class="headerlink" title="3.1.问题描述"></a>3.1.问题描述</h3><p>​		被高并发访问，并且数据库重建业务比较复杂的key失效，此时会有大量线程来重建缓存，造成后端负载加大。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315184800659.png" alt="image-20230315184800659"></p>
+<h3 id="3-2-解决方法"><a href="#3-2-解决方法" class="headerlink" title="3.2.解决方法"></a>3.2.解决方法</h3><ul>
+<li>互斥锁<ul>
+<li>优点：<ul>
+<li>没有额外内存消耗</li>
+<li>保持一致性</li>
+<li>实现简单</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>线程需要等待，性能受到影响</li>
+<li>有死锁风险</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315190127940.png" alt="image-20230315190127940"></p>
+<p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//互斥锁解决缓存击穿</span></span><br><span class="line"><span class="keyword">public</span> Shop <span class="title function_">queryWithMutex</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">shopjson</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(CACHE_SHOP_KEY + id);</span><br><span class="line">        <span class="keyword">if</span>(StrUtil.isNotBlank(shopjson))&#123;</span><br><span class="line">            <span class="keyword">return</span> JSONUtil.toBean(shopjson, Shop.class);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (shopjson != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//实现缓存重建</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">lockKey</span> <span class="operator">=</span> LOCK_SHOP_KEY + id;</span><br><span class="line">        <span class="type">Shop</span> <span class="variable">shop</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取互斥锁</span></span><br><span class="line">            <span class="type">boolean</span> <span class="variable">isLock</span> <span class="operator">=</span> tryLock(lockKey);</span><br><span class="line">            <span class="comment">//判断是否成功</span></span><br><span class="line">            <span class="comment">//失败，休眠重试，成功，查数据库</span></span><br><span class="line">            <span class="comment">//这里递归实现不太好</span></span><br><span class="line">            <span class="keyword">if</span> (!isLock) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">50</span>);</span><br><span class="line">                <span class="keyword">return</span> queryWithMutex(id);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//DoubleCheck</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">shopjson_dc</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(CACHE_SHOP_KEY + id);</span><br><span class="line">                <span class="keyword">if</span>(StrUtil.isNotBlank(shopjson))&#123;</span><br><span class="line">                    <span class="keyword">return</span> JSONUtil.toBean(shopjson_dc, Shop.class);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (shopjson_dc != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            shop = getById(id);</span><br><span class="line">            <span class="keyword">if</span> (shop == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="comment">//数据库也没有，防止穿透，写入空值</span></span><br><span class="line">                stringRedisTemplate.opsForValue().set(CACHE_SHOP_KEY + id, <span class="string">&quot;&quot;</span>,CACHE_NULL_TTL, TimeUnit.MINUTES);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            stringRedisTemplate.opsForValue().set(CACHE_SHOP_KEY + id, JSONUtil.toJsonStr(shop),CACHE_SHOP_TTL, TimeUnit.MINUTES);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//释放互斥锁</span></span><br><span class="line">            unlock(lockKey);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> shop;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(String key)</span>&#123;</span><br><span class="line">            <span class="comment">//setIfAbsent等价于redis语句的setnx，key不存在时才可以设置</span></span><br><span class="line">            <span class="type">Boolean</span> <span class="variable">flag</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().setIfAbsent(key, <span class="string">&quot;1&quot;</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">            <span class="comment">//返回基本类型，flag是封装类型，会自动拆箱，容易出现空指针异常，使用工具类防止报异常</span></span><br><span class="line">            <span class="keyword">return</span> BooleanUtil.isTrue(flag);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">//释放锁</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">(String key)</span>&#123;</span><br><span class="line">        stringRedisTemplate.delete(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>逻辑过期<ul>
+<li>优点：线程无需等待，性能比较好</li>
+<li>缺点<ul>
+<li>不一致性</li>
+<li>有额外内存消耗</li>
+<li>实现复杂</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>实现：将原本key的数据加上逻辑时间封装到新的类中保存到redis。</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315185909234.png" alt="image-20230315185909234"></p>
+<p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//逻辑过期解决缓存击穿</span></span><br><span class="line"><span class="keyword">public</span> Shop <span class="title function_">queryWithLogicalExpire</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> CACHE_SHOP_KEY + id;</span><br><span class="line">        <span class="type">String</span> <span class="variable">shopjson</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(key);</span><br><span class="line">    	<span class="comment">//实际上有的key一定会在缓存中只是逻辑时间超时，未命中的肯定是没有的key</span></span><br><span class="line">        <span class="comment">//缓存未命中返回空</span></span><br><span class="line">        <span class="keyword">if</span>(StrUtil.isBlank(shopjson))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//命中，json反序列化为对象</span></span><br><span class="line">        <span class="type">RedisData</span> <span class="variable">redisData</span> <span class="operator">=</span> JSONUtil.toBean(shopjson, RedisData.class);</span><br><span class="line">        <span class="type">Shop</span> <span class="variable">shop</span> <span class="operator">=</span> JSONUtil.toBean((JSONObject) redisData.getData(), Shop.class);</span><br><span class="line">        <span class="type">LocalDateTime</span> <span class="variable">expireTime</span> <span class="operator">=</span> redisData.getExpireTime();</span><br><span class="line">        <span class="comment">//未过期返回</span></span><br><span class="line">        <span class="keyword">if</span>(expireTime.isAfter(LocalDateTime.now()))&#123;</span><br><span class="line">            <span class="keyword">return</span> shop;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//过期缓存重建</span></span><br><span class="line">        <span class="comment">//获取互斥锁</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">lockKey</span> <span class="operator">=</span> LOCK_SHOP_KEY + id;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isLock</span> <span class="operator">=</span> tryLock(lockKey);</span><br><span class="line">        <span class="comment">//成功开启独立线程重建</span></span><br><span class="line">        <span class="keyword">if</span> (isLock) &#123;</span><br><span class="line">            <span class="comment">//使用线程池来重建</span></span><br><span class="line">            CACHE_REBUILD_EXECUTOR.submit(()-&gt;&#123;</span><br><span class="line">                <span class="comment">//重建</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//save2Redis(key,expireScond)更新key的过期时间</span></span><br><span class="line">                    <span class="built_in">this</span>.saveShop2Redis(id, <span class="number">20L</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">//释放锁</span></span><br><span class="line">                    unlock(lockKey);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//失败返回过期商铺信息</span></span><br><span class="line">        <span class="keyword">return</span> shop;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/Redis%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98-%E7%A9%BF%E9%80%8F%E9%9B%AA%E5%B4%A9%E5%87%BB%E7%A9%BF/" data-id="clix3qjvk0006qwue6ecif7nl" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/Redis%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/Leecode/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

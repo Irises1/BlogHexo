@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="点评项目笔记短信登陆功能1：提交手机号生成验证码，保存并发送 功能2：提交手机号，验证码。校验验证码，查询手机号对应用户是否存在，不存在创建新用户 功能3：校验登陆状态，不存在拦截，存在保存用户到ThreadLocal（线程的局部变量） 拦截用户： 设置登录拦截器，对于需要用户登录才能访问的路径连接，配置拦截器： 123456789101112public class LoginIntercept">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="点评项目笔记短信登陆功能1：提交手机号生成验证码，保存并发送 功能2：提交手机号，验证码。校验验证码，查询手机号对应用户是否存在，不存在创建新用户 功能3：校验登陆状态，不存在拦截，存在保存用户到ThreadLocal（线程的局部变量） 拦截用户： 设置登录拦截器，对于需要用户登录才能访问的路径连接，配置拦截器： 123456789101112public class LoginIntercept">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327104226736.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328104147841.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328104933028.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328103928766.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230329095201338.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327195700276.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200018235.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200230839.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200341045.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328192345959.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328103928766.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315190127940.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315185909234.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230329095201338.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327195700276.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200018235.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200230839.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200341045.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.287Z">
+<meta property="article:modified_time" content="2023-05-31T12:04:51.977Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327104226736.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-点评项目笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.287Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="点评项目笔记"><a href="#点评项目笔记" class="headerlink" title="点评项目笔记"></a>点评项目笔记</h1><h2 id="短信登陆"><a href="#短信登陆" class="headerlink" title="短信登陆"></a>短信登陆</h2><p>功能1：提交手机号生成验证码，保存并发送</p>
+<p>功能2：提交手机号，验证码。校验验证码，查询手机号对应用户是否存在，不存在创建新用户</p>
+<p>功能3：校验登陆状态，不存在拦截，存在保存用户到ThreadLocal（线程的局部变量）</p>
+<p>拦截用户：</p>
+<p>设置登录拦截器，对于需要用户登录才能访问的路径连接，配置拦截器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//1.判断是否需要拦截（ThreadLocal中是否有用户）</span></span><br><span class="line">        <span class="keyword">if</span> (UserHolder.getUser() == <span class="literal">null</span>) &#123;</span><br><span class="line">            response.setStatus(<span class="number">401</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>UserHolder</code>类定义了<code>static final</code>的ThreadLocal对象存放用户信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserHolder</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;UserDTO&gt; tl = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">saveUser</span><span class="params">(UserDTO user)</span>&#123;</span><br><span class="line">        tl.set(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> UserDTO <span class="title function_">getUser</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tl.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">removeUser</span><span class="params">()</span>&#123;</span><br><span class="line">        tl.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>记得在MVC的配置类添加拦截器,order用于定义执行顺序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MvcConfig</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span>  StringRedisTemplate stringRedisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        <span class="comment">//登录校验，排除不需要登录的路径</span></span><br><span class="line">        <span class="comment">//order设置拦截器先后顺序</span></span><br><span class="line">        registry.addInterceptor(<span class="keyword">new</span> <span class="title class_">LoginInterceptor</span>())</span><br><span class="line">                .excludePathPatterns(</span><br><span class="line">                        <span class="string">&quot;/shop/**&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;/voucher/**&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;/shop-type/**&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;upload/**&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;/blog/hot&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;/user/code&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;/user/login&quot;</span></span><br><span class="line">                ).order(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//刷新token的拦截器，拦截一切路径，详情看下面使用redis存储</span></span><br><span class="line">        registry.addInterceptor(</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">RefreshTokenInterceptor</span>(stringRedisTemplate)).addPathPatterns(<span class="string">&quot;/**&quot;</span>).order(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Session共享用户信息"><a href="#Session共享用户信息" class="headerlink" title="Session共享用户信息"></a>Session共享用户信息</h3><p>session是服务器给每个浏览器创建一个session对象，称为会话控制。Session实现指将用户信息以及验证码等保存在session中。通过请求并携带session可以获取用户</p>
+<p>存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.setAttribute(<span class="string">&quot;code&quot;</span>,code);</span><br></pre></td></tr></table></figure>
+
+<p>取：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">cacheCode</span> <span class="operator">=</span> session.getAttribute(<span class="string">&quot;code&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>但是session在集群中有共享问题</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327104226736.png" alt="image-20230327104226736"></p>
+<h3 id="Redis保存用户信息"><a href="#Redis保存用户信息" class="headerlink" title="Redis保存用户信息"></a>Redis保存用户信息</h3><p>好处：Redis基于内存，读写快。多台服务器访问同一个Redis，数据共享。Redis集群数据内部一致性。</p>
+<ol>
+<li>手机号-验证码对应，设置ttl，过时删除</li>
+<li>用户信息：脱敏性和唯一性因此使用Hash。key使用UUID生成随机token，Value存放用户的信息</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//7.保存用户信息到redis中</span></span><br><span class="line"><span class="comment">//7.1生成随机token</span></span><br><span class="line"><span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line"><span class="comment">//7.2User对象转为Hash存储</span></span><br><span class="line"><span class="type">UserDTO</span> <span class="variable">userDTO</span> <span class="operator">=</span> BeanUtil.copyProperties(user, UserDTO.class);</span><br><span class="line">Map&lt;String, Object&gt; userMap = BeanUtil.beanToMap(userDTO, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(),</span><br><span class="line">        CopyOptions.create()</span><br><span class="line">                .setIgnoreNullValue(<span class="literal">true</span>).setFieldValueEditor((filedName, filedValue) -&gt; filedValue.toString()));</span><br><span class="line"><span class="comment">//7.3存储</span></span><br><span class="line"><span class="type">String</span> <span class="variable">tokenKey</span> <span class="operator">=</span> LOGIN_USER_KEY + token;</span><br><span class="line">stringRedisTemplate.opsForHash().putAll(tokenKey,userMap);</span><br><span class="line">stringRedisTemplate.expire(tokenKey,LOGIN_USER_TTL,TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
+
+<p>拦截器问题：</p>
+<p>每次访问都要刷新token有效期，防止token失效</p>
+<p>思路：设置拦截一切路径的拦截器，获取token查询用户保存到ThreadLocal的UserHodler，刷新有效期</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RefreshTokenInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RefreshTokenInterceptor</span><span class="params">(StringRedisTemplate stringRedisTemplate)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.stringRedisTemplate = stringRedisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> request.getHeader(<span class="string">&quot;authorization&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (StrUtil.isBlank(token))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> RedisConstants.LOGIN_USER_KEY + token;</span><br><span class="line">        Map&lt;Object, Object&gt; userMap = stringRedisTemplate.opsForHash().entries(key);</span><br><span class="line">        <span class="keyword">if</span> (userMap.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">UserDTO</span> <span class="variable">userDTO</span> <span class="operator">=</span> BeanUtil.fillBeanWithMap(userMap, <span class="keyword">new</span> <span class="title class_">UserDTO</span>(), <span class="literal">false</span>);</span><br><span class="line">        UserHolder.saveUser(userDTO);</span><br><span class="line">        stringRedisTemplate.expire(key, RedisConstants.LOGIN_USER_TTL, TimeUnit.MINUTES);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//移除用户</span></span><br><span class="line">        UserHolder.removeUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="商户缓存"><a href="#商户缓存" class="headerlink" title="商户缓存"></a>商户缓存</h2><p>使用缓存作为数据交换缓冲区，降低后端负载，提高读写效率。</p>
+<h3 id="缓存更新策略："><a href="#缓存更新策略：" class="headerlink" title="缓存更新策略："></a>缓存更新策略：</h3><ul>
+<li>内存淘汰：不自己维护，利用Redis内存淘汰机制，内存不足自动淘汰部分数据</li>
+<li>超时剔除：给缓存添加TTL时间，到期自动删除，下次查询时更新TTL</li>
+<li>主动更新：编写逻辑，修改数据库同时更新缓存（高一致性需求）</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328104147841.png" alt="image-20230328104147841"></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328104933028.png" alt="image-20230328104933028"></p>
+<p>要考虑的问题：</p>
+<ul>
+<li>如何保证缓存和数据库操作同时成功失败</li>
+<li>更新缓存还是删除缓存（更新缓存会有很大的线程安全问题）：当数据库数据多次发生变化，这期间没有请求访问数据库，那么更新缓存只有最后一次有效，这个时候应该删除缓存。当有请求访问的时候再重建缓存</li>
+<li>对缓存和数据库操作先后顺序（线程安全问题）：先操作数据库后重建缓存。因为先删除缓存再操作数据库期间，有读取缓存请求未命中会去查询数据库重建缓存，而这时候可能数据库修改还没完成。当数据修改完后有新请求访问，缓存中有，读的就是缓存的脏数据了。</li>
+<li>如何保证数据库和缓存操作原子性（事务机制）：使用事务</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328103928766.png" alt="image-20230328103928766"></p>
+<p>右边情况，写缓存的时间比较短，发生的概率比较小。选择右边的先操作数据库再删除缓存</p>
+<h3 id="缓存穿透，雪崩和击穿"><a href="#缓存穿透，雪崩和击穿" class="headerlink" title="缓存穿透，雪崩和击穿"></a>缓存穿透，雪崩和击穿</h3><p>见<a href="C:\Users\Bubble\Desktop\note\Redis缓存问题-穿透雪崩击穿.md">笔记</a></p>
+<h2 id="优惠券秒杀（重点）"><a href="#优惠券秒杀（重点）" class="headerlink" title="优惠券秒杀（重点）"></a>优惠券秒杀（重点）</h2><h3 id="全局唯一id"><a href="#全局唯一id" class="headerlink" title="全局唯一id"></a>全局唯一id</h3><p>抢优惠券时一个订单对应一个ID，在高并发情况下需要保证ID的特点：</p>
+<ul>
+<li>唯一性</li>
+<li>高可用：生成速度快</li>
+<li>递增：有利于数据库建立索引</li>
+</ul>
+<p>本项目的方法生成ID：第一位符号位永远为0，后面31位时间戳，后32位使用Redis的incr自增函数生成。因此可以满足同一秒2^32位不同ID.</p>
+<p>key：业务名：日期</p>
+<h3 id="库存超卖问题"><a href="#库存超卖问题" class="headerlink" title="库存超卖问题"></a>库存超卖问题</h3><p>在高并发环境下，很多请求查询库存，得到有库存可以获取的判断，开始下单操作</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>乐观锁：更新库存时候判断是否和查询一样，如果一样就说明没被修改，如果不一样则回滚</li>
+<li>悲观锁：下单业务上使用sync关键字，使秒杀业务变成串行，严重影响性能</li>
+</ul>
+<p><strong>乐观锁带来的问题：</strong></p>
+<p>如果同时有大量线程进行操作，此时一个线程成功会导致其他所有线程失败。比如100件商品同时只有1件卖出，在库存充足的情况下判断库存不足。</p>
+<p>进一步我们在使用乐观锁时需要使用版本号（这里是库存）。判断库存是否一致时还要判断库存是否充足，不为空则可以顺利进行</p>
+<h3 id="一人一单"><a href="#一人一单" class="headerlink" title="一人一单"></a>一人一单</h3><p>线程安全问题，如果两个线程的用户是同一个，在线程1判断是否具有购买资格还没下单时，线程2也得到时间片判断是否具有资格，此时还没下单就还有资格就执行下单操作，之后线程1也执行下单操作。</p>
+<p><strong>解决方案：</strong></p>
+<p>因为不是更新数据无法获取版本号，只能使用悲观锁。需要将锁加载判断用户资格和创建订单逻辑上。此时遇到<a href="C:\Users\Bubble\Desktop\note\Spring事务失效问题.md">Spring事务失效问题</a>。关于Synchronized关键字添加位置和效果可以查看<a href="C:\Users\Bubble\Desktop\note\Synchronized关键字的用法.md">这里</a></p>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>以上的悲观锁解决方法在集群环境下不适用。原因是在集群环境下，每个服务器都是一个独立JVM，线程之间在同一个服务器可以被sync锁互斥，不在同一个服务器的不同JVM之间无法共享依旧并发进行。</p>
+<p><strong>解决方法：</strong></p>
+<p>使用Redis实现分布式锁：</p>
+<ul>
+<li><p>利用setnx命令获取锁</p>
+<ul>
+<li>只有不存在才创建，已存在不能获取，使用完删除</li>
+<li>多线程只有一个执行返回true，满足互斥性</li>
+<li>设置TTL，防止出现故障无法释放导致死锁问题</li>
+<li>利用Redis集群提升可用性</li>
+</ul>
+</li>
+<li><p>释放锁需要判断当前锁是否是自己的，只有当前锁是自己才删除</p>
+<ul>
+<li>设想情况：线程获取互斥锁，但是业务发生阻塞，导致锁超时自动释放，之后的其他线程获取到锁进行执行</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230329095201338.png" alt="image-20230329095201338"></p>
+</li>
+<li><p>删除锁需要保证原子性（判断锁是否是自己的和删除操作）</p>
+<p>因为在判断锁之后删除时也有概率发生阻塞导致线程安全问题</p>
+<ul>
+<li>使用lua脚本来实现多条指令原子性</li>
+</ul>
+</li>
+</ul>
+<p><strong>Value问题</strong></p>
+<p>锁的Value中保存UUID和线程ID，UUID是为了在集群环境下出现同样线程ID用于区别。</p>
+<p><strong>可重入锁</strong></p>
+<p>上面的锁不具备可重入功能，同一个线程也不能再次获取到锁。可以通过Hash实现可重入锁，使用threadId作为value中的key，每次记录获取次数。释放锁时检查获取次数，如果-1后是0则释放。</p>
+<p><strong>Redisson</strong></p>
+<p>分布式锁：</p>
+<ul>
+<li>使用Hash结构实现重入</li>
+<li>利用看门狗机制(自动更新获取锁时间)实现续期</li>
+<li>使用信号量控制(订阅锁消息)锁重试</li>
+</ul>
+<p><strong>MutiLock</strong></p>
+<p>问题：在集群下，只有主节点可以进行写。线程在主节点上获取了锁写入，此时redis主节点宕机，信息还没更新到从节点。哨兵机制会选择一个新的主机作为主节点，但是此时锁信息没有保存失效了，造成线程安全问题。</p>
+<p>解决方法：</p>
+<p>使用Redisson的MutiLock，将所有节点视为同一地位，获取锁要分别从3个Redis节点中获取，只有三个节点都写入成功才能获取到锁</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h2 id="点赞"><a href="#点赞" class="headerlink" title="点赞"></a>点赞</h2><p>要求：一个人给一个博客只能点一次赞，已点赞再次点机会取消点赞。前端还要显示最近点赞数名用户。</p>
+<p>实现：使用ScortedSet按照博客ID存放点赞信息，score为点赞时间</p>
+<h2 id="好友关注"><a href="#好友关注" class="headerlink" title="好友关注"></a>好友关注</h2><p>多对多的问题，需要中间表来保存映射关系，保存谁关注了谁。</p>
+<p>共同关注：使用Set集合求交集运算</p>
+<h2 id="关注消息推送"><a href="#关注消息推送" class="headerlink" title="关注消息推送"></a>关注消息推送</h2><h3 id="Feed流两种常见模式："><a href="#Feed流两种常见模式：" class="headerlink" title="Feed流两种常见模式："></a>Feed流两种常见模式：</h3><ul>
+<li>Timeline：不做内容筛选，简单按照内容发布时间排序，常用于好友或者关注，比如朋友圈<ul>
+<li>优点：信息全面，不会缺失，实现简单</li>
+<li>信息噪音多，用户不一定感兴趣，内容获取效率低</li>
+</ul>
+</li>
+<li>智能排序：利用智能算法屏蔽掉违规的，用户不感兴趣的内容，推送用户感兴趣信息吸引用户<ul>
+<li>优点：投喂用户感兴趣信息，用户粘度高，容易沉迷</li>
+<li>缺点：如果算法不精准可能起反作用</li>
+</ul>
+</li>
+</ul>
+<h3 id="Feed流实现："><a href="#Feed流实现：" class="headerlink" title="Feed流实现："></a>Feed流实现：</h3><ul>
+<li><p>拉模式：也叫读扩散</p>
+<p>发送者将消息存在发件箱中，接收者在需要读取消息的时候才去读取信息。优点是节省空间，缺点是读取时间久</p>
+</li>
+<li><p>推模式：写扩散</p>
+<p>当用户要发消息会直接推送到所有关注者的收件箱。优点是延时低，缺点是内存占有高</p>
+</li>
+<li><p>推拉结合模式</p>
+<p>针对关注者很多的大V等发布者，对于活跃粉丝采用推模式，普通粉丝采用拉模式</p>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327195700276.png" alt="image-20230327195700276"></p>
+<p>推模式实现：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200018235.png" alt="image-20230327200018235"></p>
+<p>因为Feed流在不断更新，角标会变化，使用分页查询会出现数据重复情况：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200230839.png" alt="image-20230327200230839"></p>
+<p>选择使用滚动分页：<br>记录最后查到的元素<code>lastId</code></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200341045.png" alt="image-20230327200341045"></p>
+<p>list结构只能通过角标，首位查询，无法完成滚动分页。SortedSet可以支持值范围查找，每次只要记录最小时间戳往后查询即可。</p>
+<p>实现逻辑：在保存笔记内容后推送送给所有粉丝（使用Redis，SortedSet作为收件箱）。粉丝在收件箱进行滚动分页ZRANGEBYSCORE查询</p>
+<h2 id="附近商铺"><a href="#附近商铺" class="headerlink" title="附近商铺"></a>附近商铺</h2><h3 id="GEO数据结构"><a href="#GEO数据结构" class="headerlink" title="GEO数据结构"></a>GEO数据结构</h3><p>Redis中的GEO（Geolocation）数据结构，代表地理坐标，允许存储地理坐标信息，帮助根据经纬度来检索数据。</p>
+<p>常用命令：</p>
+<p>GEOADD：添加一个地理空间信息，包括经度，纬度，值</p>
+<p>GEODIST：计算两点之间距离并返回</p>
+<p>GEOHASH：将指定member的坐标转为hash字符串形式并返回</p>
+<p>GEOPOS：返回指定member坐标</p>
+<p>GEORADIUS：指定圆心，半径，找到圆内包含的所有member，按照与圆心之间距离排序返回，6.2之后已废弃</p>
+<p>GEOSEARCH：指定范围内搜索member，并按照与指定点之间的距离排序后返回，范围可以是圆或者矩形。6.2新功能</p>
+<p>GEOSEARCHSTORE：与GEOSEARCH功能一致，不过可以把结果存到一个指定key。6.2新功能</p>
+<h3 id="附近商户搜索"><a href="#附近商户搜索" class="headerlink" title="附近商户搜索"></a>附近商户搜索</h3><ul>
+<li><p>数据库存储了店铺信息+坐标信息</p>
+</li>
+<li><p>存redis存坐标信息以及店铺ID，存的时候按照店铺类型进行分组</p>
+<p>写一个<code>loadShopData</code>方法，读取后使用stream流按照店铺id分组写入Map，之后对每个分组读取写入</p>
+</li>
+</ul>
+<h2 id="用户签到"><a href="#用户签到" class="headerlink" title="用户签到"></a>用户签到</h2><h3 id="BitMap"><a href="#BitMap" class="headerlink" title="BitMap"></a>BitMap</h3><p>签到记录为1，未签到记录为0，那一个用户在一个月的签到情况只需要使用31位的二进制来表示就够了。</p>
+<p>类似于这种情况，使用二进制位来表示某个业务的映射关系，这种结构就是BitMap</p>
+<p>Redis中利用String类型数据结构实现BitMap，最大上限512M，转换为Bit是2^32个Bit</p>
+<p>常用命令：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328192345959.png" alt="image-20230328192345959"></p>
+<h3 id="签到功能"><a href="#签到功能" class="headerlink" title="签到功能"></a>签到功能</h3><ol>
+<li>获取用户信息</li>
+<li>获取系统时间</li>
+<li>使用Redis存入</li>
+</ol>
+<h3 id="签到统计"><a href="#签到统计" class="headerlink" title="签到统计"></a>签到统计</h3><p>使用BITFIELD key GET u(dayOfMonth) 0取出本月到今日为止所有数据，结果为十进制</p>
+<p>与1做与运算，每次右移一位，就可以求到所有的BIT位</p>
+<h2 id="UV统计"><a href="#UV统计" class="headerlink" title="UV统计"></a>UV统计</h2><h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><ul>
+<li><p>UV: Unique Visitor，独立访客量</p>
+</li>
+<li><p>PV: Page View ,页面访问量&#x2F;点击量，衡量网站流量</p>
+</li>
+</ul>
+<p>HyperLogLog是LogLog算法派生的概率算法, Redis中HLL基于String实现，且单个HLL内存小于16KB。测量结果。概率性0.81误差</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>项目有哪些功能？</p>
+<p>用户登录，商户信息，优惠券秒杀，点赞，签到，消息推送，好友关注</p>
+<h3 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h3><ol>
+<li><p>登陆方式</p>
+<p>用户输入手机号，查询是否已经发送验证码，准备生成验证码发送给用户并写入缓存；用户收到验证码后输入，查询redis缓存中验证码是否正确。</p>
+</li>
+<li><p>为什么不用session共享而选择redis</p>
+<p>session在多台不同的tomcat上不共享，在集群中无法共享数据</p>
+</li>
+<li><p>如何校验用户登陆状态</p>
+<p>使用拦截器，对需要校验用户登录状态的路径进行校验，其中用户信息保存在Thread Local（线程的局部变量）中</p>
+</li>
+<li><p>登陆状态怎么刷新</p>
+<p>再加一个全局的拦截器，不拦截任何请求，只是刷新用户登录状态</p>
+</li>
+<li><p>用户信息怎么脱敏</p>
+<p>在缓存中使用一个hashmap，对每个用户使用UUID等信息生成token保存。token是key，用户信息是value</p>
+</li>
+</ol>
+<h3 id="商户信息"><a href="#商户信息" class="headerlink" title="商户信息"></a>商户信息</h3><p><strong>缓存更新策略</strong></p>
+<p>​        通常有三种方式：内存淘汰（不做任何动作，利用Redis内存淘汰机制，内存不足自动淘汰部分数据），超时剔除（给数据设置TTL，超时自动删除，每次查询更新时间），主动更新（自己设置策略，在查询数据库同时更新缓存）</p>
+<p>​		在更新数据库同时更新缓存。</p>
+<p>​		读：在查询商户时，首先查询缓存中是否存在，不存在则去查询数据库并做缓存重建，设置TTL作为缓存兜底策略</p>
+<p>​		写：写入商户或者更新商户时，先写入数据库然后删除缓存</p>
+<p><strong>一致性问题？</strong></p>
+<p>​		要保证操作的原子性，数据库和缓存操作要保证同时成功或者回退，使用Spring事务来保证</p>
+<p><strong>为什么删除缓存而不是更新缓存？</strong></p>
+<p>​		更新缓存会有很大的线程安全问题，当很多的线程同时在改数据库时，更新缓存只会让最后一次更新的线程成功，无法保证是否是最新的数据。</p>
+<p><strong>为什么先操作数据库后操作缓存？</strong></p>
+<p>​        先删缓存，还没更新数据库时出现新的线程访问缓存未命中，会去查询数据库重建缓存，这时候第一个线程更新完数据库，那新的线程来查询到的缓存和数据库就不一致了</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230328103928766.png" alt="image-20230328103928766"></p>
+<p>右边情况，写缓存的时间比较短，发生的概率比较小。选择右边的先操作数据库再删除缓存</p>
+<p><strong>缓存会遇到的问题，说明如何解决</strong></p>
+<ul>
+<li><p>缓存穿透</p>
+<p>请求不存在的key，对后端的数据库产生很大压力，失去了缓存保护后端持久的意义</p>
+<p>解决方法：</p>
+<ul>
+<li>缓存空对象，写入空值</li>
+<li>布隆过滤，使用bitmap做布隆过滤器，类似于hash。在到达redis前先做布隆过滤，但是不能保证百分百准确，不存在一定不存在，存在不一定存在</li>
+</ul>
+</li>
+<li><p>缓存雪崩</p>
+<p>同一时间大量key失效或者redis服务宕机</p>
+<p>解决方法：</p>
+<ul>
+<li>缓存预热，给不同key的TTL添加随机值</li>
+<li>使用redis集群提高服务可用性</li>
+<li>给缓存业务添加降级限流</li>
+<li>给业务添加多级缓存</li>
+</ul>
+</li>
+<li><p>缓存击穿</p>
+<p>热点key问题，被高并发访问，数据库重建比较复杂的key，同时大量线程来重建缓存，加大后端负载</p>
+<p>解决方法：</p>
+<ul>
+<li><p>互斥锁</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315190127940.png" alt="image-20230315190127940"></p>
+</li>
+<li><p>逻辑过期</p>
+<p>​		将原本的key的数据加上逻辑时间封装到新的类中保存到redis。查询到缓存时（因为逻辑过期，本质永远不会过期，一定能查到）判断是否过期。逻辑已经过期了就去尝试获取互斥锁来重建。没过期或者没能获取到锁就直接返回商铺的目前的信息</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230315185909234.png" alt="image-20230315185909234"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="优惠券秒杀"><a href="#优惠券秒杀" class="headerlink" title="优惠券秒杀"></a>优惠券秒杀</h3><ul>
+<li><p><strong>如何生成全局唯一ID的订单</strong></p>
+<p>前面的位置固定时间戳等信息，后32位为redis自增字段，因此可以一秒内支持2^32次订单不重复</p>
+</li>
+<li><p><strong>库存超卖怎么解决</strong></p>
+<ul>
+<li>乐观锁：更新库存时候判断是否和查询一样（检查版本号是否一致），如果一样就说明没被修改，如果不一样则回滚</li>
+<li>悲观锁：下单业务上使用sync关键字，使秒杀业务变成串行，严重影响性能</li>
+</ul>
+<p><strong>乐观锁带来的问题：</strong></p>
+<p>如果同时有大量线程进行操作，此时一个线程成功会导致其他所有线程失败。比如100件商品同时只有1件卖出，在库存充足的情况下判断库存不足。</p>
+<p>进一步我们在使用乐观锁时需要使用版本号（这里是库存）。判断库存是否一致时还要判断库存是否充足，不为空则可以顺利进行</p>
+</li>
+<li><p><strong>怎么保证一人一单</strong></p>
+<p>如果两个线程的用户是同一个，在线程1判断是否具有购买资格还没下单时，线程2也得到时间片判断是否具有资格，此时还没下单就还有资格就执行下单操作，之后线程1也执行下单操作。</p>
+<p>此时只能添加悲观锁锁住判断资格和下单的逻辑</p>
+<p><strong>但是</strong>：悲观锁在集群环境下不起作用，sync关键字只能锁住在同一个JVM下的</p>
+</li>
+<li><p><strong>分布式锁怎么实现</strong></p>
+<p>使用Redis实现分布式锁：</p>
+<ul>
+<li><p>利用setnx命令获取锁</p>
+<ul>
+<li>只有不存在才创建，已存在不能获取，使用完删除</li>
+<li>多线程只有一个执行返回true，满足互斥性</li>
+<li>设置TTL，防止出现故障无法释放导致死锁问题</li>
+<li>利用Redis集群提升可用性</li>
+</ul>
+</li>
+<li><p>释放锁需要判断当前锁是否是自己的，只有当前锁是自己才删除</p>
+<ul>
+<li>设想情况：线程获取互斥锁，但是业务发生阻塞，导致锁超时自动释放，之后的其他线程获取到锁进行执行</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230329095201338.png" alt="image-20230329095201338"></p>
+</li>
+<li><p>删除锁需要保证原子性（判断锁是否是自己的和删除操作）</p>
+<p>因为在判断锁之后删除时也有概率发生阻塞导致线程安全问题</p>
+<ul>
+<li>使用lua脚本来实现多条指令原子性</li>
+</ul>
+</li>
+</ul>
+<p><strong>Value问题</strong></p>
+<p>锁的Value中保存UUID和线程ID，UUID是为了在集群环境下出现同样线程ID用于区别。</p>
+<p><strong>可重入锁</strong></p>
+<p>上面的锁不具备可重入功能，同一个线程也不能再次获取到锁。可以通过Hash实现可重入锁，使用threadId作为value中的key，每次记录获取次数。释放锁时检查获取次数，如果-1后是0则释放。</p>
+<p><strong>Redisson</strong></p>
+<p>分布式锁：</p>
+<ul>
+<li>使用Hash结构实现重入</li>
+<li>利用看门狗机制(自动更新获取锁时间)实现续期</li>
+<li>使用信号量控制(订阅锁消息)锁重试</li>
+</ul>
+<p><strong>MutiLock</strong></p>
+<p>问题：在集群下，只有主节点可以进行写。线程在主节点上获取了锁写入，此时redis主节点宕机，信息还没更新到从节点。哨兵机制会选择一个新的主机作为主节点，但是此时锁信息没有保存失效了，造成线程安全问题。</p>
+<p>解决方法：</p>
+<p>使用Redisson的MutiLock，将所有节点视为同一地位，获取锁要分别从3个Redis节点中获取，只有三个节点都写入成功才能获取到锁</p>
+</li>
+</ul>
+<h3 id="点赞-1"><a href="#点赞-1" class="headerlink" title="点赞"></a>点赞</h3><p>使用ScortedSet按照博客ID存放点赞信息，score为点赞时间</p>
+<h3 id="关注"><a href="#关注" class="headerlink" title="关注"></a>关注</h3><p>使用redis的set数据类型，可以求交并集</p>
+<h3 id="消息推送"><a href="#消息推送" class="headerlink" title="消息推送"></a>消息推送</h3><h3 id="Feed流两种常见模式：-1"><a href="#Feed流两种常见模式：-1" class="headerlink" title="Feed流两种常见模式："></a>Feed流两种常见模式：</h3><ul>
+<li>Timeline：不做内容筛选，简单按照内容发布时间排序，常用于好友或者关注，比如朋友圈<ul>
+<li>优点：信息全面，不会缺失，实现简单</li>
+<li>信息噪音多，用户不一定感兴趣，内容获取效率低</li>
+</ul>
+</li>
+<li>智能排序：利用智能算法屏蔽掉违规的，用户不感兴趣的内容，推送用户感兴趣信息吸引用户<ul>
+<li>优点：投喂用户感兴趣信息，用户粘度高，容易沉迷</li>
+<li>缺点：如果算法不精准可能起反作用</li>
+</ul>
+</li>
+</ul>
+<h3 id="Feed流实现：-1"><a href="#Feed流实现：-1" class="headerlink" title="Feed流实现："></a>Feed流实现：</h3><ul>
+<li><p>拉模式：也叫读扩散</p>
+<p>发送者将消息存在发件箱中，接收者在需要读取消息的时候才去读取信息。优点是节省空间，缺点是读取时间久</p>
+</li>
+<li><p>推模式：写扩散</p>
+<p>当用户要发消息会直接推送到所有关注者的收件箱。优点是延时低，缺点是内存占有高</p>
+</li>
+<li><p>推拉结合模式</p>
+<p>针对关注者很多的大V等发布者，对于活跃粉丝采用推模式，普通粉丝采用拉模式</p>
+</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327195700276.png" alt="image-20230327195700276"></p>
+<p>推模式实现：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200018235.png" alt="image-20230327200018235"></p>
+<p>因为Feed流在不断更新，角标会变化，使用分页查询会出现数据重复情况：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200230839.png" alt="image-20230327200230839"></p>
+<p>选择使用滚动分页：<br>记录最后查到的元素<code>lastId</code></p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230327200341045.png" alt="image-20230327200341045"></p>
+<p>list结构只能通过角标，首位查询，无法完成滚动分页。SortedSet可以支持值范围查找，每次只要记录最小时间戳往后查询即可。</p>
+<p>实现逻辑：在保存笔记内容后推送送给所有粉丝（使用Redis，SortedSet作为收件箱）。粉丝在收件箱进行滚动分页ZRANGEBYSCORE查询</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" data-id="clix3qjvv000nqwuecv7v74uu" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

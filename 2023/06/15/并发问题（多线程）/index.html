@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="并发问题（多线程）概念问题进程与线程的概念进程：系统运行程序的基本单位，运行一个程序就是进程的创建。 线程：一个进程可以包括多个线程，是更小的执行单位。 一个Java程序的运行就是main线程和其他多个线程同时运行。 线程是抽象概念，在Linux内核上没有线程，只有进程和轻量级进程，区别是有没有自己独立的存储空间 进程与线程的关系和区别，以及优缺点进程之间是相互独立的，线程之间会有互相影响。线程执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="并发问题（多线程）概念问题进程与线程的概念进程：系统运行程序的基本单位，运行一个程序就是进程的创建。 线程：一个进程可以包括多个线程，是更小的执行单位。 一个Java程序的运行就是main线程和其他多个线程同时运行。 线程是抽象概念，在Linux内核上没有线程，只有进程和轻量级进程，区别是有没有自己独立的存储空间 进程与线程的关系和区别，以及优缺点进程之间是相互独立的，线程之间会有互相影响。线程执">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/640.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/jmm.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/threadlocal-data-structure.png">
+<meta property="og:image" content="https://javaguide.cn/assets/threadpoolexecutor%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-d54a5992.png">
+<meta property="og:image" content="https://javaguide.cn/assets/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%90%84%E4%B8%AA%E5%8F%82%E6%95%B0%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB-d65f3309.png">
+<meta property="og:image" content="https://oss.javaguide.cn/javaguide/%E5%9B%BE%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/threadpoolexecutor-methods.png">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40cb932a64694262993907ebda6a0bfe~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2023-06-15T12:12:02.273Z">
+<meta property="article:modified_time" content="2023-05-28T12:06:11.097Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/640.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-并发问题（多线程）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.273Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="并发问题（多线程）"><a href="#并发问题（多线程）" class="headerlink" title="并发问题（多线程）"></a>并发问题（多线程）</h1><h2 id="概念问题"><a href="#概念问题" class="headerlink" title="概念问题"></a>概念问题</h2><h3 id="进程与线程的概念"><a href="#进程与线程的概念" class="headerlink" title="进程与线程的概念"></a>进程与线程的概念</h3><p>进程：系统运行程序的基本单位，运行一个程序就是进程的创建。</p>
+<p>线程：一个进程可以包括多个线程，是更小的执行单位。</p>
+<p>一个Java程序的运行就是main线程和其他多个线程同时运行。</p>
+<p>线程是抽象概念，在Linux内核上没有线程，只有进程和轻量级进程，区别是有没有自己独立的存储空间</p>
+<h3 id="进程与线程的关系和区别，以及优缺点"><a href="#进程与线程的关系和区别，以及优缺点" class="headerlink" title="进程与线程的关系和区别，以及优缺点"></a>进程与线程的关系和区别，以及优缺点</h3><p>进程之间是相互独立的，线程之间会有互相影响。线程执行的开销更小，但是不利于资源管理和保护，进程相反。</p>
+<p><strong>为什么程序计数器是私有的？</strong></p>
+<p>为了线程切换后能恢复到正确执行位置。结合线程计数器的作用回答</p>
+<p><strong>为什么虚拟机栈和本地方法栈线程私有？</strong></p>
+<p>结合二者的作用，为了防止局部变量被其他线程访问。</p>
+<h3 id="并发与并行区别"><a href="#并发与并行区别" class="headerlink" title="并发与并行区别"></a>并发与并行区别</h3><ul>
+<li><p>并发：两个及以上的作业在同一<strong>时间段</strong>内执行</p>
+</li>
+<li><p>并行：两个以上的作业在同一<strong>时刻</strong>执行</p>
+</li>
+</ul>
+<p>最关键：是否同时执行</p>
+<h3 id="异步和同步"><a href="#异步和同步" class="headerlink" title="异步和同步"></a>异步和同步</h3><ul>
+<li>同步：发出一个调用在没有得到结果以前不可以返回，一直等待。</li>
+<li>异步：调用发出后不用等待返回结果直接返回</li>
+</ul>
+<h3 id="为何要使用多线程"><a href="#为何要使用多线程" class="headerlink" title="为何要使用多线程"></a>为何要使用多线程</h3><p>总的来说：</p>
+<ul>
+<li>计算机底层来看：线程可以看作更轻量级的进程，是执行的最小单位，线程之间的切换和调度成本远远小于进程。多核CPU意味着可以同时运行多歌线程，减少了切换的开销。</li>
+<li>从互联网发展趋势：系统的并发量到百万千万级，多线程是其中的基础，多线程可以大大提高系统整体的并发能力以及性能。</li>
+</ul>
+<p>计算机底层：</p>
+<ul>
+<li>单核时代：提高进程利用系统资源的整体效率。主要为了提高单进程利用CPU和IO系统的效率。只有一个线程时候，线程发生阻塞则进程会被阻塞，此时只运行一处的性能，降低了效率。</li>
+<li>多核时代：为了提高进程利用多核CPU的能力，可以同时使用多个CPU核心，单线程只能使用单独的CPU核心。</li>
+</ul>
+<h3 id="多线程的问题"><a href="#多线程的问题" class="headerlink" title="多线程的问题"></a>多线程的问题</h3><p>并发会带来内存泄漏，死锁，线程不安全等等问题</p>
+<h3 id="线程的生命周期和状态（重要）"><a href="#线程的生命周期和状态（重要）" class="headerlink" title="线程的生命周期和状态（重要）"></a>线程的生命周期和状态（重要）</h3><p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/640.png" alt="Java 线程状态变迁图"></p>
+<p>6种状态：</p>
+<p>new: 线程创建但是没被调用<br>runnable: start调用了等待运行进入ready，等待时间片分配就开始进入running</p>
+<p>blocked: 阻塞状态，需要等待锁释放。当线程进入synchronized方法&#x2F;块，或者调用wait后重新进入synchronized，但是锁被其他线程占有。</p>
+<p>waiting: 执行wait()方法，需要等待其他线程做出一些动作（通知或者中断）</p>
+<p>time_waiting: 超时等待，可以在指定时间后自行返回，而不是像waiting一样一直等待。调用waiting(long millis)或者sleep(long millis)相当于在waiting的基础上增加了超时限制</p>
+<p>terminated: 终止状态，执行完了run()方法</p>
+<p>在操作系统层面可以看到running状态和ready状态</p>
+<p><strong>为什么JVM没有区分ready和running呢？</strong></p>
+<p>现在的时分多任务操作系统架构使用时间分片进行抢占式和轮转调度式。这个时间分片一般只有10-20ms量级，线程切换很快，区分二者意义不大。</p>
+<h3 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h3><p>线程在执行过程中的运行条件和状态称为上下文，比如程序计数器，栈信息。遇到以下情况线程会从占有cpu的状态中退出：</p>
+<ul>
+<li>主动让出CPU，比如调用了sleep(),wait()方法</li>
+<li>时间片用完，防止其他线程或者进程饿死</li>
+<li>调用了阻塞类型的系统中断，比如请求IO</li>
+<li>被终止或者结束运行</li>
+</ul>
+<p>前三种都要发生线程切换，意味着要保留当前线程的上下文，并加载下一个要使用线程的上下文。</p>
+<h3 id="线程死锁？如何避免"><a href="#线程死锁？如何避免" class="headerlink" title="线程死锁？如何避免"></a>线程死锁？如何避免</h3><p>多个线程被同时阻塞，互相等待对方释放的资源。</p>
+<p>四个必要条件</p>
+<ol>
+<li>互斥条件：资源在任意一个时刻只由一个线程占有</li>
+<li>请求与保持条件：一个线程因请求资源而阻塞时，对自己获得的资源保持不放</li>
+<li>不剥夺条件：线程已获得的资源在没有使用完之前不能被其他线程强行剥夺，必须要等待自己使用完毕后释放</li>
+<li>循环等待条件：若干线程之间形成头尾相接的循环等待资源关系</li>
+</ol>
+<p>如何避免？</p>
+<p>破坏产生的必要条件：</p>
+<ol>
+<li>破坏请求与保持条件：一次申请所有资源</li>
+<li>破坏不剥夺条件：占有部分资源的线程申请其他资源申请不到则主动释放占有的资源</li>
+<li>破坏循环条件：按序申请资源，按照一定顺序申请资源，释放则反序</li>
+</ol>
+<p>银行家算法：对资源分配进行计算评估，使其进入安全状态</p>
+<h3 id="sleep-方法和wait-方法的对比"><a href="#sleep-方法和wait-方法的对比" class="headerlink" title="sleep()方法和wait()方法的对比"></a>sleep()方法和wait()方法的对比</h3><p>共同点：二者都可以暂停线程</p>
+<p>区别：</p>
+<ul>
+<li>sleep不释放锁，wait释放锁</li>
+<li>wait用于线程间交互&#x2F;通信，sleep用于暂停执行</li>
+<li>wait被调用线程不会自动苏醒，需要调用同一对象上的notify()或者notifyAll()。sleep执行完后会自动苏醒，wait也可以设置超时时间后自动苏醒</li>
+<li>sleep是Thread类的静态本地方法，wait是Object类的本地方法</li>
+</ul>
+<p><strong>为什么wait()方法不定义在Thread中？</strong></p>
+<p>wait会主动释放当前线程占用的对象锁，每个对象(Object)都有对象锁，因此要操作对应的对象而非当前线程。</p>
+<p><strong>可以直接调用Thread类的run方法吗？</strong></p>
+<p>调用start后线程进入就绪状态等待时间片就可以运行，自动完成相应准备工作自动执行run方法。直接运行run方法不会以多线程的方式执行</p>
+<h2 id="JMM-Java内存模型"><a href="#JMM-Java内存模型" class="headerlink" title="JMM(Java内存模型)"></a>JMM(Java内存模型)</h2><p><strong>volatile关键字</strong></p>
+<p>保证<strong>内存可见性</strong>(到主存中进行读取)和<strong>防止指令重排</strong>(通过插入特定的 内存屏障*的方式来禁止指令重排序)</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/jmm.png" alt="img"></p>
+<p>原始意义是禁用CPU缓存，声明告诉JVM，这个变量是共享且不稳定的，每次使用它都到主存中进行读取。<code>volatile</code>能保证数据可见性，但是<strong>不能保证数据原子性</strong>。<code>synchronized</code>二者都可以保证。</p>
+<h2 id="Java锁"><a href="#Java锁" class="headerlink" title="Java锁"></a>Java锁</h2><p>查看<a href="C:\Users\Bubble\Desktop\note\Java锁.md">笔记</a></p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>让每个线程绑定自己的值，类似于存放数据的地方。ThreadLocal存储线程的私有数据。</p>
+<p>创建了一个ThreadLocal变量，那么每个访问ThreadLocal变量的线程都会有这个变量的本地副本</p>
+<p>Thread类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Thread</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="comment">//......</span></span><br><span class="line">    <span class="comment">//与此线程有关的ThreadLocal值。由ThreadLocal类维护</span></span><br><span class="line">    ThreadLocal.<span class="type">ThreadLocalMap</span> <span class="variable">threadLocals</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//与此线程有关的InheritableThreadLocal值。由InheritableThreadLocal类维护</span></span><br><span class="line">    ThreadLocal.<span class="type">ThreadLocalMap</span> <span class="variable">inheritableThreadLocals</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//......</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ThreadLoca的set方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(T value)</span> &#123;</span><br><span class="line">    <span class="comment">//获取当前请求的线程</span></span><br><span class="line">    <span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line">    <span class="comment">//取出 Thread 类内部的 threadLocals 变量(哈希表结构)</span></span><br><span class="line">    <span class="type">ThreadLocalMap</span> <span class="variable">map</span> <span class="operator">=</span> getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="literal">null</span>)</span><br><span class="line">        <span class="comment">// 将需要存储的值放入到这个哈希表中</span></span><br><span class="line">        map.set(<span class="built_in">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br><span class="line">ThreadLocalMap <span class="title function_">getMap</span><span class="params">(Thread t)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中主要有<code>threadLocals</code>和<code>inheritableThreadLocals</code>变量，都是<code>ThreadLocalMap</code>类型。可以理解为ThreadLocal类实现的定制化HashMap，key为线程，value为每个线程的私有数据值。当线程调用ThreadLocal类的set或者get方法才能创建。有多个ThreadLocal对象时，ThreadLocalMap的key存放ThreadLocal对象，value存放对应的值</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/threadlocal-data-structure.png" alt="ThreadLocal 数据结构"></p>
+<h3 id="ThreadLocal内存泄漏问题"><a href="#ThreadLocal内存泄漏问题" class="headerlink" title="ThreadLocal内存泄漏问题"></a>ThreadLocal内存泄漏问题</h3><p>ThreadLocalMap的key是ThreadLocal的<strong>弱引用</strong>，value是<strong>强引用</strong>。如果ThreadLocal没被外部强引用，在垃圾回收时会清理掉key，而不会清理value。</p>
+<p>此时ThreadLocalMap会出现key为null的Entry，如果不做任何措施，value永远不会被GC回收产生内存泄漏。ThreadLocalMap考虑了这个情况，在调用set，get，remove后都会清理掉key为null的记录。使用完ThreadLocal后最好手动调用remove</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>管理一系列线程的资源池，任务要处理时直接从线程池中获取线程，处理完后线程不销毁，等待下一个任务</p>
+<p>线程池，数据库连接池，Http连接池都是类似的思想，目的在减少资源的消耗，提高对资源的利用率</p>
+<p>优势：</p>
+<ul>
+<li>降低资源消耗：通过重复利用自己创建的线程降低线程创建和销毁造成的消耗</li>
+<li>提高响应速度：当任务到达时，任务可以不需要等到线程创建</li>
+<li>提高线程可管理性：可以对线程进行统一分配，调优和监控</li>
+</ul>
+<h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><ol>
+<li><p>ThreadPoolExecutor构造函数创建（推荐）</p>
+<p><img src="https://javaguide.cn/assets/threadpoolexecutor%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-d54a5992.png" alt="通过构造方法实现"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.创建一个大小为10的线程池</span></span><br><span class="line"><span class="type">BlockingQueue</span> <span class="variable">queue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>();</span><br><span class="line">ThreadPoolExecutor executor= <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(<span class="number">10</span>,Integer.MAX_VALUE,<span class="number">10L</span>, TimeUnit.SECONDS,queue);</span><br><span class="line"><span class="comment">//给线程池添加任务</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)&#123;</span><br><span class="line">executor.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  　　  <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>&#123;</span><br><span class="line">    　　    <span class="comment">//这里写你的方法</span></span><br><span class="line">      　　  log.info(<span class="string">&quot;开启线程..&quot;</span>);</span><br><span class="line">    　　&#125;</span><br><span class="line">　　&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过Executor框架工具Executors创建(是通过ThreadPoolExecutor封装的)</p>
+<p>可以创建多种类型ThreadPoolExecutor</p>
+<ul>
+<li>FixedThreadPool:返回一个固定线程数的线程池，线程数量始终不变。新任务如果没有空闲线程会被暂存在任务队列等待线程空闲</li>
+<li>SingleThreadExecutor：返回一个只有一个线程的线程池。其他任务会被保存到任务队列，等到线程空闲按照先入先出顺序执行</li>
+<li>CacheThreadPool：返回一个可以根据实际情况调整线程数量的线程池。线程空闲可以用会优先使用空闲线程，没有空闲线程会创建新的线程处理任务</li>
+<li>ScheduledThreadPool：返回一个用来在给定的延迟后运行任务或者定期执行任务的线程池</li>
+</ul>
+</li>
+</ol>
+<p><strong>尽量使用线程池，不允许显式创建线程。</strong></p>
+<p>原因：线程池的好处在于减少创建和销毁线程上所消耗的时间和系统资源开销，解决资源不足问题，不使用线程池会造成系统创建大量同类线程而导致消耗完内存或者过度切换的问题</p>
+<p><strong>为什么不推荐使用Executors创建？</strong></p>
+<ul>
+<li>FixedThreadPool和SingleThreadExecutor：使用无界的LinkedBlockingQueue，任务队列最大长度为Integer.MAX_VALUE，可能堆积大量请求，导致OOM</li>
+<li>CachedThreadPool：使用同步队列synchronousQueue，允许创建线程数为Integer.MAX_VALUE，可能会创建大量线程导致OOM</li>
+<li>ScheduledThreadPool和SingleThreadScheduleExecutor：使用无界的延迟阻塞队列SelayedWorkQueue，任务队列最大长度Integer.MAX_VALUE，可能堆积大量请求，从而导致OOM</li>
+</ul>
+<p>ThreadPoolExecutor的重要参数：</p>
+<ul>
+<li>corePoolSize：任务未达到队列容量时，最大可以同时运行的线程数</li>
+<li>maximumPoolSize：任务队列中存放的任务达到队列容量时，当前可以同时运行的线程数量变为最大线程数</li>
+<li>WorkQueue：新任务来的时候会先判断当前运行的线程数量是否达到核心线程数，如果达到会被存放在队列中</li>
+</ul>
+<p>其他常用参数：</p>
+<ul>
+<li>keepAliveTime：线程池的线程数大于corePoolSize时，没有新任务提交，核心线程以外的线程不会立即销毁而是等待，等到等待时间超过keepAliveTime</li>
+<li>unit：keepAliveTime的时间单位</li>
+<li>threadFactory：executor创建线程时用到</li>
+<li>handler：饱和策略</li>
+</ul>
+<p><img src="https://javaguide.cn/assets/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%90%84%E4%B8%AA%E5%8F%82%E6%95%B0%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB-d65f3309.png" alt="线程池各个参数的关系"></p>
+<h3 id="饱和策略"><a href="#饱和策略" class="headerlink" title="饱和策略"></a>饱和策略</h3><p>当同时运行的线程数达到最大线程数量，队列也放满了任务时使用的策略</p>
+<ul>
+<li>ThreadPoolExecutor.AbortPolicy（默认）：抛出RejectedExecutionException来拒绝新任务的处理</li>
+<li>ThreadPoolExecutor.CallerRunsPolicy：调用执行自己的线程运行任务，也就是直接在调用<code>execute</code>方法的线程中运行(<code>run</code>)被拒绝的任务，如果执行程序已关闭，则会丢弃该任务。因此这种策略会降低对于新任务提交速度，影响程序的整体性能。</li>
+<li>ThreadPoolExecutor.DiscardPolicy：不处理新任务，直接丢弃</li>
+<li>ThreadPoolExecutor.DiscardOldstPolicy：丢弃最早的未处理的任务请求</li>
+</ul>
+<h3 id="常用阻塞队列"><a href="#常用阻塞队列" class="headerlink" title="常用阻塞队列"></a>常用阻塞队列</h3><ul>
+<li>容量为 <code>Integer.MAX_VALUE</code> 的 <code>LinkedBlockingQueue</code>（无界队列）：<code>FixedThreadPool</code> 和 <code>SingleThreadExector</code> 。由于队列永远不会被放满，因此<code>FixedThreadPool</code>最多只能创建核心线程数的线程。</li>
+<li><code>SynchronousQueue</code>（同步队列）：<code>CachedThreadPool</code> 。<code>SynchronousQueue</code> 没有容量，不存储元素，目的是保证对于提交的任务，如果有空闲线程，则使用空闲线程来处理；否则新建一个线程来处理任务。也就是说，<code>CachedThreadPool</code> 的最大线程数是 <code>Integer.MAX_VALUE</code> ，可以理解为线程数是可以无限扩展的，可能会创建大量线程，从而导致 OOM。</li>
+<li><code>DelayedWorkQueue</code>（延迟阻塞队列）：<code>ScheduledThreadPool</code> 和 <code>SingleThreadScheduledExecutor</code> 。<code>DelayedWorkQueue</code> 的内部元素并不是按照放入的时间排序，而是会按照延迟的时间长短对任务进行排序，内部采用的是“堆”的数据结构，可以保证每次出队的任务都是当前队列中执行时间最靠前的。<code>DelayedWorkQueue</code> 添加元素满了之后会自动扩容原来容量的 1&#x2F;2，即永远不会阻塞，最大扩容可达 <code>Integer.MAX_VALUE</code>，所以最多只能创建核心线程数的线程。</li>
+</ul>
+<h3 id="线程池处理流程"><a href="#线程池处理流程" class="headerlink" title="线程池处理流程"></a>线程池处理流程</h3><p><img src="https://oss.javaguide.cn/javaguide/%E5%9B%BE%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.png" alt="图解线程池实现原理"></p>
+<ol>
+<li>如果当前运行的线程数小于核心线程数，那么就会新建一个线程来执行任务。</li>
+<li>如果当前运行的线程数等于或大于核心线程数，但是小于最大线程数，那么就把该任务放入到任务队列里等待执行。</li>
+<li>如果向任务队列投放任务失败（任务队列已经满了），但是当前运行的线程数是小于最大线程数的，就新建一个线程来执行任务。</li>
+<li>如果当前运行的线程数已经等同于最大线程数了，新建线程将会使当前运行的线程超出最大线程数，那么当前任务会被拒绝，饱和策略会调用<code>RejectedExecutionHandler.rejectedExecution()</code>方法。</li>
+</ol>
+<h3 id="线程池大小"><a href="#线程池大小" class="headerlink" title="线程池大小"></a>线程池大小</h3><p>线程池不是越大越好，线程数过多会增加上下文切换成本</p>
+<p>上下文切换：</p>
+<p>线程数一般都大于CPU核心数量，为了让线程都有效执行，CPU会为每个线程分配时间片并轮转。某个线程时间片用完就会重新处于就绪状态让给其他线程使用CPU，就被称为一次上下文切换。上下文切换需要消耗大量CPU时间</p>
+<p>Linux的一个优势就是相比其他操作系统，上下文切换和模式切换的时间消耗都非常少</p>
+<p>怎么设置合适的线程数：</p>
+<ul>
+<li>CPU密集型任务（N+1）：消耗主要是CPU资源，可以将线程数设置为N（CPU核心数）+1。多一个线程是为了防止线程偶发的缺页中断，或者其他原因导致任务暂停带来的影响。这时候多出一个线程就可以充分利用CPU空闲时间</li>
+<li>I&#x2F;O密集型任务（2N）：系统大部分时间来处理I&#x2F;O交互，线程在处理I&#x2F;O时间段内不会占用CPU来处理，就可以将CPU交给其他线程使用</li>
+</ul>
+<p>如何判断是什么任务？</p>
+<p>CPU 密集型简单理解就是利用 CPU 计算能力的任务比如你在内存中对大量数据进行排序。但凡涉及到网络读取，文件读取这类都是 IO 密集型，这类任务的特点是 CPU 计算耗费时间相比于等待 IO 操作完成的时间来说很少，大部分时间都花在了等待 IO 操作完成上。</p>
+<h3 id="如何动态修改线程池参数"><a href="#如何动态修改线程池参数" class="headerlink" title="如何动态修改线程池参数"></a>如何动态修改线程池参数</h3><p>ThreadPoolExecutor提供的方法：</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/threadpoolexecutor-methods.png" alt="img"></p>
+<p>setCorePoolSize在程序运行时侯调用，会先判断线程池的工作线程是否大于corePoolSize，大于的话会把工作线程回收</p>
+<h2 id="Future类"><a href="#Future类" class="headerlink" title="Future类"></a>Future类</h2><p>是异步思想的典型运用。在一些执行耗时任务的场景可以避免程序一直原地等待耗时任务执行完成，执行效率过低。具体来说，当执行到一个耗时任务，可以把这个耗时任务交给一个子线程去异步执行，同时去做其他事。等完成其他事再通过Future类获取耗时任务的执行结果。</p>
+<p>多线程中的经典Future模式，类似于一种设计模式，核心是异步调用</p>
+<p>Future在Java中是一个JUC包下的泛型接口，定义了五个方法包括四个功能</p>
+<ul>
+<li>取消任务</li>
+<li>判断任务是否被取消</li>
+<li>判断任务是否已经执行完成</li>
+<li>获取任务执行结果</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// V 代表了Future执行的任务返回值的类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Future</span>&lt;V&gt; &#123;</span><br><span class="line">    <span class="comment">// 取消任务执行</span></span><br><span class="line">    <span class="comment">// 成功取消返回 true，否则返回 false</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">cancel</span><span class="params">(<span class="type">boolean</span> mayInterruptIfRunning)</span>;</span><br><span class="line">    <span class="comment">// 判断任务是否被取消</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isCancelled</span><span class="params">()</span>;</span><br><span class="line">    <span class="comment">// 判断任务是否已经执行完成</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isDone</span><span class="params">()</span>;</span><br><span class="line">    <span class="comment">// 获取任务执行结果</span></span><br><span class="line">    V <span class="title function_">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException;</span><br><span class="line">    <span class="comment">// 指定时间内没有返回计算结果就抛出 TimeOutException 异常</span></span><br><span class="line">    V <span class="title function_">get</span><span class="params">(<span class="type">long</span> timeout, TimeUnit unit)</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutExceptio</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Callable和Future的关系"><a href="#Callable和Future的关系" class="headerlink" title="Callable和Future的关系"></a>Callable和Future的关系</h3><p>Callable接口旨在定义一个返回结果并可能引发异常的任务。它在 java.util.concurrent 包中声明。此接口还包含一个单一的、无参数的方法，称为 call ()，将被此接口的实现者覆盖。该方法与Runnable接口的run()方法类似，只是它返回一个值，并且可以抛出一个已检查的异常。事实上，整个想法是 Callable 只不过是 Runnable，因为这两个接口都指定了一个有可能被另一个线程执行的类，只是它不受 Runnable 的限制。</p>
+<p><strong>FutureTask</strong>提供了Future接口的基本实现，常用于封装Callable和Runnable，有取消任务，查看任务是否执行完成以及获取任务执行结果的方法。ExecutorService.submit()方法返回的就是Future的实现类FutureTask</p>
+<p>FutureTask有两个构造函数可以传入Callable或者Runnable对象，实际上传入Runnable也会在方法内部转换为Callable对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">FutureTask</span><span class="params">(Callable&lt;V&gt; callable)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (callable == <span class="literal">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>();</span><br><span class="line">    <span class="built_in">this</span>.callable = callable;</span><br><span class="line">    <span class="built_in">this</span>.state = NEW;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="title function_">FutureTask</span><span class="params">(Runnable runnable, V result)</span> &#123;</span><br><span class="line">    <span class="comment">// 通过适配器RunnableAdapter来将Runnable对象runnable转换成Callable对象</span></span><br><span class="line">    <span class="built_in">this</span>.callable = Executors.callable(runnable, result);</span><br><span class="line">    <span class="built_in">this</span>.state = NEW;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java8之后引入的CompletableFuture可以解决Future的一些缺陷，提供了更好用更强大的Future，还提供了函数式编程，异步任务编排组合等能力</p>
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><code>AbstractQueuedSynchronizer</code>，JUC很多的并发类的封装都是基于AQS的，AQS是抽象类，用于构建锁和同步器</p>
+<p>可以观看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV12K411G7Fg/?spm_id_from=333.880.my_history.page.click&vd_source=3dacc7eebe628991e8227eebc0b49039">视频</a>帮助理解</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>如果线程请求的共享资源被占用，需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制就是AQS利用CLH队列锁实现的</p>
+<p>CLH（Craig，Landin，and Hagersten）队列是虚拟的双向队列（不存在队列实例，仅存在节点之间的关联关系），FIFO。AQS将每个请求共享资源的线程封装成CLH锁队列的一个节点（Node）来实现锁的分配，节点保存现成的引用，当前节点在队列的状态（waitStatus），前驱节点（prev），后继节点（next）</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40cb932a64694262993907ebda6a0bfe~tplv-k3u1fbpfcp-zoom-1.image" alt="img"></p>
+<p>AQS中state来表示同步状态，类型为int(线程可以重入重复获取锁，因此可以累计，在共享模式下也可以表示占用线程数)，由volatile修饰保证线程可见性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">int</span> state;</span><br></pre></td></tr></table></figure>
+
+<p>state可以通过protected修饰的getState，setState，compareAndSetState来操作，都是final修饰无法被子类重写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回同步状态的当前值</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">getState</span><span class="params">()</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="comment">// 设置同步状态的值</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">setState</span><span class="params">(<span class="type">int</span> newState)</span> &#123;</span><br><span class="line">     state = newState;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//原子地（CAS操作）将同步状态值设置为给定值update如果当前同步状态的值等于expect（期望值）</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">compareAndSetState</span><span class="params">(<span class="type">int</span> expect, <span class="type">int</span> update)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="built_in">this</span>, stateOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在ReentrantLock中，state初始为0，未锁定状态。此时A线程lock时会调用tryAcquire，独占锁并将state+1，其他线程就无法获得锁，直到state&#x3D;0时。释放锁前线程A可以重复获取锁，每次获取将state+1，解锁要与获取锁次数一致</p>
+<p>CountDownLatch，任务共有N个子线程，state初始化为N，线程并行执行。每个线程执行完成就countDown一次，state会CAS方式-1，所有线程countDown后，state&#x3D;0，然后unpark主调用线程，主调用线程会从await函数返回继续后余动作</p>
+<p>获取锁：上层需要重写，不然抛出异常</p>
+<ul>
+<li>tryAcquire：尝试获取锁，失败后可以选择直接返回或者调用acquire进行等待</li>
+<li>acquire：public final修饰，不允许继承类重写。会先tryAcquire，失败后使用addWaiter（加入队列）和acquireQueued方法（配合release实现对线程的挂起和响应）入队</li>
+</ul>
+<h3 id="Semaphore（信号量）"><a href="#Semaphore（信号量）" class="headerlink" title="Semaphore（信号量）"></a>Semaphore（信号量）</h3><p>synchronized和ReentrantLock一次只允许一个线程访问某个资源，而Semaphore可以用来控制同时访问特定资源的线程数量</p>
+<p>使用方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始共享资源数量</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">Semaphore</span> <span class="variable">semaphore</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Semaphore</span>(<span class="number">5</span>);</span><br><span class="line"><span class="comment">// 获取1个许可</span></span><br><span class="line">semaphore.acquire();</span><br><span class="line"><span class="comment">// 释放1个许可</span></span><br><span class="line">semaphore.release();</span><br></pre></td></tr></table></figure>
+
+<p>如果资源初始化为1，Semaphore退化为排他锁</p>
+<p>类似Reentrant Lock，Semaphore也有公平（调用acquire）和非公平模式（详见<a href="C:\Users\Bubble\Desktop\note\Java锁.md">Java锁</a>）</p>
+<p>对应构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">Semaphore</span><span class="params">(<span class="type">int</span> <span class="keyword">permits</span>)</span> &#123;</span><br><span class="line">  	sync = <span class="keyword">new</span> <span class="title class_">NonfairSync</span>(<span class="keyword">permits</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">Semaphore</span><span class="params">(<span class="type">int</span> <span class="keyword">permits</span>, <span class="type">boolean</span> fair)</span> &#123;</span><br><span class="line">  	sync = fair ? <span class="keyword">new</span> <span class="title class_">FairSync</span>(<span class="keyword">permits</span>) : <span class="keyword">new</span> <span class="title class_">NonfairSync</span>(<span class="keyword">permits</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用场景：</p>
+<p>用于资源有明确访问数量的场景，比如限流（限单机模式），项目中通常使用Redis+Lua</p>
+<h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p>是共享锁的一种实现，默认构造AQS，state值为permits，可理解为许可证数量，拿到许可证的线程才能够执行。在state&gt;&#x3D;0时拿到许可证，然后用CAS操作修改state值使其-1。当state&lt;0时获取许可证失败，会创建一个Node节点加入阻塞队列挂起线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  获取1个许可证</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">acquire</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line"> 	 sync.acquireSharedInterruptibly(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 共享模式下获取许可证，获取成功则返回，失败则加入阻塞队列，挂起线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">acquireSharedInterruptibly</span><span class="params">(<span class="type">int</span> arg)</span></span><br><span class="line">    <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">InterruptedException</span>();</span><br><span class="line">        <span class="comment">// 尝试获取许可证，arg为获取许可证个数，当可用许可证数减当前获取的许可证数结果小于0,则创建一个节点加入阻塞队列，挂起当前线程。</span></span><br><span class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</span><br><span class="line">      doAcquireSharedInterruptibly(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>release释放操作类似</p>
+<h3 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h3><p>允许count个线程阻塞在同一个地方，等到所有线程任务执行完毕。</p>
+<p>（比如找七龙珠，分七个人出去找是最快的，找到之后主线程才能召唤神龙）</p>
+<p>比如使用六个任务去处理六个文件，返回给客户的需要这几个文件处理的结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CountDownLatchExample1</span> &#123;</span><br><span class="line">    <span class="comment">// 处理文件的数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">threadCount</span> <span class="operator">=</span> <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="comment">// 创建一个具有固定线程数量的线程池对象（推荐使用构造方法创建）</span></span><br><span class="line">        <span class="type">ExecutorService</span> <span class="variable">threadPool</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">CountDownLatch</span> <span class="variable">countDownLatch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(threadCount);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">threadnum</span> <span class="operator">=</span> i;</span><br><span class="line">            threadPool.execute(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//处理文件的业务操作</span></span><br><span class="line">                    <span class="comment">//......</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">//表示一个文件已经被完成</span></span><br><span class="line">                    countDownLatch.countDown();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        countDownLatch.await();</span><br><span class="line">        threadPool.shutdown();</span><br><span class="line">        System.out.println(<span class="string">&quot;finish&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改进：使用Java8提供的CompletableFuture，提供了很多多线程便利的接口</p>
+<h3 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h3><p>类似于CountDownLatch，实现线程间的等待，但是功能更复杂强大，应用场景类似CountDownLatch</p>
+<p>CountDownLatch基于AQS，CyclicBarrier基于ReentrantLock和Condition</p>
+<p>Cyclibarrier让一组线程到达一个同步点时被阻塞，直到最后一个线程到达同步点，此时同步点（又称屏障，名字中的Barrier）才会打开，所有被拦截阻塞的线程才会继续工作</p>
+<h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><p>CyclicBarrier内部通过count变量作为计数器，初始值为parties属性的初始化值，当有一个计数器到达同步点，就把count计数器-1，当计数器为0，表示所有线程都到达了，就尝试执行我们在构造方法输入的任务</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%89/" data-id="clix3qjvs000jqwuefkq59oit" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/14/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

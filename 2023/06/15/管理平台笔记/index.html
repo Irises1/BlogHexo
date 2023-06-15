@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="验证码生成对于结果先生成一个AjaxResult对象，过程中添加要返回的内容 生成验证码的答案要存入Redis，前端提交之后后端在redis中取出比较。key要使用前缀+UUID存储，所以要先生成UUID并和图片一起返回，使用kaptcha生成验证码。先生成表达式，答案前用@隔开，用@前的表达式生成图片，@后的结果存入缓存，并设置缓存TTL。 图片要用二进制传输，定义一个FastByteArray">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="验证码生成对于结果先生成一个AjaxResult对象，过程中添加要返回的内容 生成验证码的答案要存入Redis，前端提交之后后端在redis中取出比较。key要使用前缀+UUID存储，所以要先生成UUID并和图片一起返回，使用kaptcha生成验证码。先生成表达式，答案前用@隔开，用@前的表达式生成图片，@后的结果存入缓存，并设置缓存TTL。 图片要用二进制传输，定义一个FastByteArray">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230531210946664.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200426143948937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RhaXdsMTk4OA==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200426144055173.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RhaXdsMTk4OA==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230603203839500.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.290Z">
+<meta property="article:modified_time" content="2023-06-14T11:49:03.557Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230531210946664.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-管理平台笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.290Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="验证码生成"><a href="#验证码生成" class="headerlink" title="验证码生成"></a>验证码生成</h1><p>对于结果先生成一个AjaxResult对象，过程中添加要返回的内容</p>
+<p>生成验证码的答案要存入Redis，前端提交之后后端在redis中取出比较。key要使用前缀+UUID存储，所以要先生成UUID并和图片一起返回，使用kaptcha生成验证码。先生成表达式，答案前用@隔开，用@前的表达式生成图片，@后的结果存入缓存，并设置缓存TTL。</p>
+<p>图片要用二进制传输，定义一个FastByteArrayOutputStream，使用Javax包的ImageIO.write()输出，三个参数，图片，格式，IO流（FastByteArrayOutputStream)</p>
+<h2 id="FastByteArrayOutputStream"><a href="#FastByteArrayOutputStream" class="headerlink" title="FastByteArrayOutputStream"></a>FastByteArrayOutputStream</h2><p>性能版的ByteArrayOutputStream，继承OutputStream</p>
+<p>字节流，捕获缓冲区数据转换成字节数组</p>
+<p>性能高：写入数据，不会扩充byte[]，而是向Deque增加byte[]，byte[]每次扩充一倍，所以最后会有一定性能浪费</p>
+<h1 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h1><p>总共三步</p>
+<ol>
+<li><p>校验验证码</p>
+<p>根据UUID去redis查询对比</p>
+</li>
+<li><p>用户验证</p>
+<p>使用Spring security</p>
+<p>将认证结果赋给Authentication对象</p>
+<p>将用户名密码先传入UsernamePasswordAuthenticationToken对象，并将这个对象传入AuthenticationContextHolder，使用AuthenticationManager来验证用户信息返回给Authentication对象</p>
+<p>后面用到的用户要从principal中取authentication.getPrincipal()</p>
+</li>
+<li><p>生成token</p>
+<p>将用户信息打包使用tokenService.createToken(loginUser)生成token，用map记录字段名和token写到User中</p>
+</li>
+</ol>
+<h2 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h2><p>架构：</p>
+<h3 id="SecurityContextHolder"><a href="#SecurityContextHolder" class="headerlink" title="SecurityContextHolder"></a>SecurityContextHolder</h3><p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230531210946664.png" alt="image-20230531210946664"></p>
+<p>Spring Security会把用户信息存放在SecurityContextHolder中，结构如上。</p>
+<p>Authentication作用：</p>
+<ul>
+<li>作为后续验证的入参</li>
+<li>获取当前验证通过的用户信息</li>
+</ul>
+<p>三个属性</p>
+<ul>
+<li>Principal：用户身份，如果是用户名&#x2F;密码的认证，这里就是UserDetails实例</li>
+<li>Credentials：通常是密码，大多数情况下用户验证通过就会清除，防止泄露</li>
+<li>Authorities：用户权限</li>
+</ul>
+<h3 id="AuthenticationManager"><a href="#AuthenticationManager" class="headerlink" title="AuthenticationManager"></a>AuthenticationManager</h3><p><img src="https://img-blog.csdnimg.cn/20200426143948937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RhaXdsMTk4OA==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ul>
+<li>AuthenticationManager用于实现身份认证的API接口，入参Authentication，常用其子类ProviderManager</li>
+<li>AuthenticationProvider是某种具体认证实现，DaoAuthenticationProvider用于实现用户名密码认证，JwtAuthenticationProvider用于JWT token认证</li>
+<li>支持多种类型的AuthenticationProvider会注入到ProviderManager，根据Authentication类型调用相应的AuthenticationProvider</li>
+</ul>
+<h3 id="AbstractAuthenticationProcessingFilter"><a href="#AbstractAuthenticationProcessingFilter" class="headerlink" title="AbstractAuthenticationProcessingFilter"></a>AbstractAuthenticationProcessingFilter</h3><p><img src="https://img-blog.csdnimg.cn/20200426144055173.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RhaXdsMTk4OA==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>用于身份认证的过滤器，对于认证成功或者失败做出对应操作</p>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>使用异步日志写入数据库的方式</p>
+<p>framwork里面写好了异步工厂recordLogininfor方法，在日志中记录访客信息，包括操作系统，浏览器，用户信息，日志内容</p>
+<h2 id="getInfo"><a href="#getInfo" class="headerlink" title="getInfo"></a>getInfo</h2><p>用户登录的请求，前端还生成了两个请求，分别是getInfo和getRouters</p>
+<p>getInfo中获取了用户信息和用户权限信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 角色集合</span></span><br><span class="line">Set&lt;String&gt; roles = permissionService.getRolePermission(user);</span><br><span class="line"><span class="comment">// 权限集合</span></span><br><span class="line">Set&lt;String&gt; permissions = permissionService.getMenuPermission(user);</span><br></pre></td></tr></table></figure>
+
+<p>admin权限：<code>*:*:*</code></p>
+<h2 id="getRouters"><a href="#getRouters" class="headerlink" title="getRouters"></a>getRouters</h2><p>根据当前用户权限获取动态路由，也就是菜单</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//SecurityUtils是写在common模块里面的安全服务工具类，封装了Spring Security的操作</span></span><br><span class="line"><span class="comment">//调用getAuthentication().getPrincipal()获取用户信息后再获取userId</span></span><br><span class="line"><span class="comment">//Authentication保存了用户的信息，密码，权限，获取principal来获取到用户信息</span></span><br><span class="line"><span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> SecurityUtils.getUserId();</span><br><span class="line"><span class="comment">//这里注入了menuService，其中封装了业务层关于菜单的处理</span></span><br><span class="line"><span class="comment">//selectMenuTreeByUserId(userId)会根据用户ID来返回菜单树，先判断用户权限分为管理员或者其他的，因为返回的内容不同分别调用的SQL语句也不同，查询sys_menu中当前用户权限菜单的所有信息</span></span><br><span class="line"><span class="comment">//查询结果返回给getChildPerms来组装层级关系</span></span><br><span class="line">List&lt;SysMenu&gt; menus = menuService.selectMenuTreeByUserId(userId);</span><br><span class="line"><span class="comment">//build Menue，逐个读取Menue，给Routers根据这些内容来构建最后返回</span></span><br><span class="line"><span class="keyword">return</span> AjaxResult.success(menuService.buildMenus(menus));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据父节点的ID获取所有子节点</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> list     分类表</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> parentId 传入的父节点ID</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> String</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//输入的t从0开始，表示从父节点为0的节点开始</span></span><br><span class="line"><span class="keyword">public</span> List&lt;SysMenu&gt; <span class="title function_">getChildPerms</span><span class="params">(List&lt;SysMenu&gt; list, <span class="type">int</span> parentId)</span> &#123;</span><br><span class="line">    List&lt;SysMenu&gt; returnList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;SysMenu&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Iterator&lt;SysMenu&gt; iterator = list.iterator(); iterator.hasNext(); ) &#123;</span><br><span class="line">        <span class="type">SysMenu</span> <span class="variable">t</span> <span class="operator">=</span> (SysMenu) iterator.next();</span><br><span class="line">        <span class="comment">// 一、根据传入的某个父节点ID,遍历该父节点的所有子节点</span></span><br><span class="line">        <span class="keyword">if</span> (t.getParentId() == parentId) &#123;</span><br><span class="line">            recursionFn(list, t);</span><br><span class="line">            returnList.add(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> returnList;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//递归列表</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">recursionFn</span><span class="params">(List&lt;SysMenu&gt; list, SysMenu t)</span> &#123;</span><br><span class="line">    <span class="comment">// 得到子节点列表</span></span><br><span class="line">    List&lt;SysMenu&gt; childList = getChildList(list, t);</span><br><span class="line">    t.setChildren(childList);</span><br><span class="line">    <span class="keyword">for</span> (SysMenu tChild : childList) &#123;</span><br><span class="line">        <span class="comment">//递归结束判断</span></span><br><span class="line">        <span class="keyword">if</span> (hasChild(list, tChild)) &#123;</span><br><span class="line">            recursionFn(list, tChild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 得到子节点列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;SysMenu&gt; <span class="title function_">getChildList</span><span class="params">(List&lt;SysMenu&gt; list, SysMenu t)</span> &#123;</span><br><span class="line">    List&lt;SysMenu&gt; tlist = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;SysMenu&gt;();</span><br><span class="line">    Iterator&lt;SysMenu&gt; it = list.iterator();</span><br><span class="line">    <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">        <span class="type">SysMenu</span> <span class="variable">n</span> <span class="operator">=</span> (SysMenu) it.next();</span><br><span class="line">        <span class="keyword">if</span> (n.getParentId().longValue() == t.getMenuId().longValue()) &#123;</span><br><span class="line">            tlist.add(n);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tlist;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面查询的菜单信息的数据库示例：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230603203839500.png" alt="image-20230603203839500"></p>
+<ul>
+<li>其中parent_id表示父菜单ID，0表示没有父菜单</li>
+<li>component表示点击页面的重定向的页面</li>
+</ul>
+<h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><p>打开页面调用三个请求</p>
+<p>getList，getTreeselect，getConfigkey</p>
+<h2 id="getList"><a href="#getList" class="headerlink" title="getList"></a>getList</h2><p>获取用户列表（分页），调用&#x2F;system&#x2F;user&#x2F;list的get请求</p>
+<p>定位到controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取用户列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//spring security判断权限</span></span><br><span class="line"><span class="meta">@PreAuthorize(&quot;@ss.hasPermi(&#x27;system:user:list&#x27;)&quot;)</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> TableDataInfo <span class="title function_">list</span><span class="params">(SysUser user)</span> &#123;</span><br><span class="line">    <span class="comment">//分页，使用pagehelper+mybatis</span></span><br><span class="line">    startPage();</span><br><span class="line">    List&lt;SysUser&gt; list = userService.selectUserList(user);</span><br><span class="line">    <span class="keyword">return</span> getDataTable(list);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 响应请求分页数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&#123;&quot;rawtypes&quot;, &quot;unchecked&quot;&#125;)</span></span><br><span class="line"><span class="keyword">protected</span> TableDataInfo <span class="title function_">getDataTable</span><span class="params">(List&lt;?&gt; list)</span> &#123;</span><br><span class="line">    <span class="comment">//TableDataInfo是表格分页数据对象</span></span><br><span class="line">    <span class="type">TableDataInfo</span> <span class="variable">rspData</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TableDataInfo</span>();</span><br><span class="line">    rspData.setCode(HttpStatus.SUCCESS);</span><br><span class="line">    rspData.setMsg(<span class="string">&quot;查询成功&quot;</span>);</span><br><span class="line">    rspData.setRows(list);</span><br><span class="line">    rspData.setTotal(<span class="keyword">new</span> <span class="title class_">PageInfo</span>(list).getTotal());</span><br><span class="line">    <span class="keyword">return</span> rspData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>权限判断通过ss(也是一个Bean)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service(&quot;ss&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PermissionService</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 所有权限标识</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ALL_PERMISSION</span> <span class="operator">=</span> <span class="string">&quot;*:*:*&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 管理员角色权限标识</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">SUPER_ADMIN</span> <span class="operator">=</span> <span class="string">&quot;admin&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ROLE_DELIMETER</span> <span class="operator">=</span> <span class="string">&quot;,&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PERMISSION_DELIMETER</span> <span class="operator">=</span> <span class="string">&quot;,&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 验证用户是否具备某权限</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> permission 权限字符串</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 用户是否具备某权限</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPermi</span><span class="params">(String permission)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(permission)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">LoginUser</span> <span class="variable">loginUser</span> <span class="operator">=</span> SecurityUtils.getLoginUser();</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        PermissionContextHolder.setContext(permission);</span><br><span class="line">        <span class="keyword">return</span> hasPermissions(loginUser.getPermissions(), permission);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分页通过startPage完成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用</span></span><br><span class="line">PageUtils.startPage();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PageUtils</span> <span class="keyword">extends</span> <span class="title class_">PageHelper</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置请求分页数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">startPage</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">PageDomain</span> <span class="variable">pageDomain</span> <span class="operator">=</span> TableSupport.buildPageRequest();</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">pageNum</span> <span class="operator">=</span> pageDomain.getPageNum();</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">pageSize</span> <span class="operator">=</span> pageDomain.getPageSize();</span><br><span class="line">        <span class="type">String</span> <span class="variable">orderBy</span> <span class="operator">=</span> SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());</span><br><span class="line">        <span class="type">Boolean</span> <span class="variable">reasonable</span> <span class="operator">=</span> pageDomain.getReasonable();</span><br><span class="line">        PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 清理分页的线程变量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">clearPage</span><span class="params">()</span> &#123;</span><br><span class="line">        PageHelper.clearPage();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TableSupport存了分页的设置</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TableSupport</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当前记录起始索引</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PAGE_NUM</span> <span class="operator">=</span> <span class="string">&quot;current&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 每页显示记录数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PAGE_SIZE</span> <span class="operator">=</span> <span class="string">&quot;pageSize&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 排序列</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ORDER_BY_COLUMN</span> <span class="operator">=</span> <span class="string">&quot;orderByColumn&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 排序的方向 &quot;desc&quot; 或者 &quot;asc&quot;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">IS_ASC</span> <span class="operator">=</span> <span class="string">&quot;isAsc&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分页参数合理化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">REASONABLE</span> <span class="operator">=</span> <span class="string">&quot;reasonable&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 封装分页对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PageDomain <span class="title function_">getPageDomain</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">PageDomain</span> <span class="variable">pageDomain</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PageDomain</span>();</span><br><span class="line">        pageDomain.setPageNum(Convert.toInt(ServletUtils.getParameter(PAGE_NUM), <span class="number">1</span>));</span><br><span class="line">        pageDomain.setPageSize(Convert.toInt(ServletUtils.getParameter(PAGE_SIZE), <span class="number">10</span>));</span><br><span class="line">        pageDomain.setOrderByColumn(ServletUtils.getParameter(ORDER_BY_COLUMN));</span><br><span class="line">        pageDomain.setIsAsc(ServletUtils.getParameter(IS_ASC));</span><br><span class="line">        pageDomain.setReasonable(ServletUtils.getParameterToBool(REASONABLE));</span><br><span class="line">        <span class="keyword">return</span> pageDomain;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PageDomain <span class="title function_">buildPageRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> getPageDomain();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="getTreeselect"><a href="#getTreeselect" class="headerlink" title="getTreeselect"></a>getTreeselect</h2><p>获取公司树状结构信息</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%AC%94%E8%AE%B0/" data-id="clix3qjvw000qqwue7l597cop" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

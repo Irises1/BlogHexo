@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="MedSegDiff-V2: Diffusion based Medical Image Segmentation with Transformer(基于Diffusion的Transformer医学分割模型) AbstractMedSegDiff证明扩散模型在医学影像领域是有用的，直接结合UNet主干的模型性能很差 提出了一种基于Transformer的UNet框架 一种新的Spectrum-S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/SAM%E7%BB%93%E5%90%88%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="MedSegDiff-V2: Diffusion based Medical Image Segmentation with Transformer(基于Diffusion的Transformer医学分割模型) AbstractMedSegDiff证明扩散模型在医学影像领域是有用的，直接结合UNet主干的模型性能很差 提出了一种基于Transformer的UNet框架 一种新的Spectrum-S">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525142513309.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525144640228.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525145701524.png">
+<meta property="article:published_time" content="2023-06-15T12:12:08.515Z">
+<meta property="article:modified_time" content="2023-05-25T12:30:43.930Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525142513309.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-SAM结合笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/SAM%E7%BB%93%E5%90%88%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:08.515Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="MedSegDiff-V2-Diffusion-based-Medical-Image-Segmentation-with-Transformer"><a href="#MedSegDiff-V2-Diffusion-based-Medical-Image-Segmentation-with-Transformer" class="headerlink" title="MedSegDiff-V2: Diffusion based Medical Image Segmentation with Transformer"></a>MedSegDiff-V2: Diffusion based Medical Image Segmentation with Transformer</h1><p>(基于Diffusion的Transformer医学分割模型)</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>MedSegDiff证明扩散模型在医学影像领域是有用的，直接结合UNet主干的模型性能很差</p>
+<p>提出了一种基于Transformer的UNet框架</p>
+<p>一种新的Spectrum-Space(频谱空间) Transformer 来对噪声和语义特征之间交互建模</p>
+<p>以上的两个改进产生了一种基于Diffusion的医学图像分割方法，改进了MedSegDiff的性能</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>基于Transformer的条件UNet架构：</p>
+<p>在扩散过程中使用两种不同的调节技术来condition具有图像分割特征的主干模型：</p>
+<ol>
+<li>anchor condition：将conditional分割特征集成到扩散模型编码器中减少扩散方差</li>
+<li>结合conditional 分割嵌入到diffusion嵌入结合成语义condition</li>
+</ol>
+<p>为了有效弥补扩散噪声嵌入和条件语义之间的差距提出一种新的变换机制：SS-Former</p>
+<p>是一个交错的交叉注意力链，一部分使用噪声嵌入增强语义嵌入，另一部分使用语义嵌入增强噪声嵌入。在频域上设计了一种新的交叉注意力机制，来消除噪声嵌入中的高频噪声</p>
+<p>Contribution：</p>
+<ul>
+<li>第一个将Transformer集成到基于diffusion的模型中用于医学分割</li>
+<li>具有高斯空间注意力的anchor condition，来减轻扩散方差并加快ensemble</li>
+<li>使用SS-Former对分割噪声和语义特征交互进行建模的语义条件</li>
+<li>在不同图像模式的16个医学分割任务上的SOTA性能</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525142513309.png" alt="image-20230525142513309"></p>
+<h1 id="SpectFormer-Frequency-and-Attention-is-what-you-need-in-a-Vision-Transformer"><a href="#SpectFormer-Frequency-and-Attention-is-what-you-need-in-a-Vision-Transformer" class="headerlink" title="SpectFormer: Frequency and Attention is what you need in a Vision Transformer"></a>SpectFormer: Frequency and Attention is what you need in a Vision Transformer</h1><p>(SpectFormer：频率和注意力是视觉Transformer所需要的)</p>
+<p>在Transformer上结合频谱层和多头注意力层</p>
+<p>提出了一种新的Transformer体系架构，使用傅里叶变换实现的频谱层来捕获体系结构初始层中的相关特征，同时在更深层中使用多头自注意力</p>
+<p>Contribution：</p>
+<ul>
+<li>使用初始谱层和更深的多头注意力来设计谱层。光谱层的学习滤波器可视化更加局部化，采用混合谱注意和后面的多头注意可以改善结果</li>
+<li>在CIFAR-10和100数据集上使用迁移学习模式（在ImageNet训练），specformer取得了合理的性能</li>
+<li>评估在MS COCO数据集上的性能证明了specformer在其他任务中获得一致的性能</li>
+</ul>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525144640228.png" alt="image-20230525144640228"></p>
+<p>光谱层的位置：</p>
+<p>全注意力，全光谱，相反顺序的对比</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230525145701524.png" alt="image-20230525145701524"></p>
+<p>光谱层：</p>
+<p>目的是捕获图像不同频率的组成来理解局部频率，可以通过频谱门控网络实现，包括一个快速傅里叶变换层(FFT)，接一个加权门控，然后逆FFT层，利用FFT可以把物理空间转换到光谱空间，对每个频率分量的权重使用一个科学系的权重参数，来捕获图像的线和边</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/SAM%E7%BB%93%E5%90%88%E7%AC%94%E8%AE%B0/" data-id="clix3qjvl0007qwueahe0gkb4" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/sam%E7%BB%84%E4%BC%9A%E6%8A%A5%E5%91%8A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E7%AC%94%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

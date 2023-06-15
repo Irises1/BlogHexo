@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Java知识点Java值传递 值传递：方法接收的是实参值的拷贝，会创建副本 引用传递：方法接收的直接是实参所引用的对象在堆中的地址，不会创建副本，对形参的修改影响到实参  Java中只有值传递 Java序列化 序列化：将数据结构或者对象转换成二进制字节流的过程 反序列化：将在序列化过程中所生成的二进制字节流转换成数据结构或者对象的过程  常用场景 StringString不可变不可变指如果要在原字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/Java%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Java知识点Java值传递 值传递：方法接收的是实参值的拷贝，会创建副本 引用传递：方法接收的直接是实参所引用的对象在堆中的地址，不会创建副本，对形参的修改影响到实参  Java中只有值传递 Java序列化 序列化：将数据结构或者对象转换成二进制字节流的过程 反序列化：将在序列化过程中所生成的二进制字节流转换成数据结构或者对象的过程  常用场景 StringString不可变不可变指如果要在原字">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105215974.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105152028.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105234818.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/basis/unsafe/image-20220717144703446.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/cpu-cache.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/jmm.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.358Z">
+<meta property="article:modified_time" content="2023-05-28T11:42:13.061Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105215974.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java知识点" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/Java%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.358Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Java知识点"><a href="#Java知识点" class="headerlink" title="Java知识点"></a>Java知识点</h1><h2 id="Java值传递"><a href="#Java值传递" class="headerlink" title="Java值传递"></a>Java值传递</h2><ul>
+<li>值传递：方法接收的是实参值的拷贝，会创建副本</li>
+<li>引用传递：方法接收的直接是实参所引用的对象在堆中的地址，不会创建副本，对形参的修改影响到实参</li>
+</ul>
+<p>Java中只有值传递</p>
+<h2 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h2><ul>
+<li>序列化：将数据结构或者对象转换成二进制字节流的过程</li>
+<li>反序列化：将在序列化过程中所生成的二进制字节流转换成数据结构或者对象的过程</li>
+</ul>
+<p>常用场景</p>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><h3 id="String不可变"><a href="#String不可变" class="headerlink" title="String不可变"></a>String不可变</h3><p>不可变指如果要在原字符串上增删字符，会新建一个新的字符串而不会改变原本字符串</p>
+<p>原因：</p>
+<ul>
+<li>String类内使用数组保存字符串，这个数组被final修饰且为private</li>
+<li>String类为final，不可被子类继承，从而破坏不可变</li>
+</ul>
+<h3 id="String，StringBuffer，-StringBuilder"><a href="#String，StringBuffer，-StringBuilder" class="headerlink" title="String，StringBuffer， StringBuilder"></a>String，StringBuffer， StringBuilder</h3><p>StringBuffer， StringBuilder继承自AbstractBuilder，也是用数组保存字符串，但是没有使用final和private修饰，还提供了修改方法比如append，因此是可变的</p>
+<p>String是线程安全的，StringBuffer添加了同步锁所以也是线程安全的，StringBuffer线程不安全</p>
+<p>性能上：String&lt;StringBuffer&lt;StringBuilder</p>
+<h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><h3 id="comparable与Comparator"><a href="#comparable与Comparator" class="headerlink" title="comparable与Comparator"></a>comparable与Comparator</h3><ul>
+<li><code>comparable</code> 接口实际上是出自<code>java.lang</code>包 它有一个 <code>compareTo(Object obj)</code>方法用来排序</li>
+<li><code>comparator</code>接口实际上是出自 java.util 包它有一个<code>compare(Object obj1, Object obj2)</code>方法用来排序</li>
+</ul>
+<p><strong>Comparable 被认为是内比较器，也是自然排序，实现该接口的类，会有自身比较的功能，则依赖compareTo方法的实现</strong></p>
+<p><strong>Comparator 被认为是外比较器，我们如果需要控制某个类的次序，而该类本身不支持排序(即没有实现Comparable接口)，那么我们就可以建立一个“该类的比较器”来进行排序，这个“比较器”只需要实现Comparator接口覆盖compare(T o1, T o2)方法，即可，然后通过这个比较器对类进行比较且排序</strong></p>
+<p>对集合需要排序时，重写comparaTo方法或者compara方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;Integer&gt; arrayList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;();</span><br><span class="line"><span class="comment">//省略了arrayList的赋值</span></span><br><span class="line">Collections.sort(arrayList, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;Integer&gt;()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compara</span><span class="params">(Integer o1, Integer o2)</span>&#123;</span><br><span class="line">        <span class="comment">//降序</span></span><br><span class="line">        <span class="keyword">return</span> o2.comparaTo(o1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="比较-HashSet、LinkedHashSet-和-TreeSet-三者的异同"><a href="#比较-HashSet、LinkedHashSet-和-TreeSet-三者的异同" class="headerlink" title="比较 HashSet、LinkedHashSet 和 TreeSet 三者的异同"></a>比较 HashSet、LinkedHashSet 和 TreeSet 三者的异同</h3><ul>
+<li><code>HashSet</code>、<code>LinkedHashSet</code> 和 <code>TreeSet</code> 都是 <code>Set</code> 接口的实现类，都能保证元素唯一，并且都<strong>不是线程安全</strong>的。</li>
+<li><code>HashSet</code>、<code>LinkedHashSet</code> 和 <code>TreeSet</code> 的主要区别在于底层数据结构不同。<code>HashSet</code> 的底层数据结构是<strong>哈希表</strong>（基于 <code>HashMap</code> 实现）。<code>LinkedHashSet</code> 的底层数据结构是<strong>链表和哈希表</strong>，元素的插入和取出顺序满足 FIFO。<code>TreeSet</code> 底层数据结构是<strong>红黑树</strong>，元素是有序的，排序的方式有自然排序和定制排序。</li>
+<li>底层数据结构不同又导致这三者的应用场景不同。<code>HashSet</code> 用于不需要保证元素插入和取出顺序的场景，<code>LinkedHashSet</code> 用于保证元素</li>
+</ul>
+<h3 id="HashMap-和-Hashtable-的区别"><a href="#HashMap-和-Hashtable-的区别" class="headerlink" title="HashMap 和 Hashtable 的区别"></a>HashMap 和 Hashtable 的区别</h3><ul>
+<li><strong>线程是否安全：</strong> <code>HashMap</code> 是非线程安全的，<code>Hashtable</code> 是线程安全的,因为 <code>Hashtable</code> 内部的方法基本都经过<code>synchronized</code> 修饰。（如果你要保证线程安全的话就使用 <code>ConcurrentHashMap</code> 吧！）；</li>
+<li><strong>效率：</strong> 因为线程安全的问题，<code>HashMap</code> 要比 <code>Hashtable</code> 效率高一点。另外，<code>Hashtable</code> 基本被淘汰，不要在代码中使用它；</li>
+<li><strong>对 Null key 和 Null value 的支持：</strong> <code>HashMap</code> 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个；Hashtable 不允许有 null 键和 null 值，否则会抛出 <code>NullPointerException</code>。</li>
+<li><strong>初始容量大小和每次扩充容量大小的不同：</strong> ① 创建时如果不指定容量初始值，<code>Hashtable</code> 默认的初始大小为 11，之后每次扩充，容量变为原来的 2n+1。<code>HashMap</code> 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。② 创建时如果给定了容量初始值，那么 <code>Hashtable</code> 会直接使用你给定的大小，而 <code>HashMap</code> 会将其扩充为 2 的幂次方大小（<code>HashMap</code> 中的<code>tableSizeFor()</code>方法保证，下面给出了源代码）。也就是说 <code>HashMap</code> 总是使用 2 的幂作为哈希表的大小,后面会介绍到为什么是 2 的幂次方。</li>
+<li><strong>底层数据结构：</strong> JDK1.8 以后的 <code>HashMap</code> 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）时，将链表转化为红黑树（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树），以减少搜索时间（后文中我会结合源码对这一过程进行分析）。<code>Hashtable</code> 没有这样的机制。</li>
+</ul>
+<p><strong>HashMap扩容机制</strong></p>
+<p>初始大小：16，指定初始容量会扩充到2的幂次方（移位操作实现）；</p>
+<p>扩容倍数：2；</p>
+<p>当哈希冲突时，链表长度大于阈值（8）会转化成红黑树。（数组长度大于64时）</p>
+<h3 id="HashMap源码阅读"><a href="#HashMap源码阅读" class="headerlink" title="HashMap源码阅读"></a>HashMap源码阅读</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//类声明</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashMap</span>&lt;K,V&gt; <span class="keyword">extends</span> <span class="title class_">AbstractMap</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>&lt;K,V&gt;, Cloneable, Serializable &#123;</span><br><span class="line">    <span class="comment">//重要常量</span></span><br><span class="line">    <span class="comment">//默认初始容量，2^4</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line">    <span class="comment">// 最大容量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line">    <span class="comment">//默认负载因子，到当前容量的0.75就加载扩容</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">DEFAULT_LOAD_FACTOR</span> <span class="operator">=</span> <span class="number">0.75f</span>;</span><br><span class="line">    <span class="comment">//一个桶转成树的阈值</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">TREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line">    <span class="comment">//一个桶取消树化的阈值</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">UNTREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">6</span>;</span><br><span class="line">    <span class="comment">//可以树化的最小容量，当桶的数量达到64才进行树化</span></span><br><span class="line">    <span class="comment">//这里有点不明白</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MIN_TREEIFY_CAPACITY</span> <span class="operator">=</span> <span class="number">64</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//一些成员变量</span></span><br><span class="line">    <span class="comment">//Node的列表，存放entry</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line">    <span class="comment">//保存entrySet的缓存</span></span><br><span class="line">    <span class="keyword">transient</span> Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet;</span><br><span class="line">    <span class="comment">//元素数量</span></span><br><span class="line">    <span class="keyword">transient</span> <span class="type">int</span> size;</span><br><span class="line">    <span class="comment">//每次扩容和更改map结构的计数器</span></span><br><span class="line">    <span class="keyword">transient</span> <span class="type">int</span> modCount;</span><br><span class="line">    <span class="comment">//临界值，实际大小超过临界值会进行扩容</span></span><br><span class="line">    <span class="type">int</span> threshold;</span><br><span class="line">    <span class="comment">//加载因子</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">float</span> loadFactor;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HashMap中元素的存储是Node的形式，可以被用作大部分的Entries</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个静态内部类</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">	<span class="comment">//因为hash冲突时变成链表，需要next指针</span></span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">    Node(<span class="type">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">        <span class="built_in">this</span>.hash = hash;</span><br><span class="line">        <span class="built_in">this</span>.key = key;</span><br><span class="line">        <span class="built_in">this</span>.value = value;</span><br><span class="line">        <span class="built_in">this</span>.next = next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> K <span class="title function_">getKey</span><span class="params">()</span>        &#123; <span class="keyword">return</span> key; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">getValue</span><span class="params">()</span>      &#123; <span class="keyword">return</span> value; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String <span class="title function_">toString</span><span class="params">()</span> &#123; <span class="keyword">return</span> key + <span class="string">&quot;=&quot;</span> + value; &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//计算hash值，使用Object的hashCode的key和value位与运算</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hashCode(key) ^ Objects.hashCode(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">setValue</span><span class="params">(V newValue)</span> &#123;</span><br><span class="line">        <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> value;</span><br><span class="line">        value = newValue;</span><br><span class="line">        <span class="keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="built_in">this</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Map.Entry) &#123;</span><br><span class="line">            Map.Entry&lt;?,?&gt; e = (Map.Entry&lt;?,?&gt;)o;</span><br><span class="line">            <span class="keyword">if</span> (Objects.equals(key, e.getKey()) &amp;&amp;</span><br><span class="line">                Objects.equals(value, e.getValue()))</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>put方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> putVal(hash(key), key, value, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">boolean</span> onlyIfAbsent,</span></span><br><span class="line"><span class="params">               <span class="type">boolean</span> evict)</span> &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="type">int</span> n, i;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//先检查容器有没有初始化，调用resize初始化</span></span><br><span class="line">    <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">        n = (tab = resize()).length;</span><br><span class="line">    <span class="comment">//如果hash的位置没有元素就新建Node加入</span></span><br><span class="line">    <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line">        tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        Node&lt;K,V&gt; e; K k;</span><br><span class="line">        <span class="comment">//对元素进行hash和key的匹配</span></span><br><span class="line">        <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">            ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">            e = p;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">            <span class="comment">//如果数组中是TreeNode类型，直接在红黑树中查找符合条件节点</span></span><br><span class="line">            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//向单向链表添加数据</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line">                    p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">                    <span class="comment">//节点大于阈值树化</span></span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></span><br><span class="line">                        treeifyBin(tab, hash);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                    ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                p = e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123; <span class="comment">// existing mapping for key</span></span><br><span class="line">            <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">            <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line">                e.value = value;</span><br><span class="line">            afterNodeAccess(e);</span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ++modCount;</span><br><span class="line">    <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">        resize();</span><br><span class="line">    afterNodeInsertion(evict);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcurrentHashMap与Hashtable"><a href="#ConcurrentHashMap与Hashtable" class="headerlink" title="ConcurrentHashMap与Hashtable"></a>ConcurrentHashMap与Hashtable</h3><p>ConcurrentHashMap的segment内部类继承于ReentrantLock</p>
+<p>都是线程安全的集合，但是实现方式不同</p>
+<ul>
+<li><strong>底层数据结构：</strong> JDK1.7 的 <code>ConcurrentHashMap</code> 底层采用 <strong>分段的数组+链表</strong> 实现，JDK1.8 采用的数据结构跟 <code>HashMap1.8</code> 的结构一样，数组+链表&#x2F;红黑二叉树。<code>Hashtable</code> 和 JDK1.8 之前的 <code>HashMap</code> 的底层数据结构类似都是采用 <strong>数组+链表</strong> 的形式，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的；</li>
+<li><strong>实现线程安全的方式（重要）：</strong></li>
+<li><ul>
+<li>在 JDK1.7 的时候，<code>ConcurrentHashMap</code> 对整个桶数组进行了分割分段(<code>Segment</code>，分段锁)，每一把锁只锁容器其中一部分数据（下面有示意图），多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。</li>
+<li>到了 JDK1.8 的时候，<code>ConcurrentHashMap</code> 已经摒弃了 <code>Segment</code> 的概念，而是直接用 <code>Node</code> 数组+链表+红黑树的数据结构来实现，并发控制使用 <code>synchronized</code> 和 CAS 来操作。（JDK1.6 以后 <code>synchronized</code> 锁做了很多优化） 整个看起来就像是优化过且线程安全的 <code>HashMap</code>，虽然在 JDK1.8 中还能看到 <code>Segment</code> 的数据结构，但是已经简化了属性，只是为了兼容旧版本；</li>
+<li><strong><code>Hashtable</code>(同一把锁)</strong> :使用 <code>synchronized</code> 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。</li>
+</ul>
+</li>
+</ul>
+<p>Hashtable</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105215974.png" alt="image-20230512105215974"></p>
+<p>ConcurrentHashMap：JDK1.7</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105152028.png" alt="image-20230512105152028"></p>
+<p>ConcurrentHashMap：JDK1.8</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230512105234818.png" alt="image-20230512105234818"></p>
+<h3 id="Java集合的遍历"><a href="#Java集合的遍历" class="headerlink" title="Java集合的遍历"></a>Java集合的遍历</h3><p>《阿里巴巴 Java 开发手册》的描述如下：</p>
+<blockquote>
+<p>**不要在 foreach 循环里进行元素的 <code>remove/add</code> 操作。remove 元素请使用 <code>Iterator</code> 方式，如果并发操作，需要对 <code>Iterator</code> 对象加锁。</p>
+</blockquote>
+<p>原因是会触发fail-fast机制：fail-fast是一种错误检测机制，一旦检测到可能发生错误，就立马抛出异常，程序不继续往下执行。</p>
+<p>情况如下：</p>
+<p>在使用foreach循环遍历时，调用了add或者remove方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String userName : userNames) &#123;</span><br><span class="line">    <span class="keyword">if</span> (userName.equals(<span class="string">&quot;Hollis&quot;</span>)) &#123;</span><br><span class="line">        userNames.remove(userName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(userNames);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会抛出异常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.util.ConcurrentModificationException</span><br><span class="line">at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:<span class="number">909</span>)</span><br><span class="line">at java.util.ArrayList$Itr.next(ArrayList.java:<span class="number">859</span>)</span><br><span class="line">at com.hollis.ForEach.main(ForEach.java:<span class="number">22</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在foreach循环（增强for循环）实际上调用的是Iterator迭代器</p>
+<p>实际上抛出异常的代码是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.util.ArrayList$Itr.checkForComodification(ArrayList.java:<span class="number">909</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">checkForComodification</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (modCount != expectedModCount)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ConcurrentModificationException</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中比较了modCount和expectedModCount</p>
+<p>modCount是ArrayList中的一个成员变量。它表示该集合实际被修改的次数。</p>
+<p>expectedModCount 是 ArrayList中的一个内部类——Itr中的成员变量。</p>
+<p>expectedModCount表示这个迭代器预期该集合被修改的次数。其值随着Itr被创建而初始化。只有通过迭代器对集合进行操作，该值才会改变。</p>
+<p>remove的核心操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">fastRemove</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="type">int</span> <span class="variable">numMoved</span> <span class="operator">=</span> size - index - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)</span><br><span class="line">        System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,</span><br><span class="line">                         numMoved);</span><br><span class="line">    elementData[--size] = <span class="literal">null</span>; <span class="comment">// clear to let GC do its work</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到修改了modCount而没有改变expectedModCount，因此出现fail-fast异常</p>
+<p><strong>正确的遍历方式：</strong></p>
+<ol>
+<li><p>直接使用普通for循环</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">1</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (userNames.get(i).equals(<span class="string">&quot;Hollis&quot;</span>)) &#123;</span><br><span class="line">        userNames.remove(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(userNames);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接使用Iterator进行操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> userNames.iterator();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (iterator.next().equals(<span class="string">&quot;Hollis&quot;</span>)) &#123;</span><br><span class="line">        iterator.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(userNames);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用java8提供的filter过滤</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line">userNames = userNames.stream().filter(userName -&gt; !userName.equals(<span class="string">&quot;Hollis&quot;</span>)).collect(Collectors.toList());</span><br><span class="line">System.out.println(userNames);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用增强for循环时，对只修改一次的操作及时break</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String userName : userNames) &#123;</span><br><span class="line">    <span class="keyword">if</span> (userName.equals(<span class="string">&quot;Hollis&quot;</span>)) &#123;</span><br><span class="line">        userNames.remove(userName);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(userNames);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接使用fail-safe的集合类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentLinkedDeque&lt;String&gt; userNames = <span class="keyword">new</span> <span class="title class_">ConcurrentLinkedDeque</span>&lt;String&gt;() &#123;&#123;</span><br><span class="line">    add(<span class="string">&quot;Hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;hollis&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;HollisChuang&quot;</span>);</span><br><span class="line">    add(<span class="string">&quot;H&quot;</span>);</span><br><span class="line">&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String userName : userNames) &#123;</span><br><span class="line">    <span class="keyword">if</span> (userName.equals(<span class="string">&quot;Hollis&quot;</span>)) &#123;</span><br><span class="line">        userNames.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Unsafe类"><a href="#Unsafe类" class="headerlink" title="Unsafe类"></a>Unsafe类</h2><p>sun.misc包下的一个类，提供低级别不安全操作的方法。比如直接访问系统内存资源，自主管理内存资源等。</p>
+<p>Unsafe提升了Java运行效率，增强Java语言底层资源操作能力，但是增加了程序发生相关指针问题的风险，不正确使用会让程序出错概率变大</p>
+<p>Unsafe提供的方法实现依赖本地方法（Native Method）</p>
+<h3 id="为什么要使用本地方法"><a href="#为什么要使用本地方法" class="headerlink" title="为什么要使用本地方法"></a>为什么要使用本地方法</h3><ol>
+<li>需要用到Java中不具备的依赖于操作系统的特性，Java在实现跨平台的同时要实现对底层的控制，需要借助其他语言发挥作用</li>
+<li>其他语言已经完成一些功能实现，可以使用Java直接调用</li>
+<li>程序对时间敏感或者对性能要求非常高时，有必要使用更底层的语言，例如C&#x2F;C++甚至汇编</li>
+</ol>
+<h3 id="获取Unsafe实例"><a href="#获取Unsafe实例" class="headerlink" title="获取Unsafe实例"></a>获取Unsafe实例</h3><p>Unsafe是单例实现，提供了静态方法getUnsafe获取Unsafe实例。</p>
+<p>但是直接调用这个静态方法会抛出SecurityException异常</p>
+<p><strong>为什么无法直接调用public static的getUnsafe方法？</strong></p>
+<p>在getUnsafe方法中会先检查调用者的ClassLoader，判断当前类是否由BootstrapClassLoader加载，如果不是就会抛出SecurityException异常。也就是说只有启动类加载器加载的类才能够调用Unsafe方法</p>
+<p>如何获取Unsafe实例：</p>
+<ol>
+<li><p>利用反射获得Unsafe类已经实例化完成的单例对象theUnsafe</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Unsafe <span class="title function_">reflectGetUnsafe</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> Unsafe.class.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">      field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">      <span class="keyword">return</span> (Unsafe) field.get(<span class="literal">null</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      log.error(e.getMessage(), e);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从getUnsafe的限制条件出发，通过Java命令行-Xbootclasspath&#x2F;a把调用Unsafe相关方法的类A所在的jar包路径追加到默认的bootstrap路径中，让A被引导类加载器加载，从而通过类加载器的限制</p>
+</li>
+</ol>
+<h3 id="Unsafe功能"><a href="#Unsafe功能" class="headerlink" title="Unsafe功能"></a>Unsafe功能</h3><h4 id="内存操作"><a href="#内存操作" class="headerlink" title="内存操作"></a>内存操作</h4><p>Java中不允许直接操作内存，对象的内存分配和回收都是由JVM完成的，但是Unsafe可以直接进行内存操作</p>
+<p>通过以下接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分配新的本地空间</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">long</span> <span class="title function_">allocateMemory</span><span class="params">(<span class="type">long</span> bytes)</span>;</span><br><span class="line"><span class="comment">//重新调整内存空间的大小</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">long</span> <span class="title function_">reallocateMemory</span><span class="params">(<span class="type">long</span> address, <span class="type">long</span> bytes)</span>;</span><br><span class="line"><span class="comment">//将内存设置为指定值</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">setMemory</span><span class="params">(Object o, <span class="type">long</span> offset, <span class="type">long</span> bytes, <span class="type">byte</span> value)</span>;</span><br><span class="line"><span class="comment">//内存拷贝</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">copyMemory</span><span class="params">(Object srcBase, <span class="type">long</span> srcOffset,Object destBase, <span class="type">long</span> destOffset,<span class="type">long</span> bytes)</span>;</span><br><span class="line"><span class="comment">//清除内存</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">freeMemory</span><span class="params">(<span class="type">long</span> address)</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式分配的内存属于<strong>堆外内存</strong> ，是无法进行垃圾回收的，需要我们把这些内存当做一种资源去手动调用<code>freeMemory</code>方法进行释放，否则会产生内存泄漏。通用的操作内存方式是在<code>try</code>中执行对内存的操作，最终在<code>finally</code>块中进行内存的释放。</p>
+<p>使用堆外内存的原因：</p>
+<ul>
+<li>对垃圾回收停顿的改善，堆外内存不受JVM管理，直接受操作系统管理。使用堆外内存可以保持较小堆内内存规模，让GC回收的停顿减少对应用的影响</li>
+<li>提升I&#x2F;O操作性能，I&#x2F;O通信会存在堆内内存到堆外内存的数据拷贝操作，对于需要频繁进行内存空间数据拷贝且生命周期比较短的暂存数据都建议存在堆外内存</li>
+</ul>
+<p><strong>应用</strong>：</p>
+<p>DirectByteBuffer，是Java用于实现堆外内存的重要类，通信过程中作为缓冲池，在Netty，MINA等NIO框架中应用广泛。DirectByteBuffer的对堆外内存的操作逻辑都是使用Unsafe的堆外内存API实现的</p>
+<h4 id="内存屏障"><a href="#内存屏障" class="headerlink" title="内存屏障"></a>内存屏障</h4><p>编译期和CPU在保证程序输出结构一致的情况下对代码会进行重排，从指令优化角度提升性能。可能会带来一个不好的结果，导致CPU的高速缓存和内存中的数据不一致，内存屏障就是<strong>通过阻止屏障两边的指令重新排序从而避免编译期和硬件不正确优化情况。</strong></p>
+<p>Unsafe提供的三个内存屏障相关方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//内存屏障，禁止load操作重新排序，屏障前的load操作不能被重排到屏障后，屏障后不能重排到屏障前</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">loadFence</span><span class="params">()</span>;</span><br><span class="line"><span class="comment">//内存屏障，禁止store操作重排，屏障两边的store操作不能被重排到另一边</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">storeFence</span><span class="params">()</span>;</span><br><span class="line"><span class="comment">//内存屏障，禁止load，store操作重排</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">fullFence</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<p>可以把内存屏障看做内存随机访问操作的一个同步点，只有此点之前所有读写操作都执行后才可以开始执行之后的操作</p>
+<p>在字段上加上volatile关键字可以实现字段在多线程下的可见性，基于读内存屏障也能实现相同的功能</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//监测flag的变化</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ChangeThread</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span>&#123;</span><br><span class="line">    <span class="comment">/**volatile**/</span> <span class="type">boolean</span> flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;subThread change flag to:&quot;</span> + flag);</span><br><span class="line">        flag = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在中间加入内存屏障来测试能不能感知到flag的改变</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">ChangeThread</span> <span class="variable">changeThread</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChangeThread</span>();</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Thread</span>(changeThread).start();</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> changeThread.isFlag();</span><br><span class="line">        unsafe.loadFence(); <span class="comment">//加入读内存屏障</span></span><br><span class="line">        <span class="keyword">if</span> (flag)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;detected flag changed&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;main thread end&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//结果：</span></span><br><span class="line"></span><br><span class="line">subThread change flag to:<span class="literal">false</span></span><br><span class="line">detected flag changed</span><br><span class="line">main thread end</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/basis/unsafe/image-20220717144703446.png" alt="img"></p>
+<p>运行中的线程不能直接读取主内存的变量，只能操作自己工作内存的变量，然后同步到主内存，线程的工作内存不能共享，以上就是子线程借助主内存将修改后的结果同步给主线程修改主线程的工作空间</p>
+<h4 id="对象操作"><a href="#对象操作" class="headerlink" title="对象操作"></a>对象操作</h4><h5 id="对象属性"><a href="#对象属性" class="headerlink" title="对象属性"></a>对象属性</h5><p>Unsafe还提供了8种基础数据类型以及Object的put和get方法，所有的put方法都可以越过访问权限，直接修改内存中的数据。get可以通过对象的偏移量获得一个对象引用</p>
+<p>volatile读写和有序写入方法：</p>
+<p>volatile读写比如getIntVolatile，可以保证可见性和有序性，执行get会强制从主存种获取属性值，put会强制更新到主存</p>
+<p>循序写入在加入内存屏障StoreStore类型</p>
+<p>put，putOrder，putVolatile顺序效率逐渐降低</p>
+<h5 id="对象实例化"><a href="#对象实例化" class="headerlink" title="对象实例化"></a>对象实例化</h5><p>Unsafe提供的allocateInstance方法允许使用非常规的方法对对象实例化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个类，构造方法中对成员变量赋值</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> b;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">A</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.b =<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">objTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">    <span class="comment">//基于构造函数实例化</span></span><br><span class="line">    A a1=<span class="keyword">new</span> <span class="title class_">A</span>();</span><br><span class="line">    System.out.println(a1.getB());</span><br><span class="line">    <span class="comment">//基于反射</span></span><br><span class="line">    <span class="type">A</span> <span class="variable">a2</span> <span class="operator">=</span> A.class.newInstance();</span><br><span class="line">    System.out.println(a2.getB());</span><br><span class="line">    <span class="comment">//基于Unsafe类</span></span><br><span class="line">    A a3= (A) unsafe.allocateInstance(A.class);</span><br><span class="line">    System.out.println(a3.getB());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结果：</span></span><br><span class="line"><span class="number">1</span>，<span class="number">1</span>，<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>Unsafe通过allocateInstance方法创建对象，不会调用类的构造方法。如果要跳过对象初始化阶段或者构造器的安全检查就可以使用这种方法。上面把A的构造函数改为private方法就无法通过构造函数和反射创建对象</p>
+<h4 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h4><p>通过结合arrayBaseOffset和arrayIndexScale两个方法就可以定位数组每个元素在内存中的位置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回数组中第一个元素的偏移地址</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">arrayBaseOffset</span><span class="params">(Class&lt;?&gt; arrayClass)</span>;</span><br><span class="line"><span class="comment">//返回数组中一个元素占用的大小</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">arrayIndexScale</span><span class="params">(Class&lt;?&gt; arrayClass)</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CAS操作"><a href="#CAS操作" class="headerlink" title="CAS操作"></a>CAS操作</h4><p>关于CAS查看<a href="C:\Users\Bubble\Desktop\note\Java锁.md">笔记</a></p>
+<p>相关方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapObject</span><span class="params">(Object o, <span class="type">long</span> offset,  Object expected, Object update)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapInt</span><span class="params">(Object o, <span class="type">long</span> offset, <span class="type">int</span> expected,<span class="type">int</span> update)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapLong</span><span class="params">(Object o, <span class="type">long</span> offset, <span class="type">long</span> expected, <span class="type">long</span> update)</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h4><p>提供了线程调度的一些方法</p>
+<p>AQS中调用的LockSupport.park和LockSupport.unpark就是调用到了这里的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取消阻塞线程</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">unpark</span><span class="params">(Object thread)</span>;</span><br><span class="line"><span class="comment">//阻塞线程</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">park</span><span class="params">(<span class="type">boolean</span> isAbsolute, <span class="type">long</span> time)</span>;</span><br><span class="line"><span class="comment">//获得对象锁（可重入锁）</span></span><br><span class="line"><span class="comment">//以下方法被标记Deprecated，不建议被使用</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">monitorEnter</span><span class="params">(Object o)</span>;</span><br><span class="line"><span class="comment">//释放对象锁</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">monitorExit</span><span class="params">(Object o)</span>;</span><br><span class="line"><span class="comment">//尝试获取对象锁</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">tryMonitorEnter</span><span class="params">(Object o)</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="Class操作"><a href="#Class操作" class="headerlink" title="Class操作"></a>Class操作</h4><p>相关方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取静态属性的偏移量</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">long</span> <span class="title function_">staticFieldOffset</span><span class="params">(Field f)</span>;</span><br><span class="line"><span class="comment">//获取静态属性的对象指针</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> Object <span class="title function_">staticFieldBase</span><span class="params">(Field f)</span>;</span><br><span class="line"><span class="comment">//判断类是否需要实例化（用于获取类的静态属性前进行检测）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">shouldBeInitialized</span><span class="params">(Class&lt;?&gt; c)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>典型应用：</p>
+<p>Lambda表达式的实现需要依赖Unsafe的defineAnonymousClass方法定义实现响应函数式接口的匿名类</p>
+<h4 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回系统指针的大小。返回值为4（32位系统）或 8（64位系统）。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">addressSize</span><span class="params">()</span>;</span><br><span class="line"><span class="comment">//内存页的大小，此值为2的幂次方。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">pageSize</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p>JMM定义对于一个共享变量，当另一个线程对这个共享变量执行写操作后，这个线程对这个共享变量的可见性</p>
+<h3 id="CPU缓存模型"><a href="#CPU缓存模型" class="headerlink" title="CPU缓存模型"></a>CPU缓存模型</h3><p>为了解决CPU处理速度和内存不匹配的问题，创建了一块CPU高速缓存。从外存到内存到CPU，每一级的处理速度都不一样，每一级都有对应的缓存用来处理这些问题。</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/cpu-cache.png" alt="CPU 缓存模型示意图"></p>
+<p>这里L1-L3的Cache就是每一级的缓存</p>
+<p>CPU缓存的<strong>工作方式</strong>：复制一份数据到CPU缓存中，当CPU需要用到就直接从缓存中读取。运算完成后将运算得到的数据写回Main Memory。这样会产生另一个问题：内存缓存不一致性</p>
+<p>同时两个线程执行任务，比如i++，两个线程从缓存中都读到i&#x3D;1，运算完写回主存i&#x3D;2，但是实际上此时主存的i&#x3D;3.</p>
+<p>CPU为了解决内存缓存不一致行的问题制定了<strong>缓存一致协议</strong>或者其他的手段。缓存一致性协议指在CPU高速缓存和主内存交互的时候需要遵守的原则和规范。</p>
+<p>程序运行在<strong>操作系统</strong>之上，操作系统通过内存模型来定义了一些列规范解决这个问题</p>
+<h3 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h3><p>为了提高执行速度和性能，计算机在执行程序代码时会对指令重新排序。也就是说系统执行代码不会按照写的顺序依次执行，主要有两种情况：</p>
+<ul>
+<li>编译器优化重排：编译器（包括JVM，JIT编译器等）在不改变单线程程序语义的前提下重新安排语句的执行顺序</li>
+<li>指令并行重排：现代处理器采用指令级并行技术来讲多条指令重叠执行，如果不存在数据的依赖性，处理器可以改变语句对应机器指令的执行顺序</li>
+</ul>
+<p>还有内存系统也有类似的重排序，但不是真正意义上的，JMM中表现为主存和本地内存的内容可能不一致，进而导致程序在多线程下执行可能出现问题</p>
+<p>Java源代码会经历：编译器优化重排，指令并行重排，内存系统重排。重排保证串行语义一致，没有义务保证多线程的语义也一致，所以多线程下指令重排会导致一些问题。</p>
+<p>编译器通过禁止特定类型编译器重排序来禁止重排序。处理器通过插入内存屏障来禁止特定类型处理器重排</p>
+<h3 id="JMM（Java-Memory-Model）"><a href="#JMM（Java-Memory-Model）" class="headerlink" title="JMM（Java Memory Model）"></a>JMM（Java Memory Model）</h3><p>可以看作Java定义并发编程相关的一组规范，除了抽象了线程和主内存之间的关系之外还规定了从Java源代码到CPU可执行指令的转化过程要遵守的并发相关原则和规范。目的是简化多线程编程，增强程序可移植性</p>
+<p>通过JMM定义的规范，对于Java开发者就不用了解底层，可以直接使用一些关键字和类（volatile，synchronized，各种Lock）开发出并行安全的程序</p>
+<h4 id="线程和主内存之间的关系"><a href="#线程和主内存之间的关系" class="headerlink" title="线程和主内存之间的关系"></a>线程和主内存之间的关系</h4><p>JDK1.2之前Java内存模型的实现总是从主存读取变量，不需要特别注意。现在的Java内存模型线程把变量保存在本地内存（比如寄存器），而不是直接在主存中读写，就有可能造成线程在主存中修改一个变量，另一个线程还继续用寄存器中的变量拷贝造成数据不一致，类似于上面CPU缓存模型的问题</p>
+<ul>
+<li>主内存：所有线程创建的实例对象都存放在主内存，不管实例对象是成员变量还是方法的局部变量</li>
+<li>本地内存：每个线程有私有的本地内存来存储共享变量的副本，并且每个线程只能访问自己的本地内存，无法访问其他线程的本地内存。本地内存是JMM的抽象概念</li>
+</ul>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/concurrent/jmm.png" alt="JMM(Java 内存模型)"></p>
+<p>线程1要与线程2通信，必须先把本地内存修改的变量值同步到主内存，然后线程2从主内存读取</p>
+<p>多线程下对主内存共享变量操作可能会诱发线程安全问题：</p>
+<ol>
+<li>线程1和线程2对共享变量操作，一个修改，一个读取</li>
+<li>线程2读取到的是线程1修改前还是后的值都有可能</li>
+</ol>
+<p>Java内存模型定义了以下八种同步操作（不用背</p>
+<ul>
+<li>锁定（lock）：作用于主内存的变量，给他标记成一个线程独享的变量</li>
+<li>解锁（unlock）：作用于主内存中的变量，解除变量的锁定状态，被解锁状态的变量才能被其他线程锁定</li>
+<li>读取（read）：作用于主内存的变量，把一个变量的值从主内存传输到线程的工作内存中，以便随后的load动作使用</li>
+<li>载入（load）：把read从主内存得到的变量值放入工作内存的变量副本中</li>
+<li>使用（use）：把工作内存的一个变量值传给执行引擎，当虚拟机遇到一个使用变量的指令就会使用</li>
+<li>赋值（assign）：作用域工作内存变量，把计算完接收的值赋给工作内存变量</li>
+<li>存储（store）：将工作内存的变量值传到主内存</li>
+<li>写入（write）：作用域主内存变量，把store过来的变量放入主内存变量</li>
+</ul>
+<p>还规定了同步规则保证同步操作正确执行（不用背</p>
+<ul>
+<li>省略</li>
+</ul>
+<h3 id="JMM（Java内存模型）和Java内存区域的区别"><a href="#JMM（Java内存模型）和Java内存区域的区别" class="headerlink" title="JMM（Java内存模型）和Java内存区域的区别"></a>JMM（Java内存模型）和Java内存区域的区别</h3><ul>
+<li>JVM内存结构和Java虚拟机运行时区域相关，定义了JVM在运行时如何分区存储程序数据，比如堆用于存放对象实例</li>
+<li>Java内存模型和Java的并发编程相关，抽象了线程和主内存之间的关系。比如线程之间的共享变量必须存储在主内存中，规定了从Java源代码到CPU可执行指令的转化过程要遵守的并发相关原则和规范。目的是为了简化多线程编程，增强程序可移植性</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/Java%E7%9F%A5%E8%AF%86%E7%82%B9/" data-id="clix3qjv80001qwue4exd02mo" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/JVM/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/Java%E9%94%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

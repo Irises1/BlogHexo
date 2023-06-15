@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="理论基础知识概念数据库，数据库管理系统，数据库系统，数据库管理员 数据库：DB，数据（信息）的集合 数据库管理系统：DBMS，操纵和管理数据库的大型软件，用于建立，使用，维护数据库 数据库系统：DBS，由数据库，软件，数据库管理员组成 数据库管理员：DBA，负责全面管理和控制数据库系统  数据库范式范式一共有三种：  1NF(第一范式)：属性（列）不可再分 2NF(第二范式)：1NF的基础上，消除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="理论基础知识概念数据库，数据库管理系统，数据库系统，数据库管理员 数据库：DB，数据（信息）的集合 数据库管理系统：DBMS，操纵和管理数据库的大型软件，用于建立，使用，维护数据库 数据库系统：DBS，由数据库，软件，数据库管理员组成 数据库管理员：DBA，负责全面管理和控制数据库系统  数据库范式范式一共有三种：  1NF(第一范式)：属性（列）不可再分 2NF(第二范式)：1NF的基础上，消除">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/csdn/bd1d31be3779342427fc9e462bf7f05c.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/sql%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/mysql%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/database.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/%E8%A1%A8%E7%A9%BA%E9%97%B4%E7%BB%93%E6%9E%84.drawio.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/COMPACT.drawio.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604103231294.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604103702998.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604104145455.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604111407341.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604160257567.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614103042948.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f595d13450878acd04affa82731f76c5.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614104051383.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614105926035.png">
+<meta property="og:image" content="c:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614111532978.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.325Z">
+<meta property="article:modified_time" content="2023-06-15T02:15:29.003Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.javaguide.cn/github/javaguide/csdn/bd1d31be3779342427fc9e462bf7f05c.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据库理论" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.325Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="理论基础知识"><a href="#理论基础知识" class="headerlink" title="理论基础知识"></a>理论基础知识</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="数据库，数据库管理系统，数据库系统，数据库管理员"><a href="#数据库，数据库管理系统，数据库系统，数据库管理员" class="headerlink" title="数据库，数据库管理系统，数据库系统，数据库管理员"></a>数据库，数据库管理系统，数据库系统，数据库管理员</h3><ul>
+<li>数据库：DB，数据（信息）的集合</li>
+<li>数据库管理系统：DBMS，操纵和管理数据库的大型软件，用于建立，使用，维护数据库</li>
+<li>数据库系统：DBS，由数据库，软件，数据库管理员组成</li>
+<li>数据库管理员：DBA，负责全面管理和控制数据库系统</li>
+</ul>
+<h2 id="数据库范式"><a href="#数据库范式" class="headerlink" title="数据库范式"></a>数据库范式</h2><p>范式一共有三种：</p>
+<ul>
+<li>1NF(第一范式)：属性（列）不可再分</li>
+<li>2NF(第二范式)：1NF的基础上，消除了非主属性对于码的<strong>部分函数依赖</strong></li>
+<li>3NF(第三范式)：在2NF的基础上，消除了非主属性对码的<strong>传递依赖</strong></li>
+</ul>
+<h3 id="第一范式-1NF"><a href="#第一范式-1NF" class="headerlink" title="第一范式(1NF)"></a>第一范式(1NF)</h3><p>属性（字段）不能再分，字段只能是一个值，不能再分多个其他字段</p>
+<p>1NF是所有关系型数据库最基本要求，即关系型数据库创建的表一定满足第一范式</p>
+<h3 id="第二范式-2NF"><a href="#第二范式-2NF" class="headerlink" title="第二范式(2NF)"></a>第二范式(2NF)</h3><p>消除非主属性对码的部分函数依赖：</p>
+<p>在第一范式基础上增加一个列，称为主键，非主属性都依赖主键</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/csdn/bd1d31be3779342427fc9e462bf7f05c.png" alt="第二范式"></p>
+<p><strong>重要概念</strong></p>
+<ul>
+<li><p>函数依赖：属性（或者属性组）值X确定下，必定可以确定属性Y的值</p>
+</li>
+<li><p>部分函数依赖：属性Y依赖属性X，属性X有一个真子集X0可以确定所有的Y。</p>
+<p>比如学号和身份证可以一起确定学生姓名，而且子集学号或者自己身份证也可以确定学生姓名，就称为部分函数依赖</p>
+<p>理解：有一条属性可以通过多个其他属性来确定，这些多个其他属性也不是全部都需要的</p>
+</li>
+<li><p>传递函数依赖：属性X决定属性Y，属性Y决定属性Z就称属性Z传递依赖X。比如学号，姓名，系名，系主任中，学号可以决定系名，系名可以决定系主任，即存在非主属性系主任对于学号的传递依赖</p>
+</li>
+</ul>
+<h3 id="第三范式-3NF"><a href="#第三范式-3NF" class="headerlink" title="第三范式(3NF)"></a>第三范式(3NF)</h3><p>在2NF基础上消除非主属性对于码的传递依赖</p>
+<h2 id="为何不推荐外键和级联"><a href="#为何不推荐外键和级联" class="headerlink" title="为何不推荐外键和级联"></a>为何不推荐外键和级联</h2><p>阿里巴巴开发手册：</p>
+<p>【强制】不得使用外键与级联，一切外键概念必须在应用层解决。</p>
+<p>说明: 以学生和成绩的关系为例，学生表中的 student_id 是主键，那么成绩表中的 student_id 则为外键。如果更新学生表中的 student_id，同时触发成绩表中的 student_id 更新，即为级联更新。外键与级联更新适用于单机低并发，不适合分布式、高并发集群; 级联更新是强阻塞，存在数据库<strong>更新风暴</strong>的风险; 外键影响数据库的插入速度</p>
+<p>不推荐外键的原因：</p>
+<ol>
+<li>增加复杂度，每次的Delete和Update都要考虑外键约束</li>
+<li>增加额外工作，需要增加维护外键的工作</li>
+<li>对分库分表不友好，分库分表下外键无法生效</li>
+</ol>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p>可以看成一些SQL语句的集合，加上一些逻辑控制语句，存在数据库中，一次编译永久有效。业务比较复杂的时候，完成一个操作需要写一大堆SQL，可以写一个存储过程来替代，方便下一次调用。存储过程比SQL语句执行更快</p>
+<p>阿里开发手册禁止使用存储过程，因为存储过程难以调试和扩展，更没有移植性</p>
+<h2 id="drop，delete，truncate"><a href="#drop，delete，truncate" class="headerlink" title="drop，delete，truncate"></a>drop，delete，truncate</h2><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ul>
+<li><code>drop</code>：丢弃数据，drop table 表名，直接将表删除</li>
+<li><code>truncate</code>：清空数据，truncate table 表名，只删除表数据，再次插入自增长id依旧从1开始</li>
+<li><code>delete</code>：删除数据，delete from 表名 where 列名&#x3D;值，删除某一行数据，如果不加where语句和truncate 表名作用一致</li>
+</ul>
+<h3 id="数据库语言不同"><a href="#数据库语言不同" class="headerlink" title="数据库语言不同"></a>数据库语言不同</h3><p>truncate和drop属于DDL（数据定义）,操作立即生效，原数据不放到 rollback segment 中，不能回滚，操作不触发 trigger。</p>
+<p>delete属于DML（数据库操作语言）,这个操作会放到 rollback segment 中，事务提交之后才生效。</p>
+<h3 id="执行速度"><a href="#执行速度" class="headerlink" title="执行速度"></a>执行速度</h3><p>drop&gt;truncate&gt;delete</p>
+<ul>
+<li><code>delete</code>命令执行的时候会产生数据库的<code>binlog</code>日志，而日志记录是需要消耗时间的，但是也有个好处方便数据回滚恢复。</li>
+<li><code>truncate</code>命令执行的时候不会产生数据库日志，因此比<code>delete</code>要快。除此之外，还会把表的自增值重置和索引恢复到初始大小等。</li>
+<li><code>drop</code>命令会把表占用的空间全部释放掉。</li>
+</ul>
+<h2 id="数据库设计步骤"><a href="#数据库设计步骤" class="headerlink" title="数据库设计步骤"></a>数据库设计步骤</h2><ol>
+<li>需求分析：分析用户的需求，包括数据，功能和性能需求</li>
+<li>概念结构设计：采用E-R模型设计，包括画E-R图</li>
+<li>逻辑结构设计：将E-R图转换成表，实现E-R模型到关系模型的转换</li>
+<li>物理结构设计：为数据库选择合适的存储结构和存取路径</li>
+<li>数据库实施：包括编程，测试和试运行</li>
+<li>数据库运行和维护：系统的运行与数据库的日常维护</li>
+</ol>
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="通用基础"><a href="#通用基础" class="headerlink" title="通用基础"></a>通用基础</h2><h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><p><strong>MyISAM</strong></p>
+<p>MySQL5.5之前的默认存储引擎，性能和特性都不错</p>
+<p>缺点：不支持<strong>事务</strong>和<strong>行级锁</strong>，最重要的是<strong>崩溃后无法安全恢复</strong></p>
+<p><strong>InnoDB</strong></p>
+<p>MySQL5.5之后的默认存储引擎</p>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><p>总结为：</p>
+<ul>
+<li>InnoDB 支持行级别的<strong>锁粒度</strong>，MyISAM 不支持，只支持表级别的锁粒度。</li>
+<li>MyISAM 不提供<strong>事务支持</strong>。InnoDB 提供事务支持，实现了 SQL 标准定义了四个隔离级别。</li>
+<li>MyISAM 不支持<strong>外键</strong>，而 InnoDB 支持。</li>
+<li>MyISAM 不支持 <strong>MVCC</strong>，而 InnoDB 支持。</li>
+<li>虽然 MyISAM 引擎和 InnoDB 引擎都是使用 <strong>B+Tree</strong> 作为索引结构，但是两者的实现方式不太一样。</li>
+<li>MyISAM 不支持数据库异常<strong>崩溃后的安全恢复</strong>，而 InnoDB 支持。</li>
+<li>InnoDB 的<strong>性能</strong>比 MyISAM 更强大。</li>
+</ul>
+<h3 id="执行SQL语句的流程"><a href="#执行SQL语句的流程" class="headerlink" title="执行SQL语句的流程"></a>执行SQL语句的流程</h3><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/sql%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/mysql%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B.png" alt="查询语句执行流程"></p>
+<p>MySQL中架构分为Server层和存储引擎层</p>
+<ul>
+<li>Server层负责建立连接，分析和执行SQL，大多核心功能模块都在这里实现。主要功能包括连接器，查询缓存，解析器，预处理器，优化器，执行器等。所有的内置函数（日期，时间，数学和加密函数等）和所有跨存储引擎的功能（存储过程，触发器，视图等）都在Server层实现</li>
+<li>存储引擎层负责数据的存储和提取。支持InnoDB，MyISAM，Memory等多个存储引擎，不同存储引擎共用同一个Server层。索引数据结构就是通过存储引擎层实现，不同存储引擎支持的索引类型也都不相同，比如InnoDB默认支持B+树</li>
+</ul>
+<p>执行SQL查询语句发生的流程：</p>
+<h4 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h4><ol>
+<li>使用MySQL首先要连接MySQL服务，连接需要先经过TCP三次握手（MySQL通过TCP协议传输）</li>
+<li>TCP连接建立后连接器验证用户名和密码</li>
+<li>用户名密码通过后连接器获取用户权限并保存，后续所有的操作都会基于这个权限逻辑的判断</li>
+</ol>
+<p>可以通过</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> processlist;</span><br></pre></td></tr></table></figure>
+
+<p>以上命令查看当前服务被多少客户端连接</p>
+<p>MySQL对于连接后再没有执行命令的连接设置了空闲连接最大空闲时长，超过这个时间连接器会自动断开</p>
+<p>连接数有限制</p>
+<p><strong>支持长连接短链接</strong></p>
+<p>长连接问题：占用内存增多，如果长连接累积过多，MySQL服务占用内存太大，会被系统强制杀掉，就是MySQL服务重启现象</p>
+<p><strong>解决方法</strong>:</p>
+<ul>
+<li>定期断开长连接</li>
+<li>客户端主动重置连接</li>
+</ul>
+<h4 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h4><ol>
+<li>服务已经建立，客户端向MySQL服务发送SQL语句，服务端收到后解析第一个字段看是什么类型语句</li>
+<li>如果是select语句，先去查询缓存中查找数据是否曾经执行过这一命令，查询缓存以key-value保存，key是SQL查询语句，value是查询结果</li>
+<li>如果命中则返回，没命中继续执行同时将结果存入查询缓存</li>
+</ol>
+<p>MySQL8.0之后不再使用查询缓存，因为查询缓存很鸡肋，对于更新频繁的表，查询缓存会被经常清空</p>
+<h4 id="解析SQL"><a href="#解析SQL" class="headerlink" title="解析SQL"></a>解析SQL</h4><p>解析器解析SQL</p>
+<ul>
+<li><p>词法分析</p>
+<p>将字符串的关键词识别，构建SQL语法树，方便后续模块获取SQL类型，表名，字段名，where条件等信息</p>
+</li>
+<li><p>语法分析</p>
+<p>根据词法分析结果，根据语法规则判断输入SQL语句是否满足MySQL语法</p>
+</li>
+</ul>
+<p>表或者字段存不存在不由解析器负责，解析器仅仅负责构建语法树和检查语法</p>
+<h4 id="执行SQL"><a href="#执行SQL" class="headerlink" title="执行SQL"></a>执行SQL</h4><p>select的流程分为三个阶段：</p>
+<ul>
+<li><p>prepare阶段，预处理阶段：</p>
+<ul>
+<li>检查SQL查询语句的表或者字段是否存在</li>
+<li>将*等拓展成表上的列</li>
+</ul>
+</li>
+<li><p>optimize阶段，优化阶段：</p>
+<p>优化器负责将SQL查询语句的执行方案确定，比如索引的使用</p>
+</li>
+<li><p>execute阶段，执行阶段：</p>
+<p>执行器完成执行语句的工作，会跟存储引擎交互</p>
+<p>三种方式执行的过程：</p>
+<ul>
+<li>主键索引查询</li>
+<li>全表扫描</li>
+<li>索引下推</li>
+</ul>
+</li>
+</ul>
+<h3 id="MySQL记录的存储"><a href="#MySQL记录的存储" class="headerlink" title="MySQL记录的存储"></a>MySQL记录的存储</h3><p>MySQL存储在磁盘，每创建一个database（数据库）都会在&#x2F;var&#x2F;lib&#x2F;mysql目录下创建一个以database为名的目录然后保存表结构和表数据文件</p>
+<p>比如这个my_test的database作为例子</p>
+<p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/database.png" alt="img"></p>
+<p>&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;my_test目录下文件：</p>
+<ul>
+<li>db_opt：用来存储当前数据库默认字符集和字符校验规则</li>
+<li>t_order.frm：t_order的<strong>表结构</strong>会保存在这个文件。在MySQL中建立一张表都会生成一个.frm文件，用来保存每个表的元数据信息，包含表结构的定义</li>
+<li>t_order.ibd：t_order的<strong>表数据</strong>会保存在这个文件。表数据既可以存在公共表空间文件（文件ibdata1），也可以这样以表名命名独占表空间文件。由参数innodb_file_per_table控制，默认单独存储</li>
+</ul>
+<h4 id="表空间文件的结构"><a href="#表空间文件的结构" class="headerlink" title="表空间文件的结构"></a>表空间文件的结构</h4><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/%E8%A1%A8%E7%A9%BA%E9%97%B4%E7%BB%93%E6%9E%84.drawio.png" alt="img"></p>
+<ul>
+<li><p>行：每一条记录</p>
+</li>
+<li><p>页：为了读写效率，每次按照页为单位读取，页的大小默认16KB</p>
+</li>
+<li><p>区：因为InnoDB使用B+树组织数据，为了查询的效率，最好将B+树双向链表相邻的页在物理上也相邻。因此使用区来分配空间，默认大小1MB，即64个页分为1个区</p>
+</li>
+<li><p>段：</p>
+<ul>
+<li><p>索引段：存放B+树的非叶子节点的区的集合</p>
+</li>
+<li><p>数据段：存放B+树叶子节点的区的集合</p>
+</li>
+<li><p>回滚段：存放回滚数据的区的集合</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h4><p>存储一条记录的结构有四种</p>
+<ul>
+<li><p>Redundant：</p>
+<p>MySQL5.0之前使用，已废弃</p>
+</li>
+<li><p>Compact：</p>
+<p>MySQL5.0之后引入的紧凑行记录存储格式，初衷是让一个数据页存放更多的行记录。MySQL5.1之后默认使用</p>
+</li>
+<li><p>Dynamic，Compressed：</p>
+<p>都是紧凑的行格式，和Compact类似，都是基于Compact改进了一些地点。MySQL5，7之后默认使用Dynamic</p>
+</li>
+</ul>
+<h4 id="Compact行格式"><a href="#Compact行格式" class="headerlink" title="Compact行格式"></a>Compact行格式</h4><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/row_format/COMPACT.drawio.png" alt="img"></p>
+<p>记录的额外信息：</p>
+<ul>
+<li><p>变长字段长度列表</p>
+<p>比如varchar这样的字段的长度不固定，需要提前记录这个字段的长度</p>
+</li>
+<li><p>NULL值列表</p>
+<p>表中某些列可能存储NULL值，用一个二进制位表示允许存在NULL值列是否为NULL，每一个列一个二进制位，组合成了NULL值列表</p>
+</li>
+<li><p>记录头信息</p>
+<ul>
+<li>delete_mask：标识这条数据是否被删除（所以执行delete不会真正删除记录而使将这个值标记为1）</li>
+<li>next_record：下一条记录的位置，记录的是下一条记录的记录头和真实数据之间的位置</li>
+<li>record_type：表示当前记录类型，0是普通记录，1是B+树非叶子节点记录，2是最小记录，3是最大记录</li>
+</ul>
+</li>
+</ul>
+<p>记录的真实数据</p>
+<ul>
+<li>row_id：如果指定主键或者唯一约束列，就没有row_id隐藏字段，如果没有唯一约束，InnoDB就会给记录添加row_id隐藏字段，这个是非必须的</li>
+<li>trx_id：事务id，表示数据由哪个事务生成，trx_id必须，占用6字节</li>
+<li>roll_pointer：记录上一个版本指针，必须，占用7字节</li>
+</ul>
+<h4 id="行溢出"><a href="#行溢出" class="headerlink" title="行溢出"></a>行溢出</h4><p>因为一个页大小16KB，而varchar字段最多可以存储65535字节，大的text数据等对于一个页满足不了大小，多出的数据会存储到另外溢出页中。真实数据处用20字节存储指向溢出页的地址，从而找到剩余数据所在的页</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>索引是帮助存储引擎快速获取数据的一种数据结构，可以理解为数据的目录</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>按数据结构分类：B+tree索引，Hash索引，Full-text索引</li>
+<li>按物理存储分类：聚簇索引（主键索引），二级索引（辅助索引）</li>
+<li>按字段特性分类：主键索引，唯一索引，普通索引，前缀索引</li>
+<li>按字段个数分类：单列索引，联合索引</li>
+</ul>
+<h4 id="数据结构分类"><a href="#数据结构分类" class="headerlink" title="数据结构分类"></a>数据结构分类</h4><p>主要是B+tree索引，Hash索引和Full-text索引</p>
+<p>不同的存储引擎支持的索引不同，对于MySQL常见的InnoDB，MyISAM和Memory：</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604103231294.png" alt="image-20230604103231294"></p>
+<h5 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B+Tree索引"></a>B+Tree索引</h5><p>B+Tree索引类型是MySQL存储引擎采用最多的索引类型</p>
+<p>创建表时InnoDB存储引擎会根据不同情况选择不同列作为索引：</p>
+<ul>
+<li>如果有主键，默认会使用主键作为聚簇索引的索引键</li>
+<li>如果没有主键，选择第一个不包含NULL值的唯一列作为聚簇索引的索引键</li>
+<li>如果上面两个情况都不满足，InnoDB自动生成一个隐式自增id列作为聚簇索引的索引键</li>
+</ul>
+<p>其他的索引都属于辅助索引，主键索引和二级索引默认使用的是B+Tree索引</p>
+<p>B+Tree主键索引：</p>
+<p>叶子节点实际上是双向列表这里有误</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604103702998.png" alt="image-20230604103702998"></p>
+<p>千万级别的数据只需要3-4层高度，只需要进行3-4次磁盘I&#x2F;O，查询效率很高</p>
+<p>二级索引就不存所有的数据，在B+Tree中存储主键值</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604104145455.png" alt="image-20230604104145455"></p>
+<p>二级索引会查询到主键然后到主键索引中查询数据，这个过程称为回表，即查找两个B+Tree</p>
+<p><strong>为什么选择B+树？</strong></p>
+<ul>
+<li>与B树相比：B树在非叶子节点也要存储数据，所以相比起来B+树单个节点数据量更小，在相同的磁盘I&#x2F;O下能查询到更多节点。B+Tree叶子节点采用双向链表，符合MySQL中常见的基于范围的顺序查找，B树无法完成</li>
+<li>和二叉树相比：二叉树的层级更高，意味着I&#x2F;O读取更多</li>
+<li>和Hash相比：Hash在做等值查询时效率快，搜索复杂度O(1)，但是Hash表不适合范围查询</li>
+</ul>
+<h4 id="物理存储分类"><a href="#物理存储分类" class="headerlink" title="物理存储分类"></a>物理存储分类</h4><p>如数据结构分类中B+树的主键索引和二级索引所提到，二级索引叶子节点存主键，主键的叶子节点存详细数据</p>
+<h4 id="字段特性分类"><a href="#字段特性分类" class="headerlink" title="字段特性分类"></a>字段特性分类</h4><p>主要分为主键索引，唯一索引，普通索引，前缀索引</p>
+<ul>
+<li><strong>主键索引</strong></li>
+</ul>
+<p>创建表时创建<strong>主键索引</strong>的方式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_name(</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">primary</span> key (index_column_1) <span class="keyword">using</span> btree</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>唯一索引</strong></li>
+</ul>
+<p>创建在UNIQUE字段上</p>
+<p>建表时创建方式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_name(</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">unique</span> key(index_column_1,index_column_2,...)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>建表后：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> index index_name</span><br><span class="line"><span class="keyword">on</span> table_name(index_column_1,index_column_2,...);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>普通索引</strong></li>
+</ul>
+<p>在普通字段上的所有，既不要求为主键也不要求字段为unique</p>
+<p>创建方式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_name(</span><br><span class="line">	...</span><br><span class="line">    index(index_column_1,index_column_2,...)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> index index_name</span><br><span class="line"><span class="keyword">on</span> table_name(index_column_1,index_column_2,...);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>前缀索引</strong></li>
+</ul>
+<p>对字符类型字段前几个字符建立索引，可以建立在char，varchar，binary，varbinary列</p>
+<p>目的是为了减少索引占用的存储空间，提升查询效率</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_name(</span><br><span class="line">	column_list,</span><br><span class="line">    index(column_name(length))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> index index_name</span><br><span class="line"><span class="keyword">on</span> table_name(column_name(length));</span><br></pre></td></tr></table></figure>
+
+<h4 id="字段个数分类"><a href="#字段个数分类" class="headerlink" title="字段个数分类"></a>字段个数分类</h4><p>在单列上的索引为单列索引，多列上为联合索引</p>
+<p>如果用多个字段一起建立联合索引</p>
+<p>对于创建联合索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX index_product_no_name <span class="keyword">ON</span> product(product_no, name);</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604111407341.png" alt="image-20230604111407341"></p>
+<p>字段会按照顺序比较，所以联合索引最左匹配原则，按照最左边字段先匹配</p>
+<p>如果查询时最左边字段不存在，那联合索引会失败</p>
+<p>如果按照abc的顺序建立了联合索引</p>
+<p>对于</p>
+<ul>
+<li>where a&#x3D;1；</li>
+<li>where a&#x3D;1 and b&#x3D;2 and c&#x3D;3；</li>
+<li>where a&#x3D;1 and b&#x3D;2；</li>
+</ul>
+<p>即使a的位置不一样，优化器也会重新排序，没影响都可以使用联合索引</p>
+<p>但是对于</p>
+<ul>
+<li>where b&#x3D;2；</li>
+<li>where c&#x3D;3；</li>
+<li>where b&#x3D;2 and c&#x3D;3；</li>
+</ul>
+<p>这就无法使用联合索引，因为a是全局有序的，bc是在a的顺序下局部有序的</p>
+<p><strong>联合索引的最左匹配原则</strong></p>
+<p><strong>在遇到范围查询（如 &gt;、&lt;）的时候，就会停止匹配，也就是范围查询的字段可以用到联合索引，但是在范围查询字段的后面的字段无法用到联合索引。注意，对于 &gt;&#x3D;、&lt;&#x3D;、BETWEEN、like 前缀匹配的范围查询，并不会停止匹配，可以去看一下例子</strong></p>
+<p><strong>索引区分度</strong></p>
+<p>因为联合索引的字段顺序对索引效率有很大影响，越靠前字段被用于索引过滤的概率越高，实际开发中建立联合索引要把<strong>区分度大的字段</strong>排在前面，越有可能被SQL使用到</p>
+<p>区分度表示某个字段不同值的个数除以表的总行数</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230604160257567.png" alt="image-20230604160257567"></p>
+<p>索引提升了查询速度，但是</p>
+<ul>
+<li>占用物理空间，数量越大，占用空间越大</li>
+<li>创建索引和维护索引需要耗费时间，随着数据量增大增大</li>
+<li>会降低表的增删改效率，每次增删改B+树需要进行动态维护</li>
+</ul>
+<p>什么时候使用索引</p>
+<ul>
+<li>字段有唯一性限制</li>
+<li>经常用于where查询条件</li>
+<li>经常用于group by和order by，可以防止查询时再做排序</li>
+</ul>
+<p>什么时候不需要创建索引</p>
+<ul>
+<li>where条件，group by，order by用不到的字段</li>
+<li>字段中有大量重复数据</li>
+<li>表数据太少</li>
+<li>经常更新的字段</li>
+</ul>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="前缀索引优化"><a href="#前缀索引优化" class="headerlink" title="前缀索引优化"></a>前缀索引优化</h4><p>在大字符串作为索引时，前缀索引可以帮助减小索引项的大小</p>
+<p>局限：</p>
+<ul>
+<li>order by无法使用前缀索引</li>
+<li>无法把前缀索引用作覆盖索引</li>
+</ul>
+<h4 id="覆盖索引优化"><a href="#覆盖索引优化" class="headerlink" title="覆盖索引优化"></a>覆盖索引优化</h4><p>在B+树上可以找到所有索引的记录，不需要回表操作</p>
+<p>比如需要查询商品ID，名称，价格，在索引中存在这些数据，下次查询就不需要再到主键索引上回表</p>
+<h4 id="主键搜索最好自增"><a href="#主键搜索最好自增" class="headerlink" title="主键搜索最好自增"></a>主键搜索最好自增</h4><p>每次插入新数据，就会按照顺序添加到当前索引节点位置，不需要移动已有数据，每次都是追加操作，不需要重新移动数据。</p>
+<h4 id="索引最好设置not-null"><a href="#索引最好设置not-null" class="headerlink" title="索引最好设置not null"></a>索引最好设置not null</h4><ul>
+<li>原因1：索引列在null就会导致优化器索引选择更复杂更难优化</li>
+<li>原因2：null是个无意义值但是会占用物理空间</li>
+</ul>
+<h4 id="防止索引失败"><a href="#防止索引失败" class="headerlink" title="防止索引失败"></a>防止索引失败</h4><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="事务特性ACID"><a href="#事务特性ACID" class="headerlink" title="事务特性ACID"></a>事务特性ACID</h3><ul>
+<li>原子性：通过undo log（回滚日志）来保证</li>
+<li>一致性：一致性是其他三者的目的，通过持久性+原子性+隔离性来保证</li>
+<li>隔离性：通过MVCC（多版本并发控制）或者锁机制来保证</li>
+<li>持久性：通过redo log（重做日志）来保证</li>
+</ul>
+<h3 id="并行事务引发的问题"><a href="#并行事务引发的问题" class="headerlink" title="并行事务引发的问题"></a>并行事务引发的问题</h3><p>脏读：读到了其他事务没提交的数据</p>
+<p>不可重复读：前后两次数据读到不一样的情况</p>
+<p>幻读：查询到的记录数量不一样</p>
+<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><ul>
+<li>读未提交：read uncommitted</li>
+<li>读提交：read committed，生成Read View数据快照</li>
+<li>可重复读：repeatable read，默认隔离级别，生成Read View数据快照，区别于读提交在于创建时机不同</li>
+<li>串行化：serializable，通过加锁的方式避免并行访问</li>
+</ul>
+<p>MySQL在可重复读隔离级别上可以很大程度避免幻读，不会使用串行化，影响性能</p>
+<p>缓减幻读情况出现：</p>
+<ul>
+<li>针对快照读（普通select），通过MVCC方式解决幻读</li>
+<li>针对当前读（select … for update等），通过next-key lock（记录锁+间隙锁）解决幻读</li>
+</ul>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>MVCC，即<strong>Multi-Version Concurrency Control （多版本并发控制）</strong>。它是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<p>InnoDB的实现</p>
+<h4 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h4><p>包括四个字段</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614103042948.png" alt="image-20230614103042948"></p>
+<ul>
+<li>m_ids：创建Read View时当前数据库中<strong>活跃事务</strong>（启动了还没提交的事务）的id列表</li>
+<li>min_trx_id：创建Read View时当前数据库<strong>活跃事务</strong>中事务id最小的事务（m_id最小值）</li>
+<li>max_trx_id：创建Read View时数据库应该给下一个事务的id值，即全局事务id最大的事务id+1</li>
+<li>creator_trx_id：创建该Read View的事务id</li>
+</ul>
+<h4 id="聚簇索引中的两个隐藏列"><a href="#聚簇索引中的两个隐藏列" class="headerlink" title="聚簇索引中的两个隐藏列"></a>聚簇索引中的两个隐藏列</h4><p><img src="https://cdn.xiaolincoding.com//mysql/other/f595d13450878acd04affa82731f76c5.png" alt="图片"></p>
+<p>在InnoDB中的数据库表，聚簇索引记录都包含以下两个隐藏列</p>
+<ul>
+<li>trx_id：当一个事务对某条聚簇索引的记录改动时就会把该事务的id记录在trx_id</li>
+<li>roll_pointer：当某条聚簇索引记录改动时，会把旧纪录写入undo日志，这里是个回滚指针可以找到修改前记录</li>
+</ul>
+<p>因此通过上面的几个字段可以区分不同事务</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614104051383.png" alt="image-20230614104051383"></p>
+<p>这种通过版本链来控制并发事务访问同一个记录的行为就叫做MVCC多版本并发控制</p>
+<h4 id="可重复读如何实现"><a href="#可重复读如何实现" class="headerlink" title="可重复读如何实现"></a>可重复读如何实现</h4><p>启动事务时生成一个Read View，整个事务期间都在用这个Read View。</p>
+<p>如果启动两个连续事务AB如下</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614105926035.png" alt="image-20230614105926035"></p>
+<p>m_id表示活跃事务的列表，min_trx_id表示最小的活跃事务（最早创建），max_trx_id表示下一个事务id</p>
+<p>如果接下来的操作如下</p>
+<ul>
+<li>事务 B 读取小林的账户余额记录，读到余额是 100 万；</li>
+<li>事务 A 将小林的账户余额记录修改成 200 万，并没有提交事务；</li>
+<li>事务 B 读取小林的账户余额记录，读到余额还是 100 万；</li>
+<li>事务 A 提交事务；</li>
+<li>事务 B 读取小林的账户余额记录，读到余额依然还是 100 万；</li>
+</ul>
+<p>事务B读取数据时发现数据trx_id比最小的活跃事务小，说明事务已经提交了，这个记录是可见的，可以获取到这条记录</p>
+<p>事务A读取修改记录，此时未提交，会记录响应undo log，以链表形式串联形成版本链</p>
+<p><img src="C:\Users\Bubble\AppData\Roaming\Typora\typora-user-images\image-20230614111532978.png" alt="image-20230614111532978"></p>
+<p>B再次读取记录，发现trx_id编程51了，这里在B记录的活跃事务中因此不会读取这条记录，会沿着版本链去读取已提交事务的记录，也就是trx_id为50的记录</p>
+<p>A提交事务后B再次读取，因为隔离级别是可重复读，事务B会根据启动事务时创建的Read View来判断，所以依旧读取trx_id为50的记录</p>
+<p><strong>可重复读隔离级别下，事务读取记录都是事务启动前的记录</strong></p>
+<h4 id="读提交如何实现"><a href="#读提交如何实现" class="headerlink" title="读提交如何实现"></a>读提交如何实现</h4><p>每次读取数据时都会生成一个新的Read View，根据trx_id判断读的记录是不是在活跃事务中（即还未提交），沿着版本链读取已经提交的记录</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><p>锁住后数据库就处于只读状态，主要用作全库逻辑备份。这样在备份期间数据不会变化不会导致备份和预期不一致。</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>全局锁会让整个数据库为只读，如果数据库数据多，备份耗时且不能更新数据，会造成业务停滞。</p>
+<h4 id="如何避免备份数据库开启全局锁影响业务"><a href="#如何避免备份数据库开启全局锁影响业务" class="headerlink" title="如何避免备份数据库开启全局锁影响业务"></a>如何避免备份数据库开启全局锁影响业务</h4><p>在备份数据库前开启事务，隔离级别为可重复读，会创建Read View，整个事务执行期间都在用这个Read View。备份期间业务依旧可以对数据库更新</p>
+<h3 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h3><p>包括</p>
+<ul>
+<li>表锁：限制其他线程以及本线程的读写，尽量避免使用，锁粒度太大</li>
+<li>元数据锁(MDL)：对数据库表操作会自动给表加上MDL，一个线程select时其他线程要改变表结构就会被阻塞。当线程对表结构变更时，其他线程执行CRUD会被阻塞。在事务提交之后释放</li>
+<li>意向锁：在加共享锁前需要加上一个意向共享锁，加独占锁（插入，更新，删除）前加意向独占锁。意向锁的目的是为了快速判断表里是否有记录被加锁</li>
+<li>AUTO-INC锁：主键自增的实现，会阻塞其他的插入语句，保证自增字段连续递增</li>
+</ul>
+<h3 id="行级锁"><a href="#行级锁" class="headerlink" title="行级锁"></a>行级锁</h3><p>InnoDB支持，MyISAM不支持</p>
+<ul>
+<li>Record Lock记录锁：锁一条记录</li>
+<li>Gap Lock间隙锁：锁一个范围，但是不包含记录本身</li>
+<li>Next-Key Lock：锁一个范围且锁定记录本身</li>
+</ul>
+<h4 id="Record-Lock"><a href="#Record-Lock" class="headerlink" title="Record Lock"></a>Record Lock</h4><p>锁一条记录，分为S锁和X锁</p>
+<p>S锁可以与S锁兼容（可以继续加S锁），X锁无法再加任何锁（包括S和X）</p>
+<h4 id="Gap-Lock"><a href="#Gap-Lock" class="headerlink" title="Gap Lock"></a>Gap Lock</h4><p>只存在可重复读隔离级别，目的是为了解决可重复读隔离级别下的幻读现象</p>
+<p>比如锁住了范围（3，5），就无法插入4的数据</p>
+<h4 id="Next-Key-Lock"><a href="#Next-Key-Lock" class="headerlink" title="Next-Key Lock"></a>Next-Key Lock</h4><p>针对Gap Lock的例子，既无法插入4的数据也无法修改3和5</p>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><ul>
+<li>undo log（回滚日志）：存储引擎层实现的日志，实现事务的原子性，用于事务回滚和MVCC</li>
+<li>redo log（重做日志）：存储引擎层的日志，实现事务持久性，主要用于断电等故障恢复</li>
+<li>binlog（归档日志）：Server层的日志，用于数据备份和主从复制</li>
+</ul>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" data-id="clix3qjvu000mqwued1lhevt3" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/Java%E9%94%81/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

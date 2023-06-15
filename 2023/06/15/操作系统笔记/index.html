@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="操作系统笔记进程调度算法 先到先服务（FCFS，Fist Come，Fist served）：从就绪队列中选择最先进入队列的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新调度  短作业优先（SJF，Shortest Job First）：从就绪队列选择一个估计运行时间最短的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/06/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="操作系统笔记进程调度算法 先到先服务（FCFS，Fist Come，Fist served）：从就绪队列中选择最先进入队列的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新调度  短作业优先（SJF，Shortest Job First）：从就绪队列选择一个估计运行时间最短的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/cs-basics/operating-system/physical-virtual-address-translation.png">
+<meta property="article:published_time" content="2023-06-15T12:12:02.280Z">
+<meta property="article:modified_time" content="2023-05-23T12:39:53.557Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.javaguide.cn/github/javaguide/cs-basics/operating-system/physical-virtual-address-translation.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-操作系统笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-06-15T12:12:02.280Z" itemprop="datePublished">2023-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="操作系统笔记"><a href="#操作系统笔记" class="headerlink" title="操作系统笔记"></a>操作系统笔记</h1><h2 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h2><ul>
+<li><p>先到先服务（FCFS，Fist Come，Fist served）：从就绪队列中选择最先进入队列的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新调度</p>
+</li>
+<li><p>短作业优先（SJF，Shortest Job First）：从就绪队列选择一个估计运行时间最短的进程分配资源。使其立即执行并一致执行到完成或者发生某事件而被阻塞放弃占用CPU时再重新调度</p>
+</li>
+<li><p>时间片轮转（RR，Round-Robin）：最古老，最简单，公平而广泛的算法。每一个进程分配一个时间段，称为时间片，即该线程允许运行的时间</p>
+</li>
+<li><p>多级反馈队列（MFQ，Mutil-Level Feedback Queue）：既能使高优先级的作业响应又能使短作业迅速完成，公认的较好的进程调度算法。UNIX操作系统就是采用这种</p>
+<p>算法流程：</p>
+<ul>
+<li>进程在进入等待队列时，进入优先级最高的Q1等待</li>
+<li>先调度高优先级队列的进程，如果没有则调度次优先级队列进程</li>
+<li>对于同一队列进程，按照FCFS分配时间片调度。比如当前队列的时间片为N，当前队列的进程在经历N个时间片后还没完成则进入下一个优先级的队列，同样一级一级下降直到完成</li>
+<li>在最后一个队列的各个进程按照时间片轮转分配时间片调度</li>
+<li>如果低优先级的进程在运行，新的进程到达，必须把正在运行的进程收回当前队列队尾，优先处理新来的高优先级进程</li>
+</ul>
+</li>
+<li><p>优先级调度（Priority）：给每个进程分配优先级，首先执行高优先级进程，优先级相同则FCFS</p>
+</li>
+</ul>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>产生死锁的四个条件</p>
+<p>如何防止死锁</p>
+<p>见<a href="C:\Users\Bubble\Desktop\note\并发问题（多线程）.md">并发问题笔记</a></p>
+<h3 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h3><p>进程申请使用资源的时候，银行家算法通过试探分配给该进程资源后，通过安全性算法判断分配后的系统是否处于安全状态，如果不安全则试探分配作废，让该线程继续等待。</p>
+<p><strong>判断安全状态？</strong></p>
+<p>剩下的资源够不够队列里某一个队列的加入</p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>计算机内存管理的重要技术。本质上是逻辑存在，是假想的内存空间，主要作用是作为进程访问主存（物理内存）</p>
+<p>虚拟内存提供了以下能力：</p>
+<ul>
+<li>隔离进程：物理内存通过虚拟地址空间访问，虚拟地址空间和进程一一对应，进程认为自己拥有整个物理内存，进程间彼此隔离。所以一个进程中的代码无法更改正在进行另一组或操作系统使用的物理内存</li>
+<li>提升物理内存利用率：操作系统只需要将进程正在使用的部分数据或指令加载如物理内存。</li>
+<li>简化内存管理：进程有一个一致私有的虚拟地址空间，程序员不用和真正的物理内存交流，借助虚拟地址空间访问内存，简化了内存管理。</li>
+<li>多个进程共享物理内存：进程运行过程中会依赖许多操作系统的动态库，这些库对每个进程都是公用的。他们在内存中实际只会加载一份，这一部分被称为共享空间</li>
+<li>提高内存使用安全性：控制进程对物理内存的访问，隔离不同进程访问权限，提高系统安全性</li>
+<li>提供更大的可直接使用内存空间：可以让程序拥有超过系统内存大小的内存空间</li>
+</ul>
+<h2 id="虚拟地址-x2F-物理地址"><a href="#虚拟地址-x2F-物理地址" class="headerlink" title="虚拟地址&#x2F;物理地址"></a>虚拟地址&#x2F;物理地址</h2><p>物理地址：真正物理内存中的地址，即寄存器的地址，程序中访问的是虚拟地址</p>
+<p>地址翻译</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/cs-basics/operating-system/physical-virtual-address-translation.png" alt="地址翻译过程"></p>
+<h2 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h2><h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h2 id="磁盘调度算法"><a href="#磁盘调度算法" class="headerlink" title="磁盘调度算法"></a>磁盘调度算法</h2><ol>
+<li>先来先服务算法（FCFS）：按照请求到达磁盘调度器的顺序进行处理</li>
+<li>最短寻道时间优先算法（SSTF）：优先选择距离当前磁头位置最近的请求服务</li>
+<li>扫描算法（SCAN）：也称电梯算法，沿着一个方向扫描磁盘，如果有经过的磁道有请求就处理，直到到达边界然后改变方向反复</li>
+<li>循环扫描算法（C-SCAN）：SCAN的变体，只在一侧进行扫描，并且只按照一个方向，直到边界后回到起点开始循环</li>
+<li>边扫描边观察算法（LOOK）：对SCAN的改进，如果这个方向之后没有需要处理的请求，就立即改变磁头方向</li>
+<li>均衡循环扫描算法（C-LOOK）：C-SCAN的改进，如果磁头移动方向没有磁道访问请求，就立即让磁头返回，磁头只返回到有请求的位置</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" data-id="clix3qjvt000lqwue46ts0kbp" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/15/%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/15/%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98%EF%BC%88%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/15/sam%20related%20note/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/Sam%20on%20tooth/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/nnUNetv2%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/MedNeXt%20Transformer-driven%20Scaling%20of%20ConvNets%20for%20Medical%20Image%20Segmentation/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/15/%E5%BC%82%E4%BD%8D%E8%90%8C%E5%87%BA%E4%BB%BB%E5%8A%A1/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
